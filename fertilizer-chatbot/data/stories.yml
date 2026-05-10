@@ -1,0 +1,28 @@
+version: "3.1"
+
+stories:
+  - story: Happy path for fertilizer calculation
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: request_fertilizer_advice
+      - action: cinnamon_form
+      - active_loop: cinnamon_form
+      - slot_was_set:
+          - requested_slot: null
+      - active_loop: null
+      - action: action_calculate_fertilizer
+
+  - story: User interrupts form to ask why data is needed
+    steps:
+      - intent: request_fertilizer_advice
+      - action: cinnamon_form
+      - active_loop: cinnamon_form
+      - intent: ask_why_data
+      - action: utter_explain_data_need
+      - action: cinnamon_form
+      - active_loop: cinnamon_form
+      - slot_was_set:
+          - requested_slot: null
+      - active_loop: null
+      - action: action_calculate_fertilizer

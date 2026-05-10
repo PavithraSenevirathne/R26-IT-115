@@ -1,0 +1,79 @@
+version: "3.1"
+
+nlu:
+  - intent: greet
+    examples: |
+      - Hello
+      - Hi
+      - Ayubowan
+      - kohomada
+      - Good morning
+      - Good afternoon
+
+  - intent: request_fertilizer_advice
+    examples: |
+      - I need help with my cinnamon
+      - How much fertilizer do I need?
+      - What is the fertilizer recommendation for cinnamon?
+      - Pohora one
+      - Can you help me calculate fertilizer?
+      - I want to apply fertilizer to my cinnamon plot.
+      - Please tell me the NPK amounts for my estate.
+
+  - intent: ask_why_data
+    examples: |
+      - Why do you need my rainfall?
+      - Why do you need to know the elevation?
+      - What does soil pH have to do with this?
+      - Why so many questions?
+
+  - intent: inform
+    examples: |
+      - My plant is [3](age) years old
+      - Age is [2.5](age)
+      - The plants are [1.5](age) years
+      - [1](age) year
+      - [2](age) years
+      - [3](age)
+      - [4.5](age)
+      - just [1](age)
+      - It is [Yala](season) season
+      - [Maha](season)
+      - [yala](season)
+      - Spacing is [4x3](spacing)
+      - [4x2](spacing)
+      - [4 by 3](spacing)
+      - The rainfall is [2200](rainfall) mm
+      - [1600](rainfall)
+      - Elevation is [300](elevation) m
+      - [850](elevation)
+      - My soil pH is [5.0](soil_ph)
+      - [4.2](soil_ph)
+
+  - synonym: "4x3_ft"
+    examples: |
+      - 4x3
+      - 4 by 3
+      - 4*3
+      - 120cm x 90cm
+      - 120x90
+      - 4 x 3 ft
+
+  - synonym: "4x2_ft"
+    examples: |
+      - 4x2
+      - 4 by 2
+      - 4*2
+      - 4 x 2 ft
+
+  - synonym: "Yala"
+    examples: |
+      - yala
+      - Yala season
+      - yala rains
+
+  - synonym: "Maha"
+    examples: |
+      - maha
+      - Maha season
+      - maha rains

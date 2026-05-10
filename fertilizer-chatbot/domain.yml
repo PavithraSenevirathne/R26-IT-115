@@ -1,0 +1,85 @@
+version: "3.1"
+
+intents:
+  - greet
+  - request_fertilizer_advice
+  - inform
+  - ask_why_data
+
+entities:
+  - age
+  - spacing
+  - season
+  - rainfall
+  - elevation
+  - soil_ph
+
+slots:
+  age_years:
+    type: float
+    mappings:
+      - type: from_entity
+        entity: age
+  spacing:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: spacing
+  season:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: season
+  rainfall_mm_year:
+    type: float
+    mappings:
+      - type: from_entity
+        entity: rainfall
+  elevation_m:
+    type: float
+    mappings:
+      - type: from_entity
+        entity: elevation
+  soil_ph_value:
+    type: float
+    mappings:
+      - type: from_entity
+        entity: soil_ph
+
+forms:
+  cinnamon_form:
+    required_slots:
+      - age_years
+      - spacing
+      - season
+      - rainfall_mm_year
+      - elevation_m
+      - soil_ph_value
+
+responses:
+  utter_greet:
+    - text: "Ayubowan! I am your Cinnamon Agronomy Assistant. I can help you calculate the exact NPK fertilizer and dolomite requirements for your estate."
+
+  utter_ask_age_years:
+    - text: "How old are your cinnamon plants (in years)? For example, the first harvest is typically taken after three years of planting."
+
+  utter_ask_spacing:
+    - text: "What is the spacing of your crop? (Please reply with '4x3' or '4x2'). The standard spacing is 120cm x 90cm (4’x3’)."
+
+  utter_ask_season:
+    - text: "Are you preparing for the Yala or Maha season? Fertilizer should be applied twice a year with the beginning of the rains of Yala and Maha."
+
+  utter_ask_rainfall_mm_year:
+    - text: "What is the approximate annual rainfall in your area (in mm)? Cinnamon requires 1,750-3,500 mm per annum."
+
+  utter_ask_elevation_m:
+    - text: "What is the elevation of your land in meters? Cinnamon can be commercially cultivated up to an elevation of 700 meters above mean sea level."
+
+  utter_ask_soil_ph_value:
+    - text: "What is your soil pH? (e.g., 5.0). Dolomite is applied in areas where soil pH is below 4.5."
+
+  utter_explain_data_need:
+    - text: "To ensure plant roots effectively absorb soil nutrients, it’s crucial to maintain optimal soil acidity and environmental conditions. I use this data to run a safety check before recommending inorganic fertilizers."
+
+actions:
+  - action_calculate_fertilizer

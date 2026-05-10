@@ -1,0 +1,70 @@
+{
+  "type": "MaxHistoryTrackerFeaturizer",
+  "state_featurizer": {
+    "action_texts": [],
+    "entity_tag_specs": [],
+    "feature_states": {
+      "intent": {
+        "ask_why_data": 0,
+        "back": 1,
+        "greet": 2,
+        "inform": 3,
+        "nlu_fallback": 4,
+        "out_of_scope": 5,
+        "request_fertilizer_advice": 6,
+        "restart": 7,
+        "session_start": 8
+      },
+      "action_name": {
+        "action_listen": 0,
+        "action_restart": 1,
+        "action_session_start": 2,
+        "action_default_fallback": 3,
+        "action_deactivate_loop": 4,
+        "action_revert_fallback_events": 5,
+        "action_default_ask_affirmation": 6,
+        "action_default_ask_rephrase": 7,
+        "action_two_stage_fallback": 8,
+        "action_unlikely_intent": 9,
+        "action_back": 10,
+        "...": 11,
+        "action_extract_slots": 12,
+        "action_calculate_fertilizer": 13,
+        "utter_ask_age_years": 14,
+        "utter_ask_elevation_m": 15,
+        "utter_ask_rainfall_mm_year": 16,
+        "utter_ask_season": 17,
+        "utter_ask_soil_ph_value": 18,
+        "utter_ask_spacing": 19,
+        "utter_explain_data_need": 20,
+        "utter_greet": 21,
+        "cinnamon_form": 22
+      },
+      "entities": {
+        "age": 0,
+        "elevation": 1,
+        "rainfall": 2,
+        "season": 3,
+        "soil_ph": 4,
+        "spacing": 5
+      },
+      "slots": {
+        "age_years_0": 0,
+        "age_years_1": 1,
+        "spacing_0": 2,
+        "season_0": 3,
+        "rainfall_mm_year_0": 4,
+        "rainfall_mm_year_1": 5,
+        "elevation_m_0": 6,
+        "elevation_m_1": 7,
+        "soil_ph_value_0": 8,
+        "soil_ph_value_1": 9
+      },
+      "active_loop": {
+        "cinnamon_form": 0
+      }
+    }
+  },
+  "remove_duplicates": true,
+  "max_history": 5
+}

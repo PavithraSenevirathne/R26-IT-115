@@ -1,0 +1,21 @@
+{
+  "lookup": {
+    "rules": {
+      "[{\"active_loop\": {\"name\": \"should_not_be_set\"}, \"prev_action\": {\"action_name\": \"cinnamon_form\"}}]": "action_calculate_fertilizer",
+      "[{\"active_loop\": {\"name\": \"should_not_be_set\"}, \"prev_action\": {\"action_name\": \"cinnamon_form\"}}, {\"active_loop\": {\"name\": \"should_not_be_set\"}, \"prev_action\": {\"action_name\": \"action_calculate_fertilizer\"}}]": "action_listen",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"request_fertilizer_advice\"}}]": "cinnamon_form",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"request_fertilizer_advice\"}}, {\"active_loop\": {\"name\": \"cinnamon_form\"}, \"prev_action\": {\"action_name\": \"cinnamon_form\"}, \"user\": {\"intent\": \"request_fertilizer_advice\"}}]": "action_listen"
+    },
+    "rule_only_slots": [],
+    "rule_only_loops": [],
+    "rules_for_loop_unhappy_path": {
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}}, {\"active_loop\": {\"name\": \"cinnamon_form\"}, \"prev_action\": {\"action_name\": \"cinnamon_form\"}, \"user\": {\"intent\": \"request_fertilizer_advice\"}}]": "do_not_predict_loop_action"
+    },
+    "rules_not_in_stories": [
+      "handling active loops and forms - cinnamon_form",
+      "predicting default action with intent restart",
+      "predicting default action with intent back",
+      "predicting default action with intent session_start"
+    ]
+  }
+}

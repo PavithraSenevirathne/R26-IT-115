@@ -1,0 +1,18 @@
+version: "3.1"
+
+rules:
+  - rule: Activate cinnamon fertilizer form
+    steps:
+      - intent: request_fertilizer_advice
+      - action: cinnamon_form
+      - active_loop: cinnamon_form
+
+  - rule: Submit cinnamon form
+    condition:
+      - active_loop: cinnamon_form
+    steps:
+      - action: cinnamon_form
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action_calculate_fertilizer
