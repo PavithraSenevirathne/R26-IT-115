@@ -1,0 +1,671 @@
+shoot_height_cm,trunk_circumference_cm,shoot_age_months,num_leaves,leaf_color,bark_color,bark_texture,straightness,ccgi_score,harvest_readiness
+136,3.26,12,16,brownish green,light brown,smooth and soft,very straight,1.5,Nearly Ready
+155,2.8,17,14,brownish green,dark brown,slightly rough,slightly straight,3.5,Ready
+180,2.93,9,17,bright green,light brown,smooth and soft,very straight,1.5,Not Ready
+133,3.66,23,16,dark green,dark brown,rough and peeling,very straight,4.5,Ready
+153,4.17,21,16,bright green,medium brown,rough and peeling,very straight,5.0,Ready
+179,2.21,9,10,dark green,light brown,slightly rough,slightly straight,1.5,Not Ready
+96,2.06,8,16,yellowish green,light brown,slightly rough,very straight,0.5,Not Ready
+155,6.21,20,15,brownish green,dark brown,rough and peeling,slightly straight,5.0,Ready
+113,2.14,8,15,dark green,light brown,smooth and soft,very straight,0.5,Not Ready
+178,3.64,23,16,dark green,medium brown,rough and peeling,slightly straight,5.0,Ready
+102,1.67,10,11,dark green,light brown,slightly rough,very straight,0.5,Not Ready
+139,6.63,23,12,yellowish green,medium brown,slightly rough,slightly straight,4.0,Ready
+159,3.38,12,14,yellowish green,dark brown,rough and peeling,very straight,4.0,Ready
+96,3.46,20,21,yellowish green,medium brown,rough and peeling,slightly straight,3.5,Nearly Ready
+141,3.33,17,17,yellowish green,dark brown,rough and peeling,slightly straight,4.0,Ready
+117,4.06,14,17,dark green,light brown,smooth and soft,slightly straight,2.0,Nearly Ready
+55,1.36,8,8,bright green,green,smooth and soft,very straight,0.0,Not Ready
+160,4.85,19,19,dark green,dark brown,slightly rough,slightly straight,4.5,Ready
+161,3.78,19,20,dark green,dark brown,slightly rough,slightly straight,4.5,Ready
+136,5.87,22,16,yellowish green,dark brown,rough and peeling,very straight,4.5,Ready
+104,2.79,12,16,yellowish green,medium brown,slightly rough,very straight,2.5,Nearly Ready
+180,3.43,21,16,yellowish green,dark brown,rough and peeling,very straight,4.5,Ready
+176,3.54,20,16,yellowish green,dark brown,rough and peeling,slightly straight,5.0,Ready
+161,2.94,11,11,yellowish green,light brown,slightly rough,very straight,2.0,Nearly Ready
+139,3.54,15,14,dark green,medium brown,smooth and soft,slightly straight,3.0,Nearly Ready
+142,2.52,8,19,dark green,light brown,smooth and soft,slightly straight,1.5,Not Ready
+86,2.31,9,14,brownish green,medium brown,slightly rough,very straight,1.5,Not Ready
+97,3.78,20,15,brownish green,dark brown,rough and peeling,slightly straight,4.0,Ready
+86,1.92,10,16,dark green,light brown,slightly rough,curved,0.5,Not Ready
+50,0.92,11,6,dark green,green,smooth and soft,curved,0.0,Not Ready
+133,3.44,20,16,yellowish green,medium brown,rough and peeling,very straight,4.0,Ready
+106,3.16,19,17,yellowish green,dark brown,rough and peeling,slightly straight,3.5,Ready
+136,3.35,14,18,brownish green,dark brown,rough and peeling,very straight,3.5,Ready
+122,3.03,13,16,yellowish green,dark brown,rough and peeling,very straight,3.5,Ready
+93,2.63,9,12,yellowish green,medium brown,slightly rough,curved,2.0,Not Ready
+124,3.95,20,13,brownish green,dark brown,rough and peeling,slightly straight,4.5,Ready
+151,3.13,17,18,yellowish green,green,smooth and soft,curved,2.0,Nearly Ready
+116,1.49,8,6,bright green,light brown,smooth and soft,slightly straight,0.5,Not Ready
+147,2.69,10,9,yellowish green,light brown,smooth and soft,very straight,1.5,Not Ready
+165,2.63,8,16,yellowish green,medium brown,rough and peeling,slightly straight,3.5,Nearly Ready
+114,2.02,10,7,bright green,light brown,slightly rough,slightly straight,1.0,Not Ready
+150,3.95,24,15,brownish green,dark brown,rough and peeling,slightly straight,5.0,Ready
+120,2.91,10,16,dark green,dark brown,rough and peeling,very straight,3.0,Nearly Ready
+180,3.44,23,12,dark green,medium brown,rough and peeling,very straight,4.5,Ready
+127,2.92,13,17,yellowish green,medium brown,slightly rough,slightly straight,3.0,Nearly Ready
+51,1.3,9,8,bright green,light brown,smooth and soft,curved,0.0,Not Ready
+173,4.15,20,18,bright green,medium brown,slightly rough,slightly straight,4.5,Ready
+120,3.62,19,17,yellowish green,dark brown,slightly rough,slightly straight,4.0,Ready
+109,3.77,14,13,dark green,dark brown,rough and peeling,curved,3.5,Nearly Ready
+139,3.07,17,18,dark green,light brown,smooth and soft,curved,1.5,Not Ready
+168,2.62,8,12,dark green,light brown,slightly rough,curved,2.0,Nearly Ready
+128,4.25,18,14,dark green,dark brown,rough and peeling,slightly straight,4.5,Ready
+167,3.63,23,12,dark green,dark brown,smooth and soft,very straight,4.0,Ready
+156,4.07,20,26,yellowish green,dark brown,rough and peeling,slightly straight,5.0,Ready
+132,3.27,20,15,yellowish green,medium brown,slightly rough,slightly straight,3.5,Ready
+126,3.7,17,18,brownish green,dark brown,rough and peeling,slightly straight,4.0,Ready
+167,3.87,24,15,brownish green,dark brown,slightly rough,slightly straight,4.5,Ready
+128,1.76,9,10,yellowish green,medium brown,slightly rough,very straight,2.0,Not Ready
+97,2.1,9,15,bright green,light brown,smooth and soft,slightly straight,0.0,Not Ready
+175,3.57,13,16,yellowish green,medium brown,rough and peeling,slightly straight,4.5,Ready
+90,4.13,24,14,yellowish green,medium brown,smooth and soft,slightly straight,3.0,Nearly Ready
+115,3.22,19,15,dark green,medium brown,rough and peeling,very straight,4.0,Ready
+132,2.99,21,18,brownish green,dark brown,slightly rough,very straight,3.5,Ready
+163,4.53,23,19,yellowish green,dark brown,rough and peeling,very straight,5.0,Ready
+124,3.65,20,15,dark green,dark brown,slightly rough,curved,4.0,Ready
+167,2.26,10,13,yellowish green,light brown,smooth and soft,very straight,1.0,Not Ready
+109,1.97,8,11,dark green,medium brown,slightly rough,very straight,1.5,Not Ready
+94,2.52,8,10,yellowish green,dark brown,rough and peeling,very straight,2.5,Nearly Ready
+93,1.65,11,10,dark green,green,smooth and soft,slightly straight,0.0,Not Ready
+125,3.03,13,17,dark green,medium brown,slightly rough,very straight,3.0,Nearly Ready
+142,2.97,9,11,dark green,light brown,smooth and soft,very straight,1.5,Not Ready
+134,3.54,21,14,brownish green,medium brown,slightly rough,very straight,4.0,Ready
+179,3.49,23,13,dark green,dark brown,rough and peeling,very straight,4.5,Ready
+98,3.34,13,10,dark green,dark brown,rough and peeling,slightly straight,3.0,Nearly Ready
+170,2.99,9,21,dark green,dark brown,smooth and soft,very straight,2.5,Not Ready
+180,3.69,21,22,dark green,dark brown,rough and peeling,slightly straight,5.0,Ready
+175,3.17,9,17,brownish green,medium brown,slightly rough,very straight,3.0,Nearly Ready
+160,2.57,21,17,brownish green,light brown,smooth and soft,slightly straight,2.5,Ready
+162,2.55,10,14,dark green,light brown,smooth and soft,very straight,1.5,Not Ready
+157,3.47,10,11,bright green,medium brown,slightly rough,very straight,3.0,Nearly Ready
+172,2.73,11,15,dark green,green,smooth and soft,very straight,1.5,Not Ready
+158,4.53,18,18,yellowish green,dark brown,rough and peeling,slightly straight,5.0,Ready
+87,3.71,15,17,brownish green,dark brown,rough and peeling,very straight,3.5,Ready
+56,1.37,10,12,bright green,green,smooth and soft,slightly straight,0.0,Not Ready
+91,2.19,10,9,yellowish green,medium brown,rough and peeling,slightly straight,2.0,Not Ready
+119,2.63,23,16,brownish green,dark brown,rough and peeling,slightly straight,4.0,Ready
+116,1.38,8,10,bright green,green,smooth and soft,very straight,0.5,Not Ready
+154,2.99,16,13,yellowish green,medium brown,smooth and soft,slightly straight,3.0,Nearly Ready
+179,3.07,15,17,yellowish green,dark brown,rough and peeling,very straight,4.0,Ready
+45,1.63,9,8,dark green,green,smooth and soft,curved,0.0,Not Ready
+44,1.1,8,9,bright green,green,smooth and soft,very straight,0.0,Not Ready
+91,2.73,22,14,yellowish green,medium brown,smooth and soft,very straight,2.5,Nearly Ready
+170,2.94,10,14,dark green,medium brown,slightly rough,very straight,3.0,Nearly Ready
+138,3.58,9,15,yellowish green,light brown,smooth and soft,very straight,1.5,Nearly Ready
+156,2.82,11,12,dark green,medium brown,smooth and soft,very straight,2.5,Nearly Ready
+99,2.81,8,12,bright green,dark brown,slightly rough,very straight,2.0,Not Ready
+151,2.75,9,6,yellowish green,dark brown,rough and peeling,slightly straight,3.5,Nearly Ready
+175,3.59,23,22,dark green,dark brown,rough and peeling,very straight,5.0,Ready
+91,3.5,13,9,yellowish green,dark brown,rough and peeling,slightly straight,3.5,Ready
+176,3.74,19,19,brownish green,medium brown,slightly rough,very straight,4.5,Ready
+172,2.64,23,23,brownish green,dark brown,rough and peeling,very straight,4.5,Ready
+162,3.4,14,18,yellowish green,medium brown,smooth and soft,very straight,3.0,Nearly Ready
+150,2.51,20,19,yellowish green,medium brown,rough and peeling,very straight,4.5,Ready
+150,2.53,11,14,bright green,light brown,slightly rough,slightly straight,2.0,Not Ready
+92,2.65,10,16,yellowish green,medium brown,smooth and soft,slightly straight,1.5,Not Ready
+115,4.09,23,18,dark green,dark brown,rough and peeling,very straight,4.5,Ready
+141,2.84,8,13,dark green,light brown,slightly rough,very straight,2.0,Nearly Ready
+125,4.21,23,20,dark green,medium brown,slightly rough,slightly straight,4.0,Ready
+166,3.26,18,17,bright green,dark brown,rough and peeling,slightly straight,4.5,Ready
+153,3.79,21,19,brownish green,dark brown,slightly rough,very straight,4.5,Ready
+115,4.38,22,15,brownish green,dark brown,slightly rough,curved,4.0,Ready
+117,2.54,11,16,brownish green,medium brown,slightly rough,very straight,2.5,Nearly Ready
+87,2.07,10,12,dark green,light brown,slightly rough,slightly straight,0.5,Not Ready
+159,2.21,9,15,yellowish green,light brown,slightly rough,slightly straight,1.5,Nearly Ready
+128,1.7,11,18,dark green,light brown,smooth and soft,very straight,0.5,Not Ready
+87,2.5,8,14,dark green,dark brown,slightly rough,slightly straight,2.0,Not Ready
+173,3.66,19,16,yellowish green,dark brown,rough and peeling,curved,5.0,Ready
+44,1.19,10,7,bright green,green,smooth and soft,slightly straight,0.0,Not Ready
+97,2.32,9,12,dark green,light brown,smooth and soft,very straight,0.0,Not Ready
+142,5.31,20,21,yellowish green,medium brown,slightly rough,very straight,4.5,Ready
+49,1.58,8,10,bright green,green,smooth and soft,curved,0.0,Not Ready
+158,2.19,16,13,yellowish green,dark brown,rough and peeling,very straight,3.5,Ready
+116,1.15,11,3,bright green,green,smooth and soft,slightly straight,0.5,Not Ready
+50,1.05,9,6,bright green,green,smooth and soft,curved,0.0,Not Ready
+116,6.88,18,18,brownish green,medium brown,slightly rough,slightly straight,4.0,Ready
+173,2.9,9,17,dark green,green,smooth and soft,curved,1.5,Not Ready
+145,3.72,23,17,dark green,medium brown,slightly rough,slightly straight,4.5,Ready
+83,1.89,11,14,bright green,light brown,smooth and soft,very straight,0.0,Not Ready
+119,2.0,11,11,dark green,light brown,smooth and soft,slightly straight,0.5,Not Ready
+126,3.53,23,19,dark green,light brown,slightly rough,very straight,3.0,Ready
+169,5.52,22,17,dark green,dark brown,rough and peeling,very straight,5.0,Ready
+149,3.46,20,18,dark green,dark brown,rough and peeling,slightly straight,4.5,Ready
+87,1.16,11,18,bright green,green,smooth and soft,curved,0.0,Not Ready
+87,1.98,9,12,yellowish green,green,smooth and soft,very straight,0.0,Not Ready
+172,2.84,9,16,dark green,dark brown,slightly rough,slightly straight,3.0,Nearly Ready
+125,3.06,13,15,brownish green,medium brown,smooth and soft,curved,2.5,Nearly Ready
+130,3.78,20,17,dark green,dark brown,rough and peeling,slightly straight,4.5,Ready
+81,1.93,9,9,bright green,light brown,smooth and soft,slightly straight,0.0,Not Ready
+150,2.81,10,12,yellowish green,green,smooth and soft,curved,1.5,Not Ready
+82,1.74,8,15,dark green,green,smooth and soft,slightly straight,0.0,Not Ready
+100,2.86,10,12,dark green,medium brown,slightly rough,very straight,2.0,Not Ready
+122,2.25,15,14,dark green,medium brown,slightly rough,slightly straight,2.5,Nearly Ready
+172,3.57,16,19,yellowish green,dark brown,rough and peeling,very straight,4.5,Ready
+121,2.94,12,14,dark green,dark brown,slightly rough,slightly straight,3.0,Nearly Ready
+117,2.14,10,12,yellowish green,green,smooth and soft,slightly straight,0.5,Not Ready
+122,3.97,20,23,bright green,medium brown,slightly rough,very straight,4.0,Ready
+82,3.57,16,17,yellowish green,light brown,slightly rough,slightly straight,2.0,Nearly Ready
+145,4.19,22,17,brownish green,medium brown,slightly rough,slightly straight,4.5,Ready
+95,4.17,23,18,dark green,dark brown,rough and peeling,very straight,4.0,Ready
+166,2.78,24,14,yellowish green,green,smooth and soft,curved,2.5,Nearly Ready
+82,2.02,10,16,dark green,green,smooth and soft,very straight,0.0,Not Ready
+104,2.61,8,11,dark green,light brown,slightly rough,slightly straight,1.0,Not Ready
+104,2.65,12,18,bright green,medium brown,slightly rough,slightly straight,2.5,Nearly Ready
+180,5.55,21,19,brownish green,dark brown,rough and peeling,slightly straight,5.0,Ready
+96,2.87,9,9,yellowish green,green,smooth and soft,curved,0.5,Not Ready
+100,3.38,21,11,brownish green,dark brown,rough and peeling,very straight,3.5,Ready
+135,3.74,24,20,dark green,medium brown,slightly rough,slightly straight,4.0,Ready
+117,2.45,8,13,dark green,green,smooth and soft,very straight,0.5,Not Ready
+85,2.5,8,13,dark green,light brown,smooth and soft,very straight,0.5,Not Ready
+155,4.7,19,14,yellowish green,dark brown,rough and peeling,slightly straight,5.0,Ready
+94,1.04,10,8,bright green,green,slightly rough,curved,0.5,Not Ready
+156,1.94,10,10,dark green,medium brown,slightly rough,slightly straight,2.5,Nearly Ready
+81,2.02,10,10,bright green,light brown,slightly rough,slightly straight,0.5,Not Ready
+173,3.42,15,15,dark green,dark brown,rough and peeling,very straight,4.0,Ready
+106,2.81,15,13,dark green,medium brown,slightly rough,very straight,2.5,Nearly Ready
+113,4.62,18,17,yellowish green,dark brown,rough and peeling,very straight,4.5,Ready
+117,2.67,8,17,dark green,dark brown,rough and peeling,very straight,3.0,Nearly Ready
+156,2.71,10,14,yellowish green,light brown,slightly rough,curved,2.0,Nearly Ready
+135,3.07,8,19,dark green,medium brown,smooth and soft,curved,2.0,Not Ready
+140,3.98,19,20,yellowish green,dark brown,rough and peeling,slightly straight,5.0,Ready
+116,2.66,8,15,dark green,light brown,slightly rough,very straight,1.5,Not Ready
+125,2.37,11,14,yellowish green,medium brown,slightly rough,very straight,2.0,Not Ready
+148,3.28,18,14,yellowish green,medium brown,rough and peeling,very straight,4.5,Ready
+150,3.02,18,16,yellowish green,medium brown,slightly rough,very straight,4.0,Ready
+138,3.4,17,19,yellowish green,light brown,smooth and soft,slightly straight,1.5,Nearly Ready
+103,4.17,19,18,yellowish green,medium brown,rough and peeling,slightly straight,4.0,Ready
+164,3.08,15,15,yellowish green,light brown,slightly rough,very straight,2.5,Nearly Ready
+147,2.73,8,17,yellowish green,light brown,slightly rough,very straight,2.0,Nearly Ready
+173,2.61,13,12,brownish green,dark brown,rough and peeling,slightly straight,4.0,Ready
+123,3.15,16,14,yellowish green,medium brown,rough and peeling,slightly straight,3.5,Ready
+89,1.79,10,11,dark green,green,smooth and soft,very straight,0.0,Not Ready
+130,3.59,22,17,dark green,dark brown,slightly rough,very straight,4.0,Ready
+104,2.42,8,15,dark green,light brown,slightly rough,curved,0.5,Not Ready
+159,2.92,16,16,yellowish green,dark brown,slightly rough,very straight,3.5,Ready
+123,3.45,18,18,brownish green,light brown,slightly rough,curved,2.5,Nearly Ready
+99,2.23,8,9,dark green,light brown,slightly rough,slightly straight,0.5,Not Ready
+111,2.04,11,8,bright green,green,slightly rough,slightly straight,1.0,Not Ready
+98,1.18,10,13,dark green,green,smooth and soft,very straight,0.0,Not Ready
+170,3.94,19,16,brownish green,medium brown,rough and peeling,curved,5.0,Ready
+130,4.83,23,17,dark green,medium brown,slightly rough,slightly straight,4.0,Ready
+159,2.23,23,17,dark green,dark brown,slightly rough,slightly straight,3.5,Ready
+127,4.06,20,18,yellowish green,dark brown,rough and peeling,slightly straight,4.5,Ready
+149,2.56,9,12,bright green,medium brown,slightly rough,very straight,3.0,Nearly Ready
+147,2.61,8,15,brownish green,light brown,slightly rough,slightly straight,2.0,Nearly Ready
+109,2.6,8,12,yellowish green,medium brown,rough and peeling,slightly straight,2.5,Nearly Ready
+151,3.12,15,15,dark green,dark brown,rough and peeling,very straight,4.0,Ready
+111,3.12,15,13,bright green,medium brown,slightly rough,very straight,3.0,Nearly Ready
+93,2.44,17,11,yellowish green,medium brown,slightly rough,very straight,2.0,Nearly Ready
+164,2.75,8,15,dark green,medium brown,slightly rough,very straight,3.0,Nearly Ready
+138,4.09,23,16,yellowish green,dark brown,slightly rough,very straight,4.0,Ready
+44,1.23,10,3,bright green,green,smooth and soft,slightly straight,0.0,Not Ready
+150,6.3,22,15,yellowish green,dark brown,rough and peeling,very straight,5.0,Ready
+124,2.55,10,15,dark green,light brown,smooth and soft,slightly straight,1.0,Not Ready
+144,4.47,20,21,brownish green,light brown,smooth and soft,slightly straight,3.0,Ready
+165,2.77,14,16,yellowish green,medium brown,slightly rough,slightly straight,3.5,Nearly Ready
+57,1.23,11,8,bright green,green,smooth and soft,very straight,0.0,Not Ready
+178,5.73,20,12,bright green,dark brown,slightly rough,very straight,4.5,Ready
+82,2.6,21,17,dark green,medium brown,slightly rough,very straight,3.0,Nearly Ready
+132,2.7,10,11,dark green,medium brown,rough and peeling,curved,3.0,Nearly Ready
+127,2.68,18,15,brownish green,dark brown,rough and peeling,very straight,4.0,Ready
+112,2.34,8,8,dark green,light brown,smooth and soft,slightly straight,0.5,Not Ready
+142,3.95,20,20,yellowish green,medium brown,rough and peeling,slightly straight,5.0,Ready
+51,1.25,11,9,bright green,green,smooth and soft,curved,0.0,Not Ready
+108,2.65,17,20,dark green,dark brown,smooth and soft,very straight,2.0,Nearly Ready
+133,5.77,23,21,yellowish green,dark brown,slightly rough,very straight,4.0,Ready
+117,2.95,24,19,brownish green,medium brown,rough and peeling,curved,4.0,Ready
+165,2.32,9,8,dark green,dark brown,slightly rough,very straight,2.5,Nearly Ready
+137,3.76,21,12,brownish green,dark brown,smooth and soft,slightly straight,3.5,Ready
+82,2.77,15,14,brownish green,medium brown,rough and peeling,curved,3.0,Nearly Ready
+127,2.25,10,12,dark green,medium brown,rough and peeling,very straight,2.5,Nearly Ready
+117,5.34,23,21,dark green,dark brown,rough and peeling,slightly straight,4.5,Ready
+156,3.85,20,18,dark green,light brown,smooth and soft,very straight,3.0,Nearly Ready
+130,2.24,9,10,dark green,medium brown,slightly rough,very straight,2.0,Not Ready
+114,1.66,8,9,bright green,green,smooth and soft,slightly straight,0.5,Not Ready
+169,4.01,18,18,brownish green,light brown,smooth and soft,slightly straight,3.0,Ready
+125,3.11,11,12,brownish green,medium brown,smooth and soft,very straight,2.0,Nearly Ready
+94,2.55,16,19,yellowish green,medium brown,smooth and soft,slightly straight,2.0,Nearly Ready
+134,3.14,13,17,yellowish green,medium brown,slightly rough,slightly straight,3.0,Nearly Ready
+148,3.02,13,15,brownish green,green,smooth and soft,slightly straight,2.0,Nearly Ready
+160,3.61,21,18,bright green,medium brown,rough and peeling,slightly straight,5.0,Ready
+152,3.27,19,17,brownish green,light brown,slightly rough,slightly straight,3.0,Ready
+147,3.56,22,20,yellowish green,dark brown,rough and peeling,very straight,5.0,Ready
+101,2.21,10,11,brownish green,medium brown,slightly rough,very straight,1.5,Not Ready
+130,2.88,15,14,dark green,dark brown,rough and peeling,very straight,3.5,Nearly Ready
+172,2.55,9,17,brownish green,medium brown,rough and peeling,very straight,3.5,Ready
+99,2.51,11,9,dark green,dark brown,rough and peeling,very straight,2.5,Nearly Ready
+135,5.05,18,15,brownish green,dark brown,rough and peeling,very straight,4.5,Ready
+176,2.64,9,15,yellowish green,medium brown,rough and peeling,slightly straight,3.5,Nearly Ready
+106,1.32,10,7,bright green,green,smooth and soft,slightly straight,0.0,Not Ready
+164,3.25,13,15,dark green,dark brown,rough and peeling,curved,4.0,Ready
+108,1.85,10,10,dark green,medium brown,rough and peeling,slightly straight,2.0,Not Ready
+97,2.12,11,16,bright green,light brown,smooth and soft,slightly straight,0.0,Not Ready
+134,2.3,10,12,yellowish green,light brown,smooth and soft,very straight,0.5,Not Ready
+53,1.25,8,8,bright green,light brown,slightly rough,curved,0.5,Not Ready
+152,2.95,20,15,yellowish green,medium brown,smooth and soft,very straight,3.5,Ready
+129,4.03,18,17,yellowish green,dark brown,rough and peeling,slightly straight,4.5,Ready
+81,3.59,22,22,dark green,medium brown,slightly rough,very straight,3.5,Nearly Ready
+144,3.06,17,22,brownish green,light brown,slightly rough,slightly straight,2.5,Nearly Ready
+170,2.21,8,15,dark green,light brown,slightly rough,slightly straight,1.5,Nearly Ready
+131,3.53,23,12,brownish green,dark brown,slightly rough,very straight,4.0,Ready
+179,2.51,8,13,dark green,medium brown,rough and peeling,slightly straight,3.5,Nearly Ready
+179,3.65,16,13,dark green,dark brown,rough and peeling,slightly straight,4.5,Ready
+155,2.01,10,12,bright green,medium brown,rough and peeling,very straight,3.0,Nearly Ready
+125,3.06,10,18,yellowish green,light brown,smooth and soft,very straight,1.0,Not Ready
+120,3.87,21,9,yellowish green,dark brown,rough and peeling,very straight,4.5,Ready
+117,3.38,24,19,dark green,light brown,slightly rough,very straight,2.5,Nearly Ready
+138,3.06,11,14,dark green,medium brown,smooth and soft,very straight,2.0,Not Ready
+158,4.44,22,20,yellowish green,medium brown,slightly rough,very straight,4.5,Ready
+155,2.58,11,8,yellowish green,medium brown,slightly rough,very straight,3.0,Nearly Ready
+175,5.12,20,14,brownish green,dark brown,rough and peeling,very straight,5.0,Ready
+120,5.84,21,18,yellowish green,dark brown,rough and peeling,curved,4.5,Ready
+115,2.54,11,11,dark green,medium brown,slightly rough,very straight,2.5,Nearly Ready
+148,2.68,9,20,bright green,dark brown,rough and peeling,slightly straight,3.5,Nearly Ready
+146,3.64,14,13,yellowish green,light brown,slightly rough,very straight,3.0,Ready
+125,4.17,24,15,dark green,light brown,smooth and soft,very straight,2.5,Nearly Ready
+129,3.21,17,17,brownish green,light brown,smooth and soft,curved,1.5,Nearly Ready
+51,0.93,11,6,bright green,green,smooth and soft,slightly straight,0.0,Not Ready
+113,2.29,8,8,dark green,light brown,slightly rough,very straight,1.0,Not Ready
+138,2.48,9,13,dark green,light brown,slightly rough,very straight,1.0,Not Ready
+132,2.55,9,12,bright green,light brown,smooth and soft,slightly straight,1.0,Not Ready
+127,3.6,21,18,dark green,dark brown,slightly rough,slightly straight,4.0,Ready
+43,1.4,8,12,bright green,medium brown,slightly rough,slightly straight,1.5,Not Ready
+119,2.54,8,12,dark green,medium brown,slightly rough,very straight,2.5,Nearly Ready
+98,3.69,18,13,brownish green,light brown,smooth and soft,slightly straight,2.0,Nearly Ready
+152,2.34,10,10,dark green,medium brown,slightly rough,very straight,2.5,Not Ready
+177,4.54,18,18,brownish green,dark brown,rough and peeling,slightly straight,5.0,Ready
+115,3.12,16,17,brownish green,medium brown,rough and peeling,slightly straight,3.5,Ready
+59,1.5,8,3,bright green,green,smooth and soft,curved,0.0,Not Ready
+138,5.88,22,18,yellowish green,dark brown,rough and peeling,very straight,4.5,Ready
+174,2.89,10,12,dark green,medium brown,smooth and soft,very straight,2.5,Nearly Ready
+87,3.32,17,19,dark green,light brown,smooth and soft,slightly straight,1.0,Not Ready
+108,2.57,10,12,yellowish green,green,smooth and soft,curved,0.5,Not Ready
+108,2.49,11,14,bright green,light brown,slightly rough,slightly straight,0.5,Not Ready
+136,3.45,15,13,dark green,medium brown,rough and peeling,slightly straight,3.5,Nearly Ready
+126,5.27,22,13,brownish green,dark brown,rough and peeling,slightly straight,4.5,Ready
+165,3.92,24,19,yellowish green,dark brown,rough and peeling,very straight,5.0,Ready
+102,1.92,9,10,bright green,green,smooth and soft,very straight,0.0,Not Ready
+172,3.02,13,14,brownish green,dark brown,rough and peeling,slightly straight,4.0,Ready
+154,3.67,20,13,yellowish green,medium brown,slightly rough,very straight,4.5,Ready
+129,3.8,18,16,yellowish green,dark brown,rough and peeling,slightly straight,4.5,Ready
+170,4.21,18,22,brownish green,dark brown,slightly rough,very straight,4.5,Ready
+138,4.39,20,14,dark green,light brown,slightly rough,very straight,3.0,Ready
+164,2.12,10,12,dark green,dark brown,rough and peeling,slightly straight,3.0,Nearly Ready
+167,4.27,24,20,yellowish green,medium brown,slightly rough,very straight,4.5,Ready
+120,3.02,11,15,yellowish green,light brown,slightly rough,slightly straight,1.5,Nearly Ready
+124,2.93,12,16,yellowish green,dark brown,slightly rough,slightly straight,3.0,Nearly Ready
+148,3.71,12,13,dark green,medium brown,rough and peeling,very straight,4.5,Ready
+121,5.58,20,20,brownish green,dark brown,slightly rough,curved,4.0,Ready
+173,3.72,21,13,dark green,dark brown,rough and peeling,curved,5.0,Ready
+133,3.49,14,11,yellowish green,light brown,slightly rough,slightly straight,2.0,Nearly Ready
+178,3.11,15,16,dark green,medium brown,slightly rough,slightly straight,3.5,Nearly Ready
+126,2.99,22,15,dark green,medium brown,slightly rough,slightly straight,3.5,Nearly Ready
+96,1.81,11,11,dark green,green,smooth and soft,slightly straight,0.0,Not Ready
+112,2.61,9,13,dark green,medium brown,slightly rough,slightly straight,2.5,Nearly Ready
+99,4.21,20,21,brownish green,medium brown,rough and peeling,very straight,4.0,Ready
+162,4.08,24,20,yellowish green,dark brown,rough and peeling,slightly straight,5.0,Ready
+135,2.7,9,15,bright green,medium brown,slightly rough,slightly straight,2.5,Nearly Ready
+178,4.14,18,16,brownish green,dark brown,rough and peeling,slightly straight,5.0,Ready
+103,2.47,9,15,yellowish green,medium brown,slightly rough,curved,1.5,Not Ready
+126,4.43,21,19,dark green,green,smooth and soft,very straight,2.5,Nearly Ready
+160,3.33,20,16,brownish green,medium brown,slightly rough,slightly straight,4.0,Ready
+176,3.61,20,14,dark green,medium brown,slightly rough,very straight,4.5,Ready
+156,2.84,22,20,yellowish green,medium brown,smooth and soft,slightly straight,3.5,Ready
+171,4.19,24,16,bright green,medium brown,slightly rough,very straight,4.5,Ready
+178,3.23,13,17,yellowish green,medium brown,slightly rough,very straight,3.5,Ready
+43,1.11,9,6,bright green,green,smooth and soft,curved,0.0,Not Ready
+180,1.84,8,15,dark green,light brown,slightly rough,very straight,1.5,Nearly Ready
+136,3.47,18,17,yellowish green,light brown,smooth and soft,slightly straight,2.0,Nearly Ready
+165,3.63,13,15,yellowish green,dark brown,rough and peeling,very straight,4.5,Ready
+176,3.04,11,17,yellowish green,medium brown,slightly rough,curved,3.0,Nearly Ready
+166,2.66,9,13,yellowish green,light brown,rough and peeling,very straight,2.5,Nearly Ready
+141,5.03,20,15,yellowish green,dark brown,rough and peeling,very straight,5.0,Ready
+150,3.56,19,14,brownish green,medium brown,slightly rough,very straight,4.5,Ready
+102,3.55,24,16,brownish green,dark brown,slightly rough,very straight,3.5,Ready
+158,2.57,9,11,bright green,medium brown,slightly rough,very straight,3.0,Nearly Ready
+176,3.35,19,16,dark green,dark brown,slightly rough,slightly straight,4.0,Ready
+145,2.89,21,16,yellowish green,light brown,slightly rough,slightly straight,3.0,Ready
+98,1.48,11,13,bright green,light brown,slightly rough,slightly straight,0.5,Not Ready
+90,2.73,12,15,yellowish green,medium brown,slightly rough,very straight,2.5,Nearly Ready
+89,2.09,9,13,dark green,light brown,smooth and soft,very straight,0.0,Not Ready
+83,2.89,8,15,dark green,light brown,smooth and soft,slightly straight,0.5,Not Ready
+93,2.28,10,12,dark green,medium brown,slightly rough,slightly straight,1.5,Not Ready
+148,3.32,14,13,brownish green,light brown,smooth and soft,slightly straight,2.0,Nearly Ready
+47,1.17,11,4,bright green,green,smooth and soft,slightly straight,0.0,Not Ready
+175,3.09,9,17,dark green,light brown,smooth and soft,curved,1.5,Not Ready
+164,3.28,19,22,yellowish green,medium brown,slightly rough,slightly straight,4.0,Ready
+179,3.92,20,17,yellowish green,dark brown,slightly rough,very straight,4.5,Ready
+176,3.39,19,20,dark green,dark brown,slightly rough,very straight,4.0,Ready
+124,3.05,21,20,yellowish green,dark brown,rough and peeling,slightly straight,4.0,Ready
+171,4.55,23,16,yellowish green,light brown,smooth and soft,very straight,3.0,Ready
+174,3.44,19,21,yellowish green,light brown,smooth and soft,very straight,2.5,Nearly Ready
+179,3.06,19,25,brownish green,dark brown,rough and peeling,very straight,4.5,Ready
+97,2.83,10,15,dark green,medium brown,slightly rough,slightly straight,2.0,Not Ready
+138,4.33,22,21,yellowish green,medium brown,slightly rough,slightly straight,4.0,Ready
+127,2.51,11,14,dark green,medium brown,slightly rough,very straight,2.5,Nearly Ready
+170,4.22,23,19,yellowish green,dark brown,slightly rough,slightly straight,4.5,Ready
+151,4.4,24,20,yellowish green,medium brown,slightly rough,slightly straight,4.5,Ready
+80,2.62,9,17,yellowish green,medium brown,slightly rough,slightly straight,2.0,Not Ready
+103,1.65,8,8,dark green,green,smooth and soft,slightly straight,0.0,Not Ready
+98,2.11,8,9,dark green,light brown,slightly rough,very straight,0.5,Not Ready
+164,3.44,22,14,yellowish green,light brown,slightly rough,very straight,3.0,Ready
+158,3.6,18,10,yellowish green,dark brown,rough and peeling,slightly straight,5.0,Ready
+130,2.89,18,17,yellowish green,medium brown,slightly rough,very straight,3.5,Ready
+117,2.68,11,10,yellowish green,medium brown,smooth and soft,slightly straight,2.0,Not Ready
+113,2.16,10,14,yellowish green,green,smooth and soft,curved,0.5,Not Ready
+123,4.67,20,19,dark green,dark brown,rough and peeling,very straight,4.5,Ready
+124,3.31,13,12,dark green,green,smooth and soft,slightly straight,1.5,Not Ready
+85,3.16,10,11,yellowish green,light brown,smooth and soft,slightly straight,0.5,Not Ready
+126,3.78,22,17,dark green,dark brown,slightly rough,very straight,4.0,Ready
+116,4.25,20,19,yellowish green,medium brown,rough and peeling,very straight,4.5,Ready
+122,3.79,21,23,yellowish green,light brown,smooth and soft,very straight,2.5,Ready
+42,0.9,11,10,bright green,green,smooth and soft,slightly straight,0.0,Not Ready
+152,2.76,13,16,bright green,medium brown,rough and peeling,very straight,4.0,Ready
+92,1.66,10,7,bright green,light brown,slightly rough,slightly straight,0.5,Not Ready
+126,3.43,23,19,brownish green,dark brown,slightly rough,very straight,3.5,Ready
+157,1.95,8,13,dark green,light brown,slightly rough,very straight,1.5,Not Ready
+134,6.09,24,20,yellowish green,dark brown,rough and peeling,slightly straight,4.5,Ready
+167,3.14,21,14,brownish green,medium brown,rough and peeling,very straight,4.5,Ready
+121,2.67,10,13,yellowish green,light brown,slightly rough,curved,1.5,Not Ready
+157,4.22,20,13,brownish green,dark brown,rough and peeling,very straight,5.0,Ready
+93,3.15,8,10,brownish green,medium brown,slightly rough,very straight,2.0,Not Ready
+55,1.21,8,7,bright green,green,smooth and soft,very straight,0.0,Not Ready
+141,3.62,12,16,dark green,dark brown,rough and peeling,very straight,4.5,Ready
+162,2.72,18,17,dark green,dark brown,rough and peeling,very straight,4.5,Ready
+179,5.54,21,19,dark green,medium brown,rough and peeling,slightly straight,5.0,Ready
+128,3.57,18,18,yellowish green,dark brown,smooth and soft,very straight,3.5,Ready
+107,2.58,10,18,dark green,green,smooth and soft,very straight,0.5,Not Ready
+145,4.88,19,22,brownish green,dark brown,rough and peeling,very straight,5.0,Ready
+87,3.98,12,15,yellowish green,dark brown,rough and peeling,very straight,3.5,Ready
+92,3.0,13,14,dark green,light brown,smooth and soft,very straight,1.0,Not Ready
+124,3.1,8,12,yellowish green,light brown,slightly rough,slightly straight,1.5,Not Ready
+101,1.22,10,10,bright green,light brown,smooth and soft,slightly straight,0.0,Not Ready
+155,2.8,14,16,yellowish green,light brown,slightly rough,slightly straight,2.5,Nearly Ready
+129,2.67,15,7,brownish green,medium brown,slightly rough,very straight,3.0,Nearly Ready
+147,2.47,8,12,dark green,green,smooth and soft,very straight,1.0,Not Ready
+152,4.94,18,17,dark green,medium brown,smooth and soft,slightly straight,4.0,Ready
+151,3.48,19,18,yellowish green,dark brown,rough and peeling,very straight,4.5,Ready
+180,3.01,12,12,brownish green,light brown,smooth and soft,very straight,2.0,Nearly Ready
+165,3.11,8,16,brownish green,dark brown,rough and peeling,very straight,3.5,Ready
+156,3.26,23,16,yellowish green,dark brown,rough and peeling,very straight,4.5,Ready
+148,3.69,16,12,dark green,light brown,smooth and soft,very straight,2.5,Nearly Ready
+98,2.1,10,11,yellowish green,green,smooth and soft,very straight,0.0,Not Ready
+105,4.33,19,15,yellowish green,dark brown,slightly rough,slightly straight,3.5,Ready
+148,2.84,13,14,yellowish green,medium brown,smooth and soft,very straight,3.0,Nearly Ready
+145,3.46,21,17,brownish green,dark brown,rough and peeling,slightly straight,4.5,Ready
+127,3.06,24,17,yellowish green,light brown,slightly rough,very straight,2.5,Nearly Ready
+156,2.71,8,10,yellowish green,light brown,slightly rough,very straight,2.0,Nearly Ready
+176,3.33,19,14,dark green,dark brown,rough and peeling,very straight,4.5,Ready
+137,2.73,10,12,dark green,light brown,slightly rough,slightly straight,1.5,Not Ready
+131,2.92,21,19,brownish green,medium brown,slightly rough,very straight,3.5,Ready
+166,2.95,9,18,dark green,light brown,slightly rough,slightly straight,2.0,Nearly Ready
+80,2.55,11,13,brownish green,light brown,slightly rough,very straight,1.0,Not Ready
+111,2.17,10,13,bright green,light brown,slightly rough,curved,1.0,Not Ready
+99,2.12,11,12,dark green,light brown,slightly rough,very straight,0.5,Not Ready
+126,2.88,11,16,yellowish green,medium brown,rough and peeling,very straight,3.0,Nearly Ready
+94,2.07,10,18,yellowish green,light brown,smooth and soft,very straight,0.0,Not Ready
+133,5.95,19,15,brownish green,dark brown,slightly rough,very straight,4.0,Ready
+173,4.18,19,17,brownish green,medium brown,slightly rough,very straight,4.5,Ready
+124,3.44,12,20,yellowish green,light brown,slightly rough,very straight,2.0,Nearly Ready
+176,2.69,11,15,dark green,light brown,slightly rough,very straight,2.0,Nearly Ready
+140,3.8,20,17,yellowish green,dark brown,rough and peeling,slightly straight,5.0,Ready
+120,3.12,20,15,yellowish green,medium brown,slightly rough,slightly straight,3.5,Nearly Ready
+173,3.34,18,15,dark green,dark brown,rough and peeling,slightly straight,4.5,Ready
+132,2.57,11,14,dark green,green,smooth and soft,very straight,1.0,Not Ready
+107,1.94,8,4,bright green,green,smooth and soft,very straight,0.0,Not Ready
+163,2.08,10,11,bright green,light brown,slightly rough,slightly straight,1.5,Not Ready
+95,2.89,8,15,dark green,dark brown,slightly rough,slightly straight,2.0,Nearly Ready
+124,3.95,22,19,yellowish green,dark brown,rough and peeling,very straight,4.5,Ready
+123,3.61,16,14,dark green,dark brown,slightly rough,slightly straight,3.5,Ready
+135,7.75,18,11,brownish green,dark brown,rough and peeling,very straight,4.5,Ready
+125,3.31,24,16,yellowish green,dark brown,slightly rough,slightly straight,3.5,Ready
+156,3.1,21,16,yellowish green,medium brown,slightly rough,slightly straight,4.0,Ready
+173,4.84,21,22,brownish green,dark brown,rough and peeling,curved,5.0,Ready
+158,3.67,13,10,dark green,light brown,smooth and soft,very straight,2.5,Nearly Ready
+97,1.68,11,13,bright green,medium brown,smooth and soft,very straight,1.0,Not Ready
+157,2.91,13,12,bright green,light brown,slightly rough,very straight,2.5,Nearly Ready
+89,1.46,10,9,bright green,green,smooth and soft,very straight,0.0,Not Ready
+156,3.54,18,20,brownish green,dark brown,slightly rough,very straight,4.5,Ready
+153,3.59,23,19,dark green,dark brown,slightly rough,slightly straight,4.5,Ready
+172,2.89,17,13,yellowish green,medium brown,slightly rough,slightly straight,3.5,Nearly Ready
+179,2.86,14,17,dark green,medium brown,smooth and soft,slightly straight,3.0,Nearly Ready
+168,2.8,18,18,brownish green,dark brown,rough and peeling,very straight,4.5,Ready
+152,2.58,12,18,brownish green,light brown,slightly rough,slightly straight,2.5,Nearly Ready
+178,2.39,9,10,dark green,medium brown,slightly rough,very straight,2.5,Nearly Ready
+136,1.99,9,17,brownish green,dark brown,rough and peeling,very straight,2.5,Nearly Ready
+163,4.23,18,16,brownish green,medium brown,slightly rough,very straight,4.5,Ready
+59,1.38,10,4,bright green,green,smooth and soft,curved,0.0,Not Ready
+101,1.69,9,7,dark green,green,smooth and soft,curved,0.0,Not Ready
+158,3.95,21,14,yellowish green,dark brown,rough and peeling,slightly straight,5.0,Ready
+98,3.65,20,17,dark green,dark brown,rough and peeling,very straight,4.0,Ready
+113,2.7,8,13,yellowish green,medium brown,slightly rough,very straight,2.5,Nearly Ready
+136,2.98,17,19,bright green,light brown,smooth and soft,very straight,1.5,Not Ready
+157,1.82,10,16,dark green,green,smooth and soft,very straight,1.0,Not Ready
+82,1.52,8,14,bright green,light brown,smooth and soft,slightly straight,0.0,Not Ready
+180,2.58,14,16,dark green,medium brown,rough and peeling,curved,4.0,Nearly Ready
+111,1.83,10,11,dark green,medium brown,slightly rough,slightly straight,2.0,Not Ready
+169,4.3,24,21,yellowish green,medium brown,slightly rough,curved,4.5,Ready
+137,4.09,21,19,yellowish green,dark brown,rough and peeling,very straight,4.5,Ready
+178,3.3,14,19,dark green,medium brown,slightly rough,very straight,3.5,Nearly Ready
+104,2.65,24,17,yellowish green,light brown,slightly rough,slightly straight,2.0,Nearly Ready
+164,3.71,18,17,yellowish green,dark brown,rough and peeling,slightly straight,5.0,Ready
+128,4.0,24,18,yellowish green,dark brown,rough and peeling,very straight,4.5,Ready
+110,3.51,12,12,brownish green,dark brown,rough and peeling,very straight,4.0,Ready
+151,3.95,18,14,brownish green,light brown,smooth and soft,very straight,3.0,Ready
+141,2.75,10,12,dark green,light brown,smooth and soft,slightly straight,1.5,Not Ready
+86,2.86,10,17,yellowish green,medium brown,slightly rough,slightly straight,2.0,Not Ready
+137,2.76,11,17,bright green,medium brown,rough and peeling,slightly straight,3.0,Nearly Ready
+95,3.31,23,19,brownish green,dark brown,rough and peeling,slightly straight,3.5,Ready
+180,3.4,19,17,yellowish green,dark brown,slightly rough,slightly straight,4.0,Ready
+170,3.56,22,19,yellowish green,medium brown,slightly rough,slightly straight,4.5,Ready
+147,3.1,24,17,brownish green,dark brown,slightly rough,very straight,4.0,Ready
+170,3.52,21,14,yellowish green,medium brown,slightly rough,very straight,4.5,Ready
+175,2.08,9,14,brownish green,light brown,slightly rough,slightly straight,1.5,Nearly Ready
+107,2.1,8,11,bright green,green,smooth and soft,curved,0.0,Not Ready
+132,2.91,10,11,bright green,medium brown,rough and peeling,very straight,3.0,Nearly Ready
+123,2.91,20,13,yellowish green,dark brown,rough and peeling,very straight,4.0,Ready
+125,3.3,17,12,dark green,medium brown,slightly rough,very straight,3.0,Nearly Ready
+87,2.23,16,15,dark green,light brown,smooth and soft,slightly straight,0.5,Not Ready
+113,1.86,9,9,bright green,green,smooth and soft,slightly straight,0.5,Not Ready
+120,5.23,24,22,brownish green,dark brown,rough and peeling,slightly straight,4.5,Ready
+159,3.3,21,20,yellowish green,dark brown,rough and peeling,slightly straight,4.5,Ready
+168,2.54,10,14,dark green,medium brown,rough and peeling,slightly straight,3.5,Nearly Ready
+100,2.59,10,10,yellowish green,medium brown,slightly rough,curved,2.0,Not Ready
+57,1.46,10,9,bright green,green,smooth and soft,slightly straight,0.0,Not Ready
+116,2.08,10,7,dark green,green,smooth and soft,very straight,0.5,Not Ready
+158,3.0,16,14,dark green,medium brown,rough and peeling,slightly straight,4.0,Ready
+85,2.52,14,14,brownish green,dark brown,rough and peeling,slightly straight,3.0,Nearly Ready
+126,4.68,20,11,yellowish green,medium brown,smooth and soft,very straight,3.5,Ready
+98,1.21,9,8,bright green,green,smooth and soft,slightly straight,0.0,Not Ready
+100,5.12,23,21,yellowish green,dark brown,smooth and soft,very straight,3.0,Ready
+125,3.82,24,24,yellowish green,dark brown,slightly rough,very straight,4.0,Ready
+163,3.05,22,19,yellowish green,dark brown,rough and peeling,slightly straight,4.5,Ready
+174,4.41,20,24,yellowish green,medium brown,slightly rough,slightly straight,4.5,Ready
+180,3.31,15,16,brownish green,dark brown,rough and peeling,very straight,4.0,Ready
+111,2.56,11,9,yellowish green,light brown,smooth and soft,very straight,1.0,Not Ready
+135,2.67,10,11,dark green,medium brown,slightly rough,very straight,2.5,Not Ready
+152,3.8,21,17,brownish green,medium brown,slightly rough,very straight,4.5,Ready
+122,3.54,18,6,dark green,dark brown,rough and peeling,slightly straight,4.5,Ready
+130,3.0,21,15,dark green,medium brown,slightly rough,slightly straight,3.5,Ready
+152,3.34,13,11,yellowish green,light brown,smooth and soft,slightly straight,2.0,Nearly Ready
+120,2.84,17,12,dark green,medium brown,slightly rough,slightly straight,3.0,Nearly Ready
+134,3.77,23,11,dark green,light brown,slightly rough,curved,3.0,Ready
+165,2.16,11,17,yellowish green,medium brown,rough and peeling,very straight,3.0,Nearly Ready
+85,2.94,9,15,dark green,medium brown,slightly rough,slightly straight,2.0,Not Ready
+159,2.47,18,14,yellowish green,medium brown,smooth and soft,very straight,3.0,Ready
+83,1.85,9,10,bright green,green,smooth and soft,very straight,0.0,Not Ready
+157,3.25,18,13,dark green,dark brown,rough and peeling,slightly straight,4.5,Ready
+80,3.12,17,20,dark green,dark brown,slightly rough,very straight,2.5,Nearly Ready
+98,3.31,13,17,yellowish green,medium brown,slightly rough,very straight,2.5,Nearly Ready
+165,4.53,18,15,yellowish green,light brown,smooth and soft,very straight,3.0,Ready
+151,5.63,20,20,yellowish green,light brown,slightly rough,very straight,3.5,Ready
+138,3.85,18,15,brownish green,light brown,slightly rough,very straight,3.0,Ready
+133,2.06,8,13,dark green,light brown,slightly rough,very straight,1.0,Not Ready
+161,3.23,14,20,brownish green,dark brown,slightly rough,slightly straight,3.5,Ready
+124,4.51,21,18,brownish green,medium brown,smooth and soft,slightly straight,3.5,Ready
+137,2.61,23,20,yellowish green,light brown,smooth and soft,curved,2.0,Nearly Ready
+92,1.97,10,8,dark green,green,smooth and soft,very straight,0.0,Not Ready
+101,1.8,9,12,yellowish green,light brown,slightly rough,slightly straight,0.5,Not Ready
+103,2.8,10,16,bright green,light brown,smooth and soft,slightly straight,0.5,Not Ready
+134,4.06,18,19,yellowish green,green,smooth and soft,very straight,2.5,Nearly Ready
+129,2.41,11,14,dark green,light brown,smooth and soft,curved,0.5,Not Ready
+123,4.16,18,14,brownish green,dark brown,slightly rough,very straight,4.0,Ready
+158,2.42,8,7,yellowish green,dark brown,rough and peeling,very straight,3.0,Nearly Ready
+155,3.43,18,14,dark green,dark brown,rough and peeling,very straight,4.5,Ready
+118,3.87,18,20,dark green,light brown,smooth and soft,very straight,2.5,Nearly Ready
+164,2.94,9,15,dark green,green,smooth and soft,very straight,1.5,Not Ready
+100,3.22,8,11,dark green,light brown,slightly rough,slightly straight,1.0,Not Ready
+154,4.33,19,16,brownish green,medium brown,slightly rough,very straight,4.5,Ready
+103,3.29,12,13,bright green,medium brown,rough and peeling,slightly straight,3.0,Nearly Ready
+160,2.99,21,13,yellowish green,medium brown,slightly rough,very straight,4.0,Ready
+144,3.86,24,20,brownish green,medium brown,smooth and soft,slightly straight,4.0,Ready
+109,2.53,11,16,dark green,dark brown,rough and peeling,very straight,2.5,Nearly Ready
+154,4.99,23,18,yellowish green,dark brown,rough and peeling,slightly straight,5.0,Ready
+128,3.16,14,11,dark green,light brown,smooth and soft,slightly straight,1.5,Nearly Ready
+138,3.72,8,14,bright green,medium brown,slightly rough,slightly straight,3.0,Nearly Ready
+142,5.0,20,20,yellowish green,medium brown,slightly rough,slightly straight,4.5,Ready
+106,1.75,10,5,bright green,green,smooth and soft,slightly straight,0.0,Not Ready
+139,3.46,12,14,yellowish green,light brown,slightly rough,very straight,2.0,Nearly Ready
+138,4.14,24,21,brownish green,dark brown,rough and peeling,very straight,4.5,Ready
+170,3.69,24,24,dark green,dark brown,rough and peeling,very straight,5.0,Ready
+127,4.47,22,17,brownish green,dark brown,rough and peeling,very straight,4.5,Ready
+141,3.32,15,10,dark green,medium brown,rough and peeling,slightly straight,4.0,Nearly Ready
+138,4.69,21,21,yellowish green,dark brown,rough and peeling,very straight,4.5,Ready
+146,5.25,21,20,yellowish green,light brown,smooth and soft,very straight,3.0,Ready
+147,2.38,11,12,dark green,medium brown,slightly rough,slightly straight,2.5,Not Ready
+125,2.65,12,18,dark green,dark brown,rough and peeling,slightly straight,3.5,Nearly Ready
+153,3.25,9,17,yellowish green,light brown,smooth and soft,very straight,1.5,Not Ready
+95,2.31,11,13,dark green,light brown,smooth and soft,very straight,0.0,Not Ready
+149,3.42,21,14,brownish green,medium brown,smooth and soft,very straight,3.5,Ready
+124,1.96,16,13,yellowish green,green,smooth and soft,slightly straight,1.0,Not Ready
+158,2.46,9,12,bright green,medium brown,slightly rough,curved,2.5,Not Ready
+122,4.49,19,20,brownish green,dark brown,rough and peeling,slightly straight,4.5,Ready
+121,3.45,13,17,dark green,dark brown,slightly rough,slightly straight,3.0,Nearly Ready
+163,3.92,19,14,brownish green,medium brown,slightly rough,very straight,4.5,Ready
+156,3.46,16,17,dark green,medium brown,slightly rough,slightly straight,3.5,Nearly Ready
+108,1.37,8,14,bright green,green,smooth and soft,curved,0.0,Not Ready
+117,2.64,10,10,yellowish green,light brown,smooth and soft,very straight,1.0,Not Ready
+117,1.67,11,5,bright green,light brown,smooth and soft,curved,0.5,Not Ready
+165,4.13,21,21,yellowish green,medium brown,slightly rough,slightly straight,4.5,Ready
+120,4.08,24,17,dark green,dark brown,rough and peeling,very straight,4.5,Ready
+171,3.99,23,15,yellowish green,dark brown,rough and peeling,very straight,5.0,Ready
+141,3.21,19,17,dark green,medium brown,slightly rough,very straight,4.0,Ready
+156,3.65,22,15,yellowish green,dark brown,slightly rough,very straight,4.5,Ready
+84,3.2,19,12,yellowish green,dark brown,rough and peeling,very straight,3.5,Ready
+150,3.25,21,17,bright green,medium brown,slightly rough,very straight,4.0,Ready
+80,3.73,20,15,bright green,dark brown,rough and peeling,slightly straight,4.0,Ready
+129,3.91,20,22,yellowish green,dark brown,rough and peeling,very straight,4.5,Ready
+169,2.52,24,20,yellowish green,dark brown,slightly rough,slightly straight,4.0,Ready
+97,2.13,9,14,dark green,medium brown,slightly rough,slightly straight,1.5,Not Ready
+99,1.46,9,5,dark green,light brown,smooth and soft,slightly straight,0.0,Not Ready
+175,3.17,11,11,yellowish green,light brown,smooth and soft,slightly straight,1.5,Not Ready
+155,3.88,19,15,yellowish green,dark brown,slightly rough,very straight,4.5,Ready
+97,2.4,9,12,brownish green,green,smooth and soft,slightly straight,0.0,Not Ready
+166,2.46,10,8,dark green,medium brown,rough and peeling,slightly straight,3.0,Nearly Ready
+162,2.95,21,20,dark green,medium brown,rough and peeling,slightly straight,4.5,Ready
+155,1.75,8,17,brownish green,medium brown,slightly rough,very straight,2.5,Nearly Ready
+161,4.54,23,23,brownish green,medium brown,rough and peeling,slightly straight,5.0,Ready
+164,3.72,14,15,dark green,medium brown,slightly rough,very straight,4.0,Ready
+151,4.59,24,18,yellowish green,dark brown,smooth and soft,very straight,4.0,Ready
+103,3.11,11,12,yellowish green,dark brown,slightly rough,slightly straight,2.0,Not Ready
+156,2.95,16,14,yellowish green,light brown,smooth and soft,very straight,2.0,Nearly Ready
+102,2.49,9,9,yellowish green,medium brown,smooth and soft,slightly straight,1.0,Not Ready
+92,3.27,19,18,dark green,medium brown,smooth and soft,slightly straight,2.5,Nearly Ready
+148,6.15,19,17,brownish green,dark brown,smooth and soft,curved,4.0,Ready
+130,2.39,10,15,yellowish green,light brown,slightly rough,very straight,1.0,Not Ready
+146,2.47,12,18,dark green,dark brown,rough and peeling,very straight,3.5,Nearly Ready
+109,2.4,8,15,brownish green,light brown,slightly rough,slightly straight,0.5,Not Ready
+155,2.29,10,17,dark green,medium brown,slightly rough,curved,2.5,Nearly Ready
+115,2.37,8,7,dark green,light brown,smooth and soft,slightly straight,0.5,Not Ready
+133,2.86,9,14,bright green,medium brown,rough and peeling,very straight,3.0,Nearly Ready
+133,3.74,16,17,dark green,light brown,smooth and soft,very straight,2.0,Nearly Ready
+164,2.59,10,14,dark green,dark brown,slightly rough,very straight,3.0,Nearly Ready
+84,2.99,8,13,dark green,medium brown,rough and peeling,slightly straight,2.5,Nearly Ready
+118,1.87,10,17,bright green,light brown,rough and peeling,very straight,1.5,Nearly Ready
+137,4.34,18,16,dark green,dark brown,rough and peeling,very straight,4.5,Ready
+105,3.58,12,14,dark green,dark brown,slightly rough,very straight,3.0,Nearly Ready
+161,2.31,8,14,dark green,light brown,smooth and soft,very straight,1.0,Not Ready
+152,5.8,18,17,yellowish green,medium brown,slightly rough,slightly straight,4.5,Ready
+145,3.62,24,21,brownish green,medium brown,smooth and soft,very straight,4.0,Ready
+144,2.66,8,10,yellowish green,medium brown,smooth and soft,slightly straight,2.5,Not Ready
+173,3.24,21,19,dark green,medium brown,slightly rough,very straight,4.0,Ready
+130,3.79,16,13,bright green,medium brown,slightly rough,slightly straight,3.5,Nearly Ready
+84,1.67,9,11,dark green,green,smooth and soft,slightly straight,0.0,Not Ready
+174,3.59,14,13,dark green,light brown,smooth and soft,slightly straight,2.5,Nearly Ready
+163,3.94,18,14,dark green,medium brown,rough and peeling,very straight,5.0,Ready
+148,4.06,24,16,yellowish green,dark brown,slightly rough,slightly straight,4.5,Ready
+116,2.54,10,15,dark green,medium brown,slightly rough,slightly straight,2.5,Not Ready
+174,3.0,14,8,yellowish green,light brown,slightly rough,slightly straight,2.5,Nearly Ready
+96,3.54,13,13,yellowish green,medium brown,slightly rough,very straight,3.0,Nearly Ready
+47,1.19,9,8,bright green,medium brown,smooth and soft,slightly straight,1.0,Not Ready
+120,2.88,17,17,brownish green,dark brown,smooth and soft,curved,2.5,Nearly Ready
+141,2.66,8,7,dark green,light brown,smooth and soft,very straight,1.5,Not Ready
+152,4.47,19,20,dark green,dark brown,rough and peeling,very straight,5.0,Ready
+122,4.32,24,16,dark green,dark brown,slightly rough,slightly straight,4.0,Ready
+97,2.17,11,15,dark green,medium brown,slightly rough,very straight,1.5,Not Ready
+157,3.18,24,20,dark green,green,smooth and soft,slightly straight,2.5,Nearly Ready
+170,3.73,19,13,brownish green,dark brown,rough and peeling,slightly straight,5.0,Ready
+155,2.59,10,10,yellowish green,light brown,smooth and soft,curved,1.5,Not Ready
+80,1.43,11,11,bright green,green,smooth and soft,slightly straight,0.0,Not Ready
+149,2.21,10,13,dark green,dark brown,rough and peeling,curved,3.0,Nearly Ready
+108,1.56,9,7,brownish green,light brown,smooth and soft,slightly straight,0.0,Not Ready
+132,2.56,10,12,dark green,medium brown,smooth and soft,very straight,2.0,Not Ready
+175,3.84,24,17,brownish green,light brown,smooth and soft,very straight,3.0,Ready
+147,2.15,9,14,yellowish green,dark brown,rough and peeling,very straight,3.0,Nearly Ready
+173,4.72,21,21,brownish green,dark brown,rough and peeling,very straight,5.0,Ready
+124,3.3,22,9,brownish green,light brown,slightly rough,very straight,2.5,Ready
+101,2.77,9,12,dark green,medium brown,smooth and soft,very straight,1.5,Not Ready
+174,4.29,21,13,yellowish green,dark brown,slightly rough,very straight,4.5,Ready
+166,2.93,8,14,yellowish green,dark brown,slightly rough,curved,3.0,Nearly Ready
+134,3.16,13,12,yellowish green,dark brown,rough and peeling,very straight,3.5,Ready
+93,1.77,11,15,bright green,green,smooth and soft,curved,0.0,Not Ready
+178,3.56,18,17,dark green,dark brown,rough and peeling,very straight,5.0,Ready
+130,3.13,23,13,yellowish green,medium brown,slightly rough,curved,3.5,Ready
+134,3.05,16,10,dark green,medium brown,slightly rough,very straight,3.0,Nearly Ready
+163,3.56,20,15,brownish green,medium brown,slightly rough,slightly straight,4.5,Ready
+95,3.11,24,21,dark green,dark brown,rough and peeling,very straight,3.5,Ready
+106,2.62,8,9,dark green,light brown,smooth and soft,very straight,0.5,Not Ready
+145,4.11,23,17,dark green,medium brown,smooth and soft,very straight,4.0,Ready
+161,2.56,16,16,dark green,light brown,slightly rough,very straight,2.5,Nearly Ready
+121,2.87,9,8,yellowish green,medium brown,rough and peeling,slightly straight,3.0,Nearly Ready
+112,3.33,16,18,brownish green,dark brown,rough and peeling,very straight,3.5,Ready
+50,0.91,11,3,yellowish green,green,smooth and soft,curved,0.0,Not Ready
+143,4.73,24,21,brownish green,dark brown,rough and peeling,very straight,5.0,Ready
+129,2.44,8,10,dark green,light brown,smooth and soft,very straight,0.5,Not Ready
+44,1.31,8,13,bright green,green,smooth and soft,slightly straight,0.0,Not Ready
+139,3.41,15,12,yellowish green,medium brown,slightly rough,slightly straight,3.0,Nearly Ready
+98,2.22,11,13,dark green,medium brown,slightly rough,very straight,1.5,Not Ready
+143,3.44,19,17,brownish green,dark brown,rough and peeling,very straight,4.5,Ready
+97,2.04,10,17,dark green,green,smooth and soft,very straight,0.0,Not Ready
+127,3.69,22,15,yellowish green,medium brown,rough and peeling,slightly straight,4.5,Ready
+81,1.55,8,13,dark green,green,smooth and soft,very straight,0.0,Not Ready
+176,3.09,24,18,bright green,dark brown,rough and peeling,slightly straight,4.5,Ready
+168,4.23,23,17,dark green,dark brown,rough and peeling,very straight,5.0,Ready
+136,3.94,21,16,brownish green,light brown,smooth and soft,very straight,2.5,Nearly Ready
+134,4.03,19,10,dark green,dark brown,rough and peeling,slightly straight,4.5,Ready
+124,2.61,9,9,dark green,light brown,smooth and soft,very straight,1.0,Not Ready
+165,2.39,9,9,bright green,light brown,rough and peeling,slightly straight,2.0,Not Ready
+80,3.58,15,20,yellowish green,dark brown,slightly rough,very straight,3.0,Nearly Ready
+165,3.28,15,12,dark green,medium brown,smooth and soft,slightly straight,3.0,Nearly Ready
+146,2.65,10,15,dark green,light brown,smooth and soft,very straight,1.5,Nearly Ready
+122,4.15,21,18,dark green,medium brown,slightly rough,very straight,4.0,Ready
+139,4.46,20,21,dark green,medium brown,smooth and soft,very straight,3.5,Ready
+151,3.42,12,18,yellowish green,medium brown,rough and peeling,slightly straight,4.0,Ready
+180,5.31,24,20,yellowish green,medium brown,slightly rough,slightly straight,4.5,Ready
+144,3.25,19,21,dark green,medium brown,slightly rough,slightly straight,4.0,Ready
+169,3.86,23,18,yellowish green,dark brown,rough and peeling,slightly straight,5.0,Ready
+116,1.84,8,14,dark green,green,smooth and soft,curved,0.5,Not Ready
+178,3.6,19,21,dark green,medium brown,slightly rough,very straight,4.5,Ready
+166,3.49,23,16,yellowish green,medium brown,slightly rough,slightly straight,4.0,Ready
+174,3.23,21,17,brownish green,medium brown,smooth and soft,very straight,3.5,Ready
+105,2.82,15,12,yellowish green,dark brown,slightly rough,slightly straight,2.5,Nearly Ready
+154,2.21,11,11,dark green,light brown,smooth and soft,slightly straight,1.0,Not Ready
+117,1.68,11,8,yellowish green,dark brown,rough and peeling,very straight,2.5,Nearly Ready
+134,2.29,9,10,dark green,light brown,slightly rough,very straight,1.0,Not Ready
+179,3.36,13,14,brownish green,dark brown,rough and peeling,slightly straight,4.0,Ready
+89,2.84,11,13,yellowish green,light brown,smooth and soft,very straight,0.5,Not Ready
+125,4.67,20,19,yellowish green,medium brown,slightly rough,very straight,4.0,Ready
+117,2.39,12,18,yellowish green,medium brown,rough and peeling,slightly straight,3.0,Nearly Ready
+164,2.96,24,17,yellowish green,dark brown,slightly rough,very straight,4.0,Ready
+87,3.78,20,20,dark green,light brown,slightly rough,very straight,2.5,Ready
