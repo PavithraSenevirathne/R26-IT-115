@@ -1,5 +1,7 @@
 # Cinnamon Tree Management & Research System
 
+Git Repository : https://github.com/PavithraSenevirathne/R26-IT-115.git
+
 This repository contains the source code, models, and documentation for a comprehensive AI-driven research project focused on the cultivation and management of Cinnamon trees. The system integrates computer vision, machine learning, natural language processing, and fuzzy logic to assist farmers in monitoring plant health, detecting pests, receiving fertilizer recommendations, and determining optimal harvest times.
 
 ## 1. Disease Detection and Explainability (XAI)
@@ -28,13 +30,32 @@ An interactive chatbot system that acts as a virtual agronomist, providing perso
 * **Decision Engine**: Features a **Custom Fuzzy Logic Engine** that combines a Fuzzy Rule Base, Fuzzy Input Variables, and a specialized Cinnamon Fertilizer Knowledge Base.
 * **Output**: Delivers actionable **Fertilizer Recommendations** and precise **Dosage Guidance** directly to the farmer's mobile chat interface.
 
-## 4. Multimodal Harvest Readiness Assessment
-A multimodal fusion system that combines both numerical environmental data and visual bark features to determine the optimal time for harvesting.
+# 4. Multimodal Harvest Readiness Assessment
+A multimodal fusion system that combines physical measurements, visual bark features,
+and optional field notes to determine the optimal time for cinnamon harvesting.
 
-* **Numerical Pipeline**: Processes numerical features from environmental/agricultural datasets using a Target Encoder and a **LightGBM Regressor** to output a calculated *Readiness Score*.
-* **Visual Pipeline**: Processes images of cinnamon bark through Image Preprocessing and a **CNN Classifier** to output *Texture Classification*.
-* **Score Fusion**: A dedicated Score Fusion Module synthesizes the continuous Readiness Score with the discrete Texture Classification.
-* **Output**: Yields a definitive **Harvest Readiness Decision**, categorizing the plant's status as **Harvest**, **Monitor**, or **Not Ready**.
+* **Numerical Pipeline**: Processes physical measurements (shoot height, trunk
+  circumference, shoot age, leaf count) and qualitative attributes (bark color,
+  bark texture, leaf color, shoot straightness) using a **Gradient Boosting +
+  Random Forest Voting Classifier (LightGBM ensemble)** with Ordinal Encoding to
+  output a calculated *Readiness Score with class probabilities*.
+
+* **Visual Pipeline**: Processes up to 3 multi-angle trunk images (Front, Side L,
+  Side R) through image preprocessing and a **CNN Ensemble** to output
+  *Visual Texture Classification*.
+
+* **Notes Pipeline**: Accepts optional free-text or voice-recorded field
+  observations, parsed and fused into the feature set via a natural language
+  **Parse API** to enrich prediction context.
+
+* **Score Fusion**: A dedicated Score Fusion Module synthesizes the continuous
+  Readiness Score with the CNN Texture Classification and parsed notes into a
+  unified confidence distribution across all three classes.
+
+* **Output**: Yields a definitive **Harvest Readiness Decision**, categorizing
+  the shoot's status as **Ready**, **Borderline**, or **Not Ready** — accompanied
+  by model confidence percentages, agronomic reasoning, and CCGI-aligned
+  next-step guidelines.
 
 ## 5. User Interface (Mobile Application)
 The farmer-facing frontend is a cross-platform mobile application developed using **React Native**, designed to run smoothly on diverse mobile hardware, including low-end Android devices.
