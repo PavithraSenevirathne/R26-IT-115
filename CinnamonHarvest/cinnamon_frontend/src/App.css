@@ -1,0 +1,42 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', 'Segoe UI', system-ui, sans-serif;
+  background: #f4faf6;
+  color: #1a1a1a;
+  min-height: 100vh;
+}
+
+:root {
+  --green-dark:  #1a3a2a;
+  --green-mid:   #2d6a4f;
+  --green-light: #52b788;
+  --green-pale:  #d8f3dc;
+  --amber:       #e9a627;
+  --red:         #c0392b;
+  --text:        #1a1a1a;
+  --text-muted:  #5a6672;
+  --border:      #d0e8d8;
+  --card-bg:     #ffffff;
+  --page-bg:     #f4faf6;
+  --radius:      14px;
+  --shadow:      0 2px 16px rgba(45,106,79,0.10);
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.08); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes barGrow {
+  from { width: 0%; }
+}
