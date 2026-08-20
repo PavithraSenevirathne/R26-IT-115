@@ -5,8 +5,6 @@ import { Feather } from '@expo/vector-icons';
 import Animated, { FadeInDown, FadeIn } from 'react-native-reanimated';
 import PrimaryButton from '../../components/PrimaryButton';
 
-// --- Types & Data Dictionary ---
-
 type PestClass = 
   | 'stem_borer' | 'thrips' | 'moth' | 'mite' 
   | 'leaf_miner' | 'root_grub' | 'caterpillar' | 'weevil';
