@@ -4,7 +4,7 @@ import { Feather } from '@expo/vector-icons';
 import Animated, { FadeInDown, FadeInUp, FadeOutDown, Layout } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-// const RAG_BACKEND_URL = 'http://192.168.X.X:8000/api/v1/chat';
+const RAG_BACKEND_URL = 'http://192.168.X.X:8000/api/v1/chat';
 
 interface Message {
   id: string;
@@ -44,7 +44,6 @@ export default function FertilizerScreen() {
   const handleSend = async (text: string) => {
     if (!text.trim()) return;
 
-    // 1. Add User Message
     const userMessage: Message = { id: Date.now().toString(), sender: 'user', text: text.trim() };
     setMessages((prev) => [...prev, userMessage]);
     setInputText('');
@@ -53,11 +52,9 @@ export default function FertilizerScreen() {
     setTimeout(() => scrollViewRef.current?.scrollToEnd({ animated: true }), 100);
 
     try {
-      // 2. Send to Backend RAG Pipeline
       const response = await fetch(RAG_BACKEND_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        // Sending the query. You could also send the full message history here for context.
         body: JSON.stringify({ query: text.trim() }) 
       });
 
