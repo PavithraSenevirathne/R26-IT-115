@@ -15,7 +15,7 @@ export default function RootLayout() {
   }, []);
 
   return (
-    <SQLiteProvider databaseName="cinnamon_app.db" onInit={initializeDatabase}>
+    <SQLiteProvider databaseName="cinnamon_app_v2.db" onInit={initializeDatabase}>
       <AuthProvider>
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />
