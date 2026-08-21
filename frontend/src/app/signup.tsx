@@ -7,8 +7,8 @@ import PrimaryButton from '../components/PrimaryButton';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 
-export default function LoginScreen() {
-  const { signIn } = useAuth();
+export default function SignupScreen() {
+  const { signUp } = useAuth();
   const insets = useSafeAreaInsets();
 
   const [phone, setPhone] = useState('');
@@ -23,7 +23,7 @@ export default function LoginScreen() {
     return clean;
   };
 
-  const handleLogin = async () => {
+  const handleSignup = async () => {
     setErrorMsg('');
     const cleanPhone = normalizePhone(phone);
 
@@ -38,9 +38,9 @@ export default function LoginScreen() {
 
     setLoading(true);
     try {
-      await signIn(cleanPhone, pin);
+      await signUp(cleanPhone, pin);
     } catch (err: any) {
-      setErrorMsg(err.message || 'Authentication failed. Check your network.');
+      setErrorMsg(err.message || 'Registration failed. Check your network.');
     } finally {
       setLoading(false);
     }
@@ -50,11 +50,20 @@ export default function LoginScreen() {
     <View className="flex-1 bg-[#F5F3E9]" style={{ paddingTop: insets.top }}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} className="flex-1">
         
-        <ScrollView className="flex-1 px-6" contentContainerStyle={{ paddingTop: 40 }} showsVerticalScrollIndicator={false}>
+        <View className="flex-row items-center px-6 pt-4 pb-2">
+          <TouchableOpacity
+            onPress={() => router.back()}
+            className="w-12 h-12 bg-white rounded-2xl items-center justify-center border border-[#E8E6DD] shadow-sm"
+          >
+            <Feather name="arrow-left" size={20} color="#2C402E" />
+          </TouchableOpacity>
+        </View>
+
+        <ScrollView className="flex-1 px-6" showsVerticalScrollIndicator={false}>
           <Animated.View entering={FadeInDown.delay(100).springify()}>
-            <Text className="text-3xl font-extrabold text-[#2C402E] mb-2">Welcome Back</Text>
+            <Text className="text-3xl font-extrabold text-[#2C402E] mb-2">Create Account</Text>
             <Text className="text-base font-semibold text-[#8A9A86] mb-8">
-              Enter your phone number & PIN to access your workspace.
+              Register your number to securely back up your offline diagnoses.
             </Text>
 
             {errorMsg ? (
@@ -81,7 +90,7 @@ export default function LoginScreen() {
             </View>
 
             <View className="mb-8">
-              <Text className="text-sm font-bold text-[#4A6B4D] mb-2">4-Digit Security PIN</Text>
+              <Text className="text-sm font-bold text-[#4A6B4D] mb-2">Set a 4-Digit PIN</Text>
               <View className="flex-row items-center rounded-2xl border border-[#E8E6DD] bg-white px-4 h-14 shadow-sm">
                 <Feather name="lock" size={20} color="#8A9A86" />
                 <TextInput
@@ -96,24 +105,17 @@ export default function LoginScreen() {
                   editable={!loading}
                 />
               </View>
+              <Text className="text-[#8A9A86] text-xs mt-2 text-center">
+                This PIN will lock your local data. Don't forget it!
+              </Text>
             </View>
 
             <PrimaryButton
-              label={loading ? 'Authenticating...' : 'Secure Sign In'}
+              label={loading ? 'Creating Account...' : 'Create Account'}
               colorClass={loading ? 'bg-[#8A9A86]' : 'bg-[#4A6B4D]'}
-              iconName={loading ? 'loader' : 'log-in'}
-              onPress={handleLogin}
+              iconName={loading ? 'loader' : 'check-circle'}
+              onPress={handleSignup}
             />
-
-            <TouchableOpacity
-              onPress={() => router.push('/signup')}
-              className="mt-6 py-3 items-center"
-              disabled={loading}
-            >
-              <Text className="text-[#8A9A86] font-semibold text-sm">
-                Don't have an account? <Text className="text-[#4A6B4D] font-extrabold">Sign Up</Text>
-              </Text>
-            </TouchableOpacity>
 
           </Animated.View>
         </ScrollView>
