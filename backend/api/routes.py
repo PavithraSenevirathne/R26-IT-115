@@ -20,9 +20,9 @@ try:
         pest_input_name = pest_session.get_inputs()[0].name
         print("Successfully loaded best.onnx!")
     else:
-        print(f"CRITICAL: Model file not found at {model_path}")
+        print(f"Model file not found at {model_path}")
 except Exception as e:
-    print(f"CRITICAL: Failed to initialize ONNX session: {e}")
+    print(f"Failed to initialize ONNX session: {e}")
 
 PEST_CLASSES = [
     'stem_borer', 'thrips', 'moth', 'mite', 
