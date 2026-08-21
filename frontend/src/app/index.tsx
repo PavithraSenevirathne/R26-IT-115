@@ -42,6 +42,7 @@ export default function WelcomeScreen() {
           label="Create Account" 
           colorClass="bg-white border border-[#E8E6DD]" 
           textClass="text-[#2C402E]" 
+          onPress={() => router.push('/signup')} 
 
         />
         <Text className="text-center text-[#8A9A86] font-semibold text-xs mt-2">
