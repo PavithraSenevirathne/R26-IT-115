@@ -4,8 +4,9 @@ import * as ImagePicker from 'expo-image-picker';
 import { Feather } from '@expo/vector-icons';
 import Animated, { FadeInDown, FadeIn } from 'react-native-reanimated';
 import PrimaryButton from '../../components/PrimaryButton';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-// const BACKEND_URL = 'http://192.168.X.X:8000/api/v1/predict/harvest';
+const BACKEND_URL = 'http://192.168.X.X:8000/api/v1/predict/harvest';
 
 type ReadinessClass = 'Immature' | 'Optimal' | 'Over-mature';
 
@@ -20,6 +21,7 @@ export default function HarvestScreen() {
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState<HarvestAnalysisResult | null>(null);
+  const insets = useSafeAreaInsets();
 
   const pickImage = async () => {
     let pickerResult = await ImagePicker.launchImageLibraryAsync({
@@ -81,7 +83,7 @@ export default function HarvestScreen() {
   };
 
   return (
-    <ScrollView className="flex-1 bg-[#F5F3E9] px-6 pt-6" contentContainerStyle={{ paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
+    <ScrollView className="flex-1 bg-[#F5F3E9] px-6 pt-6" contentContainerStyle={{ paddingTop: insets.top + 20, paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
       <Animated.View entering={FadeInDown.delay(100).springify()}>
         <Text className="mb-6 text-base font-medium text-[#8A9A86] leading-relaxed">
           Upload a close-up photo of the cinnamon stem bark. Try to fill the entire frame with the bark surface for the most accurate ensemble prediction.
