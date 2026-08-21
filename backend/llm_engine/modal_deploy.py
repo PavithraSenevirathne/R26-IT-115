@@ -28,7 +28,7 @@ class ChatRequest(BaseModel):
     image=image, 
     secrets=[modal.Secret.from_name("cinn-llm-api")]
 )
-@modal.web_endpoint(method="POST")
+@modal.fastapi_endpoint(method="POST")
 def chat_endpoint(request: ChatRequest):
     # Defers imports until runtime in the cloud container to prevent local environment mismatch errors
     from langchain_core.messages import HumanMessage, AIMessage
