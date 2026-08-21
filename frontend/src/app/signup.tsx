@@ -28,7 +28,7 @@ export default function SignupScreen() {
     const cleanPhone = normalizePhone(phone);
 
     if (cleanPhone.length < 10) {
-      setErrorMsg('Please enter a valid Sri Lankan mobile number.');
+      setErrorMsg('Please enter a valid mobile number.');
       return;
     }
     if (pin.length !== 4) {
@@ -50,7 +50,6 @@ export default function SignupScreen() {
     <View className="flex-1 bg-[#F5F3E9]" style={{ paddingTop: insets.top }}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} className="flex-1">
         
-        {/* Back Button */}
         <View className="flex-row items-center px-6 pt-4 pb-2">
           <TouchableOpacity
             onPress={() => router.back()}

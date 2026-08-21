@@ -28,7 +28,7 @@ export default function LoginScreen() {
     const cleanPhone = normalizePhone(phone);
 
     if (cleanPhone.length < 10) {
-      setErrorMsg('Please enter a valid Sri Lankan mobile number.');
+      setErrorMsg('Please enter a valid mobile number.');
       return;
     }
     if (pin.length !== 4) {
@@ -105,7 +105,6 @@ export default function LoginScreen() {
               onPress={handleLogin}
             />
 
-            {/* Navigate to Signup Screen */}
             <TouchableOpacity
               onPress={() => router.push('/signup')}
               className="mt-6 py-3 items-center"

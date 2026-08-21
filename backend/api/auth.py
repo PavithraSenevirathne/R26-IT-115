@@ -1,20 +1,20 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field
-from passlib.context import CryptContext
 import jwt
 import datetime
+import bcrypt # Using bcrypt directly instead of passlib
 
 from database import get_db, engine, Base
 from models.user import User
 
+# Ensure database tables exist
 Base.metadata.create_all(bind=engine)
 
 router = APIRouter()
 
 SECRET_KEY = "cinnamon_app_key"
 ALGORITHM = "HS256"
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # Request Schemas
 class AuthRequest(BaseModel):
@@ -28,14 +28,12 @@ class AuthResponse(BaseModel):
 
 def create_access_token(data: dict):
     to_encode = data.copy()
-    # 60-day token expiration for offline-first resilience
     expire = datetime.datetime.utcnow() + datetime.timedelta(days=60)
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 @router.post("/register", response_model=AuthResponse)
 def register(request: AuthRequest, db: Session = Depends(get_db)):
-    # 1. Check if user already exists
     existing_user = db.query(User).filter(User.phone == request.phone).first()
     if existing_user:
         raise HTTPException(
@@ -43,29 +41,26 @@ def register(request: AuthRequest, db: Session = Depends(get_db)):
             detail="Phone number is already registered."
         )
 
-    # 2. Hash the 4-digit PIN
-    hashed_pin = pwd_context.hash(request.pin)
+    salt = bcrypt.gensalt()
+    hashed_pin = bcrypt.hashpw(request.pin.encode('utf-8'), salt).decode('utf-8')
 
-    # 3. Save to database
     new_user = User(phone=request.phone, pin_hash=hashed_pin)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
 
-    # 4. Generate JWT
     token = create_access_token({"sub": new_user.phone, "user_id": new_user.id})
     return AuthResponse(access_token=token, token_type="bearer", phone=new_user.phone)
 
 @router.post("/login", response_model=AuthResponse)
 def login(request: AuthRequest, db: Session = Depends(get_db)):
-    # 1. Find user by phone
     user = db.query(User).filter(User.phone == request.phone).first()
-    if not user or not pwd_context.verify(request.pin, user.pin_hash):
+    
+    if not user or not bcrypt.checkpw(request.pin.encode('utf-8'), user.pin_hash.encode('utf-8')):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid phone number or PIN."
         )
 
-    # 2. Generate JWT
     token = create_access_token({"sub": user.phone, "user_id": user.id})
     return AuthResponse(access_token=token, token_type="bearer", phone=user.phone)

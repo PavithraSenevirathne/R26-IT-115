@@ -44,16 +44,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       body: JSON.stringify({ phone, pin }),
     });
 
-    const text = await response.text(); // 1. Catch the raw text first
-
-    let data;
-    try {
-      data = JSON.parse(text); // 2. Try to parse it
-    } catch (e) {
-      console.error("RAW BACKEND RESPONSE (Login):", text);
-      throw new Error(`Server Error (${response.status}). Check backend terminal.`);
-    }
-
+    const data = await response.json();
     if (!response.ok) {
       throw new Error(data.detail || 'Sign in failed.');
     }
@@ -72,16 +63,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       body: JSON.stringify({ phone, pin }),
     });
 
-    const text = await response.text(); // 1. Catch the raw text first
-
-    let data;
-    try {
-      data = JSON.parse(text); // 2. Try to parse it
-    } catch (e) {
-      console.error("RAW BACKEND RESPONSE (Signup):", text);
-      throw new Error(`Server Error (${response.status}). Check backend terminal.`);
-    }
-
+    const data = await response.json();
     if (!response.ok) {
       throw new Error(data.detail || 'Registration failed.');
     }
