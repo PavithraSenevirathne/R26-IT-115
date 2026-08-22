@@ -3,12 +3,11 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field
 import jwt
 import datetime
-import bcrypt # Using bcrypt directly instead of passlib
+import bcrypt 
 
 from database import get_db, engine, Base
 from models.user import User
 
-# Ensure database tables exist
 Base.metadata.create_all(bind=engine)
 
 router = APIRouter()
@@ -16,7 +15,6 @@ router = APIRouter()
 SECRET_KEY = "cinnamon_app_key"
 ALGORITHM = "HS256"
 
-# Request Schemas
 class AuthRequest(BaseModel):
     phone: str = Field(..., example="+94771234567")
     pin: str = Field(..., min_length=4, max_length=4, example="1234")
