@@ -8,11 +8,11 @@ export const initializeHarvestEnsemble = async () => {
 
   console.log("Loading 5 Harvest Ensemble Models...");
   ensembleSessions = await Promise.all([
-    loadModel(require('../../assets/models/ensemble_model_0_quantized.onnx')),
-    loadModel(require('../../assets/models/ensemble_model_1_quantized.onnx')),
-    loadModel(require('../../assets/models/ensemble_model_2_quantized.onnx')),
-    loadModel(require('../../assets/models/ensemble_model_3_quantized.onnx')),
-    loadModel(require('../../assets/models/ensemble_model_4_quantized.onnx')),
+    loadModel(require('../../assets/models/ensemble_model_0.onnx')),
+    loadModel(require('../../assets/models/ensemble_model_1.onnx')),
+    loadModel(require('../../assets/models/ensemble_model_2.onnx')),
+    loadModel(require('../../assets/models/ensemble_model_3.onnx')),
+    loadModel(require('../../assets/models/ensemble_model_4.onnx')),
   ]);
   console.log("Harvest Ensemble Ready.");
 };
