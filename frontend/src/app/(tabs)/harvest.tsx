@@ -1,29 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ScrollView, View, Text, TouchableOpacity, Image, ActivityIndicator, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Feather } from '@expo/vector-icons';
 import Animated, { FadeInDown, FadeIn } from 'react-native-reanimated';
 import PrimaryButton from '../../components/PrimaryButton';
-
-// const BACKEND_URL = 'http://192.168.X.X:8000/api/v1/predict/harvest';
+import { imageToTensor } from '../../utils/tensorHelper';
+import { initializeHarvestEnsemble, runHarvestInference } from '../../services/harvestEnsemble';
+import * as ImageManipulator from 'expo-image-manipulator';
 
 type ReadinessClass = 'Immature' | 'Optimal' | 'Over-mature';
 
 interface HarvestAnalysisResult {
   readiness_score: number;
   std: number;
-  confidence_interval_95: [number, number];
   predicted_class: ReadinessClass;
 }
 
 export default function HarvestScreen() {
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [isModelsLoading, setIsModelsLoading] = useState(true);
   const [result, setResult] = useState<HarvestAnalysisResult | null>(null);
+
+  // Load the 5 ONNX models into memory when the tab opens
+  useEffect(() => {
+    const loadModels = async () => {
+      try {
+        await initializeHarvestEnsemble();
+      } catch (error) {
+        console.error("Failed to load ensemble models:", error);
+        Alert.alert("Initialization Error", "Could not load the AI models.");
+      } finally {
+        setIsModelsLoading(false);
+      }
+    };
+    loadModels();
+  }, []);
 
   const pickImage = async () => {
     let pickerResult = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ['images'],
       allowsEditing: true,
       aspect: [4, 5],
       quality: 0.8,
@@ -40,36 +56,37 @@ export default function HarvestScreen() {
     setIsAnalyzing(true);
     
     try {
-      const filename = imageUri.split('/').pop() || 'bark_sample.jpg';
-      const localFileResponse = await fetch(imageUri);
-      const blob = await localFileResponse.blob();
+      // @ts-ignore
+      const manipulatedImage = await ImageManipulator.manipulateAsync(
+        imageUri,
+        [{ resize: { width: 224, height: 224 } }],
+        { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
+      );
 
-      const formData = new FormData();
-      formData.append('file', blob, filename);
-
-      const response = await fetch(BACKEND_URL, {
-        method: 'POST',
-        body: formData,
-        headers: { 'Accept': 'application/json' },
+      const tensor = await imageToTensor(manipulatedImage.uri);
+      
+      const inferenceResult = await runHarvestInference(tensor);
+      
+      const classes: ReadinessClass[] = ['Immature', 'Optimal', 'Over-mature'];
+      
+      setResult({
+        readiness_score: parseFloat(inferenceResult.meanScore),
+        std: parseFloat(inferenceResult.stdDev),
+        predicted_class: classes[inferenceResult.predictedClass],
       });
-
-      if (!response.ok) throw new Error(`Status: ${response.status}`);
-
-      const data = await response.json();
-      setResult(data);
 
     } catch (error) {
       console.error("Harvest Inference Error:", error);
-      Alert.alert("Connection Failed", "Could not reach the AI server.");
+      Alert.alert("Analysis Failed", "Something went wrong during local inference.");
     } finally {
       setIsAnalyzing(false);
     }
   };
 
   const getConfidenceInfo = (std: number) => {
-    if (std < 0.1) return { level: 'High', color: 'text-emerald-600', bg: 'bg-emerald-100', icon: 'check-circle' };
-    if (std < 0.2) return { level: 'Medium', color: 'text-amber-600', bg: 'bg-amber-100', icon: 'minus-circle' };
-    return { level: 'Low', color: 'text-rose-600', bg: 'bg-rose-100', icon: 'alert-circle' };
+    if (std < 0.05) return { level: 'High', color: 'text-emerald-600', bg: 'bg-emerald-100', icon: 'check-circle' as const };
+    if (std < 0.15) return { level: 'Medium', color: 'text-amber-600', bg: 'bg-amber-100', icon: 'minus-circle' as const };
+    return { level: 'Low', color: 'text-rose-600', bg: 'bg-rose-100', icon: 'alert-circle' as const };
   };
 
   const getRecommendation = (predictedClass: ReadinessClass) => {
@@ -79,6 +96,15 @@ export default function HarvestScreen() {
       case 'Over-mature': return "Past optimal window. Bark may be tough.";
     }
   };
+
+  if (isModelsLoading) {
+    return (
+      <View className="flex-1 items-center justify-center bg-[#F5F3E9]">
+        <ActivityIndicator size="large" color="#4A6B4D" />
+        <Text className="mt-4 text-[#8A9A86] font-semibold">Warming up AI Ensemble...</Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView className="flex-1 bg-[#F5F3E9] px-6 pt-6" contentContainerStyle={{ paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
@@ -169,7 +195,7 @@ export default function HarvestScreen() {
               })()}
             </View>
             <Text className="text-sm text-[#8A9A86] leading-tight">
-              {result.std > 0.2 
+              {result.std > 0.15 
                 ? "Models disagree. Consider performing a manual bark slit test to confirm."
                 : `Deviation: ±${result.std}. Strong agreement among models.`}
             </Text>
