@@ -4,6 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { Feather } from '@expo/vector-icons';
 import Animated, { FadeInDown, FadeIn } from 'react-native-reanimated';
 import PrimaryButton from '../../components/PrimaryButton';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type PestClass = 
   | 'stem_borer' | 'thrips' | 'moth' | 'mite' 
@@ -36,6 +37,7 @@ export default function PestScreen() {
   
   const [detections, setDetections] = useState<Detection[]>([]);
   const [selectedPest, setSelectedPest] = useState<Detection | null>(null);
+  const insets = useSafeAreaInsets();
 
   const pickImage = async (useCamera: boolean) => {
     const options: ImagePicker.ImagePickerOptions = {
@@ -111,7 +113,7 @@ export default function PestScreen() {
   };
 
   return (
-    <ScrollView className="flex-1 bg-[#F5F3E9] px-6 pt-6" contentContainerStyle={{ paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
+    <ScrollView className="flex-1 bg-[#F5F3E9] px-6 pt-6" contentContainerStyle={{ paddingTop: insets.top + 20,paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
       
       <Animated.View entering={FadeInDown.delay(100).springify()}>
         <Text className="mb-4 text-base font-medium text-[#8A9A86] leading-relaxed">

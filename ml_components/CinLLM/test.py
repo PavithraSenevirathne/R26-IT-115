@@ -1,7 +1,6 @@
 import requests
 import json
 
-# The live webhook URL provided by Modal after deploying the cloud application
 API_URL = ""
 
 def chat_with_agent():

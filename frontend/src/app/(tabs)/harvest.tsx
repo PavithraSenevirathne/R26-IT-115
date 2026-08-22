@@ -7,6 +7,9 @@ import PrimaryButton from '../../components/PrimaryButton';
 import { imageToTensor } from '../../utils/tensorHelper';
 import { initializeHarvestEnsemble, runHarvestInference } from '../../services/harvestEnsemble';
 import * as ImageManipulator from 'expo-image-manipulator';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+const BACKEND_URL = 'http://192.168.X.X:8000/api/v1/predict/harvest';
 
 type ReadinessClass = 'Immature' | 'Optimal' | 'Over-mature';
 
@@ -21,6 +24,7 @@ export default function HarvestScreen() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isModelsLoading, setIsModelsLoading] = useState(true);
   const [result, setResult] = useState<HarvestAnalysisResult | null>(null);
+  const insets = useSafeAreaInsets();
 
   // Load the 5 ONNX models into memory when the tab opens
   useEffect(() => {
@@ -107,7 +111,7 @@ export default function HarvestScreen() {
   }
 
   return (
-    <ScrollView className="flex-1 bg-[#F5F3E9] px-6 pt-6" contentContainerStyle={{ paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
+    <ScrollView className="flex-1 bg-[#F5F3E9] px-6 pt-6" contentContainerStyle={{ paddingTop: insets.top + 20, paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
       <Animated.View entering={FadeInDown.delay(100).springify()}>
         <Text className="mb-6 text-base font-medium text-[#8A9A86] leading-relaxed">
           Upload a close-up photo of the cinnamon stem bark. Try to fill the entire frame with the bark surface for the most accurate ensemble prediction.

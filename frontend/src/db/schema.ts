@@ -7,9 +7,7 @@ export const initializeDatabase = async (db: SQLiteDatabase) => {
     CREATE TABLE IF NOT EXISTS plants (
       id TEXT PRIMARY KEY NOT NULL,
       name TEXT NOT NULL,
-      age_months INTEGER,
-      elevation_zone TEXT,
-      soil_ph REAL,
+      color TEXT NOT NULL,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
 
@@ -32,6 +30,4 @@ export const initializeDatabase = async (db: SQLiteDatabase) => {
       FOREIGN KEY (session_id) REFERENCES chat_sessions (id) ON DELETE CASCADE
     );
   `);
-  
-  console.log("Database initialized!");
 };
