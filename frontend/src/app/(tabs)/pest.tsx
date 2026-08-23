@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, View, Text, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
+import { ScrollView, View, Text, TouchableOpacity, Image, ActivityIndicator, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
 import { imageToTensor } from '../../utils/tensorHelper';
@@ -33,6 +33,37 @@ export default function PestScreen() {
     }
   };
 
+  const takePhoto = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Permission Denied', 'Camera access is needed to take a photo of the plant.');
+      return;
+    }
+
+    let cameraResult = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [4, 5],
+      quality: 0.8,
+    });
+
+    if (!cameraResult.canceled) {
+      setImageUri(cameraResult.assets[0].uri);
+      setDetections(null);
+    }
+  };
+
+  const selectImageSource = () => {
+    Alert.alert(
+      "Upload Plant Photo",
+      "Choose an image source",
+      [
+        { text: "Take Photo", onPress: takePhoto },
+        { text: "Choose from Gallery", onPress: pickImage },
+        { text: "Cancel", style: "cancel" }
+      ]
+    );
+  };
+
   const analyzePest = async () => {
     if (!imageUri) return;
     setIsAnalyzing(true);
@@ -59,10 +90,9 @@ export default function PestScreen() {
     <ScrollView className="flex-1 bg-[#F5F3E9] p-6 pt-16">
       <Text className="text-2xl font-bold text-[#2C402E] mb-6">Pest Detection</Text>
       
-      {/* 1. Image Picker / View Area */}
       {!imageUri ? (
         <TouchableOpacity 
-          onPress={pickImage}
+          onPress={selectImageSource}
           className="w-full h-72 bg-white rounded-[32px] border-2 border-dashed border-[#A0A9A0] items-center justify-center mb-6"
         >
           <Text className="text-[#59735B] font-medium mt-4">Tap to upload plant photo</Text>
@@ -71,7 +101,6 @@ export default function PestScreen() {
         <View className="relative w-full h-72 rounded-[32px] overflow-hidden bg-black mb-6">
           <Image source={{ uri: imageUri }} className="w-full h-full" resizeMode="contain" />
           
-          {/* Render Bounding Boxes */}
           {detections?.map((det, index) => (
             <View
               key={index}
@@ -94,7 +123,7 @@ export default function PestScreen() {
 
       <View className="flex-row gap-4 mb-6">
         <TouchableOpacity 
-          onPress={pickImage} 
+          onPress={selectImageSource} 
           className="flex-1 bg-white border border-[#DCE4DC] py-4 rounded-2xl items-center"
         >
           <Text className="text-[#2C402E] font-semibold">Choose Photo</Text>
