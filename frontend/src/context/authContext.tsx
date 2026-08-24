@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import { router } from 'expo-router';
 
-const AUTH_API_URL = process.env.AUTH_API_URL;
+const AUTH_API_URL = process.env.AUTH_API_URL || 'http://192.168.X.X:8000/api/v1/auth';
 interface AuthContextType {
   userToken: string | null;
   userPhone: string | null;
