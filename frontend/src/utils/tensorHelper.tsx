@@ -1,6 +1,6 @@
 import * as jpeg from 'jpeg-js';
 import { Tensor } from 'onnxruntime-react-native';
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 
 const decodeBase64 = (base64: string): Uint8Array => {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';

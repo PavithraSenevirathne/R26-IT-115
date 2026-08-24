@@ -1,6 +1,7 @@
 import { InferenceSession, Tensor } from 'onnxruntime-react-native';
 import { Asset } from 'expo-asset';
-import * as FileSystem from 'expo-file-system';
+// UPDATED IMPORT PATH:
+import * as FileSystem from 'expo-file-system/legacy';
 
 let leafSession: InferenceSession | null = null;
 let stemSession: InferenceSession | null = null;
