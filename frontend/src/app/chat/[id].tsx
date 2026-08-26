@@ -222,7 +222,7 @@ export default function ChatScreen() {
   };
 
   return (
-    <View className="flex-1 bg-[#F5F3E9]">
+    <View className="flex-1 bg-[#F0F4F1]">
       <Stack.Screen options={{ headerShown: false }} />
       <View 
         className="flex-row items-center justify-between px-5 pb-3 border-b border-[#E8E6DD] bg-white shadow-sm z-10"
