@@ -9,7 +9,7 @@ import { initializeHarvestEnsemble, runHarvestInference } from '../../services/h
 import * as ImageManipulator from 'expo-image-manipulator';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const BACKEND_URL = 'http://192.168.X.X:8000/api/v1/predict/harvest';
+const BACKEND_URL = process.env.EXPO_PUBLIC_API_URL || 'http://192.168.X.X:8000/api/v1/predict/harvest';
 
 type ReadinessClass = 'Immature' | 'Optimal' | 'Over-mature';
 
@@ -26,7 +26,6 @@ export default function HarvestScreen() {
   const [result, setResult] = useState<HarvestAnalysisResult | null>(null);
   const insets = useSafeAreaInsets();
 
-  // Load the 5 ONNX models into memory when the tab opens
   useEffect(() => {
     const loadModels = async () => {
       try {
@@ -55,6 +54,37 @@ export default function HarvestScreen() {
     }
   };
 
+  const takePhoto = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Permission Denied', 'Camera access is needed to take a photo of the bark.');
+      return;
+    }
+
+    let cameraResult = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [4, 5],
+      quality: 0.8,
+    });
+
+    if (!cameraResult.canceled) {
+      setImageUri(cameraResult.assets[0].uri);
+      setResult(null);
+    }
+  };
+
+  const selectImageSource = () => {
+    Alert.alert(
+      "Upload Bark Photo",
+      "Choose an image source",
+      [
+        { text: "Take Photo", onPress: takePhoto },
+        { text: "Choose from Gallery", onPress: pickImage },
+        { text: "Cancel", style: "cancel" }
+      ]
+    );
+  };
+
   const analyzeBark = async () => {
     if (!imageUri) return;
     setIsAnalyzing(true);
@@ -68,9 +98,7 @@ export default function HarvestScreen() {
       );
 
       const tensor = await imageToTensor(manipulatedImage.uri);
-      
       const inferenceResult = await runHarvestInference(tensor);
-      
       const classes: ReadinessClass[] = ['Immature', 'Optimal', 'Over-mature'];
       
       setResult({
@@ -135,7 +163,7 @@ export default function HarvestScreen() {
             )}
           </View>
         ) : (
-          <TouchableOpacity onPress={pickImage} className="h-72 rounded-[32px] border-2 border-dashed border-[#B0BDB0] bg-white items-center justify-center shadow-sm">
+          <TouchableOpacity onPress={selectImageSource} className="h-72 rounded-[32px] border-2 border-dashed border-[#B0BDB0] bg-white items-center justify-center shadow-sm">
             <View className="w-16 h-16 rounded-full bg-[#F5F3E9] items-center justify-center mb-4">
               <Feather name="camera" size={28} color="#4A6B4D" />
             </View>

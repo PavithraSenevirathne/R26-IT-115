@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform
 import { Feather } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSQLiteContext } from 'expo-sqlite';
-import { router } from 'expo-router';
+import { router, Stack } from 'expo-router';
 import * as Crypto from 'expo-crypto';
 import PrimaryButton from '../components/PrimaryButton';
 
@@ -26,7 +26,8 @@ export default function NewChatScreen() {
   };
 
   return (
-    <View className="flex-1 bg-[#F5F3E9]" style={{ paddingTop: insets.top }}>
+    <View className="flex-1 bg-[#F0F4F1]" style={{ paddingTop: insets.top }}>
+      <Stack.Screen options={{ headerShown: false }} />
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} className="flex-1">
         <View className="flex-row items-center px-6 pt-4 pb-6">
           <TouchableOpacity onPress={() => router.back()} className="w-12 h-12 bg-white rounded-2xl items-center justify-center border border-[#E8E6DD] shadow-sm">

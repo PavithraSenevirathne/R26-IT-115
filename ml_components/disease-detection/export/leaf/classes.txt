@@ -1,0 +1,4 @@
+healthy_leaves
+leaf_blight
+leaf_gall
+leaf_spot
