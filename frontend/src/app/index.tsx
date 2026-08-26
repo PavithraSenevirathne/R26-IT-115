@@ -20,7 +20,7 @@ export default function WelcomeScreen() {
           <View className="w-24 h-24 bg-[#E2F4C5]/10 rounded-full items-center justify-center border-2 border-[#E2F4C5] mb-6">
             <Text className="text-4xl">🌿</Text>
           </View>
-          <Text className="text-4xl font-extrabold text-[#F5F3E9] tracking-tight mb-3">Cinnamon AI</Text>
+          <Text className="text-4xl font-extrabold text-[#F5F3E9] tracking-tight mb-3">CinnaCare</Text>
           <Text className="text-[#C5EBAA] text-center text-base px-4 font-medium leading-relaxed">
             Intelligent decision support for sustainable cinnamon cultivation.
           </Text>
