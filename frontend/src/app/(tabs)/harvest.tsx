@@ -9,7 +9,7 @@ import { initializeHarvestEnsemble, runHarvestInference } from '../../services/h
 import * as ImageManipulator from 'expo-image-manipulator';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const BACKEND_URL = process.env.EXPO_PUBLIC_API_URL;
+const BACKEND_URL = process.env.EXPO_PUBLIC_API_URL || 'http://192.168.X.X:8000/api/v1/predict/harvest';
 
 type ReadinessClass = 'Immature' | 'Optimal' | 'Over-mature';
 
