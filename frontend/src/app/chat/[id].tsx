@@ -16,6 +16,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSQLiteContext } from 'expo-sqlite';
 import { router, useLocalSearchParams } from 'expo-router';
 import * as Crypto from 'expo-crypto';
+import Markdown from 'react-native-markdown-display';
 
 const MODAL_API_URL = 'https://nisithawickramarachchi--cinnamon-agent-api-chat-endpoint.modal.run';
 
@@ -24,6 +25,72 @@ interface Message {
   text: string;
   sender: 'user' | 'ai';
 }
+
+const markdownStyles = {
+  body: {
+    fontSize: 15,
+    lineHeight: 24,
+    color: '#2C402E',
+    fontWeight: '500' as const,
+  },
+  heading1: {
+    fontSize: 22,
+    fontWeight: 'bold' as const,
+    color: '#1A291B',
+    marginTop: 12,
+    marginBottom: 8,
+  },
+  heading2: {
+    fontSize: 18,
+    fontWeight: 'bold' as const,
+    color: '#1A291B',
+    marginTop: 10,
+    marginBottom: 6,
+  },
+  heading3: {
+    fontSize: 16,
+    fontWeight: 'bold' as const,
+    color: '#1A291B',
+    marginTop: 8,
+    marginBottom: 4,
+  },
+  strong: {
+    fontWeight: 'bold' as const,
+    color: '#1A291B',
+  },
+  em: {
+    fontStyle: 'italic' as const,
+  },
+  bullet_list: {
+    marginTop: 4,
+    marginBottom: 4,
+  },
+  list_item: {
+    marginTop: 2,
+    marginBottom: 2,
+  },
+  code_inline: {
+    backgroundColor: '#E8E6DD',
+    color: '#2C402E',
+    borderRadius: 4,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
+  },
+  code_block: {
+    backgroundColor: '#E8E6DD',
+    color: '#2C402E',
+    borderRadius: 8,
+    padding: 12,
+    marginTop: 8,
+    marginBottom: 8,
+    fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
+  },
+  paragraph: {
+    marginTop: 4,
+    marginBottom: 4,
+  }
+};
 
 export default function ChatScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -200,20 +267,27 @@ export default function ChatScreen() {
               className={`mb-5 w-full ${msg.sender === 'ai' ? 'flex-row items-start' : 'items-end'}`}
             >
               {msg.sender === 'ai' ? (
-                <>
-                  <View 
-                    className="w-8 h-8 rounded-full items-center justify-center mr-3 mt-1 shadow-sm" 
-                    style={{ backgroundColor: plantMetadata.color }}
-                  >
-                    <Feather name="cpu" size={14} color="#FFFFFF" />
-                  </View>
-                  <View className="flex-1 pr-3">
-                    <Text className="text-[15px] leading-6 text-[#2C402E] font-medium">{msg.text}</Text>
-                  </View>
-                </>
-              ) : (
+                  <>
+                    <View 
+                      className="w-8 h-8 rounded-full items-center justify-center mr-3 mt-1 shadow-sm" 
+                      style={{ backgroundColor: plantMetadata.color }}
+                    >
+                      <Feather name="cpu" size={14} color="#FFFFFF" />
+                    </View>
+                    <View className="flex-1 pr-3">
+                      <Markdown style={markdownStyles}>
+                        {msg.text}
+                      </Markdown>
+                    </View>
+                  </>
+                ) : (
                 <View className="max-w-[85%] bg-[#E2F4C5] px-4 py-3 rounded-[20px] rounded-tr-sm border border-[#D2E3C8]/60 shadow-sm">
-                  <Text className="text-[15px] leading-6 text-[#2C402E] font-semibold">{msg.text}</Text>
+                  <Markdown style={{
+                    ...markdownStyles,
+                    body: { ...markdownStyles.body, fontWeight: '600' }
+                  }}>
+                    {msg.text}
+                  </Markdown>
                 </View>
               )}
             </Animated.View>
