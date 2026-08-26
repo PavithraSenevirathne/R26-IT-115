@@ -14,7 +14,7 @@ import { Feather } from '@expo/vector-icons';
 import Animated, { FadeInUp, FadeOutDown, Layout } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSQLiteContext } from 'expo-sqlite';
-import { router, useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams, Stack } from 'expo-router';
 import * as Crypto from 'expo-crypto';
 import Markdown from 'react-native-markdown-display';
 
@@ -223,6 +223,7 @@ export default function ChatScreen() {
 
   return (
     <View className="flex-1 bg-[#F5F3E9]">
+      <Stack.Screen options={{ headerShown: false }} />
       <View 
         className="flex-row items-center justify-between px-5 pb-3 border-b border-[#E8E6DD] bg-white shadow-sm z-10"
         style={{ paddingTop: insets.top + 8 }}
