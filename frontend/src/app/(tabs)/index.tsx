@@ -4,6 +4,9 @@ import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSQLiteContext } from 'expo-sqlite';
+import { router } from 'expo-router';
+import * as Crypto from 'expo-crypto';
 import { imageToTensor } from '../../utils/tensorHelper';
 import { initializeDiseaseModels, runDiseaseInference } from '../../services/diseaseModel';
 
@@ -31,7 +34,9 @@ export default function DiseaseScreen() {
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [results, setResults] = useState<Prediction[] | null>(null);
+  
   const insets = useSafeAreaInsets();
+  const db = useSQLiteContext();
 
   useEffect(() => {
     initializeDiseaseModels().catch((err) => console.log('Model init log:', err));
@@ -52,9 +57,22 @@ export default function DiseaseScreen() {
       quality: 0.8,
     };
 
-    let result = useCamera
-      ? await ImagePicker.launchCameraAsync(options)
-      : await ImagePicker.launchImageLibraryAsync(options);
+    let result;
+    if (useCamera) {
+      const { status } = await ImagePicker.requestCameraPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permission Denied', 'Camera access is needed to capture the specimen.');
+        return;
+      }
+      result = await ImagePicker.launchCameraAsync(options);
+    } else {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permission Denied', 'Gallery access is required to select a photo.');
+        return;
+      }
+      result = await ImagePicker.launchImageLibraryAsync(options);
+    }
 
     if (!result.canceled) {
       setImageUri(result.assets[0].uri);
@@ -98,6 +116,37 @@ export default function DiseaseScreen() {
     setImageUri(null);
     setResults(null);
     setSelectedPart(null);
+  };
+
+  const handleDiscussWithAI = () => {
+    if (!results || results.length === 0) return;
+
+    const topPrediction = results[0];
+    const isHealthy = topPrediction.label.includes('healthy');
+    const conditionText = isHealthy ? "healthy" : `infected with ${formatLabel(topPrediction.label)}`;
+    
+    const newChatId = Crypto.randomUUID();
+    const chatTitle = isHealthy 
+      ? `${selectedPart === 'leaf' ? 'Leaf' : 'Stem'} Scan: Healthy` 
+      : `${selectedPart === 'leaf' ? 'Leaf' : 'Stem'}: ${formatLabel(topPrediction.label)}`;
+    const chatColor = isHealthy ? '#10B981' : '#E11D48';
+
+    try {
+      db.runSync(
+        'INSERT INTO plants (id, name, color, created_at) VALUES (?, ?, ?, ?)',
+        [newChatId, chatTitle, chatColor, Date.now()]
+      );
+    } catch (err) {
+      console.error("Failed to create new chat session in DB:", err);
+      Alert.alert("Database Error", "Could not create a new chat session.");
+      return;
+    }
+    
+    const promptText = encodeURIComponent(
+      `My AI disease scanner just analyzed a cinnamon ${selectedPart} and determined it is ${conditionText} (Confidence: ${Math.round(topPrediction.confidence * 100)}%). What exact agronomic steps, treatments, or preventative care should I take now?`
+    );
+
+    router.push(`/chat/${newChatId}?autoPrompt=${promptText}`);
   };
 
   const renderResults = () => {
@@ -255,9 +304,9 @@ export default function DiseaseScreen() {
                 <TouchableOpacity
                   onPress={() => setImageUri(null)}
                   style={safeShadow}
-                  className="absolute top-4 right-4 bg-white/90 p-2.5 rounded-full"
+                  className="absolute top-5 right-5 w-9 h-9 bg-white/95 rounded-full items-center justify-center"
                 >
-                  <Feather name="x" size={20} color="#1F3021" />
+                  <Feather name="x" size={16} color="#1F3021" strokeWidth={2.5} />
                 </TouchableOpacity>
               )}
 
@@ -311,15 +360,25 @@ export default function DiseaseScreen() {
       {renderResults()}
 
       {results && (
-        <View className="mt-6 mb-8">
+        <View className="mt-2 mb-8">
           <TouchableOpacity
-            onPress={resetScanner}
+            onPress={handleDiscussWithAI}
             activeOpacity={0.8}
             style={safeShadow}
-            className="bg-[#3E5C41] py-4 rounded-2xl flex-row justify-center items-center border border-[#4A6B4D]"
+            className="bg-[#2D4530] border border-[#3E5C41] py-4 rounded-2xl flex-row justify-center items-center mb-3"
           >
-            <Feather name="refresh-cw" size={18} color="white" />
-            <Text className="text-white font-bold ml-2 text-base tracking-wide">Scan Another Plant</Text>
+            <MaterialCommunityIcons name="robot-outline" size={20} color="white" />
+            <Text className="text-white font-bold ml-2 text-base">Discuss with CinnLLM</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={resetScanner}
+            activeOpacity={0.7}
+            style={safeShadow}
+            className="bg-white border border-[#E8E6DD] py-4 rounded-2xl flex-row justify-center items-center mb-6"
+          >
+            <Feather name="refresh-cw" size={18} color="#768C73" />
+            <Text className="text-[#4F6851] font-bold ml-2 text-base">Scan Another Specimen</Text>
           </TouchableOpacity>
         </View>
       )}
