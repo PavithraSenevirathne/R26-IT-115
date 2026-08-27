@@ -16,7 +16,7 @@ image = (
 # Define the remote function to execute on the Modal A10G GPU
 @app.function(
     image=image,
-    gpu="A10G",
+    gpu="A100",
     timeout=86400,
     volumes={"/data": volume}
 )
@@ -186,20 +186,20 @@ def finetune_and_export():
 @app.local_entrypoint()
 def main():
     # Upload the local dataset to the Modal cloud volume
-    print("Uploading dataset to Modal volume")
-    subprocess.run([
-        "modal", "volume", "put", "cinnamon-pest-vol",
-        r"D:/CINNAMON/Pest/Pest-Detection/cinnamon_pests_yolo",
-        "/cinnamon_pests_yolo"
-    ], check=True)
+    # print("Uploading dataset to Modal volume")
+    # subprocess.run([
+    #     "modal", "volume", "put", "cinnamon-pest-vol",
+    #     r"D:/CINNAMON/Pest/Pest-Detection/cinnamon_pests_yolo",
+    #     "/cinnamon_pests_yolo"
+    # ], check=True)
 
-    # Upload the baseline weights to the Modal cloud volume
-    print("Uploading IP102 weights")
-    subprocess.run([
-        "modal", "volume", "put", "cinnamon-pest-vol",
-        r"D:/CINNAMON/Pest/Pest-Detection/runs/ip102_pretrain_v1/weights/best.pt",
-        "/best.pt"
-    ], check=True)
+    # # Upload the baseline weights to the Modal cloud volume
+    # print("Uploading IP102 weights")
+    # subprocess.run([
+    #     "modal", "volume", "put", "cinnamon-pest-vol",
+    #     r"D:/CINNAMON/Pest/Pest-Detection/runs/ip102_pretrain_v1/weights/best.pt",
+    #     "/best.pt"
+    # ], check=True)
 
     # Trigger the remote fine-tuning function
     print("Starting fine-tune on Modal")
@@ -210,7 +210,7 @@ def main():
     subprocess.run([
         "modal", "volume", "get", "cinnamon-pest-vol",
         "/runs",
-        r"D:/CINNAMON/Pest/Pest-Detection/runs_finetuned"
+        r"C:/kavinav/R26-IT-115/ml_components/pest-detection/runs_finetuned"
     ], check=True)
 
     print("Complete.")
