@@ -4,6 +4,9 @@ import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSQLiteContext } from 'expo-sqlite';
+import { router } from 'expo-router';
+import * as Crypto from 'expo-crypto';
 import { imageToTensor } from '../../utils/tensorHelper';
 import { initializePestModel, runPestDetection, Detection } from '../../services/pestYolo';
 
@@ -33,7 +36,9 @@ export default function PestScreen() {
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [detections, setDetections] = useState<Detection[] | null>(null);
+  
   const insets = useSafeAreaInsets();
+  const db = useSQLiteContext();
 
   useEffect(() => {
     initializePestModel()
@@ -104,6 +109,40 @@ export default function PestScreen() {
     if (isAnalyzing) return; 
     setImageUri(null);
     setDetections(null);
+  };
+
+  const handleDiscussWithAI = () => {
+    if (detections === null) return;
+
+    const newChatId = Crypto.randomUUID();
+    const isHealthy = detections.length === 0;
+
+    const uniquePests = Array.from(new Set(detections.map(d => d.className.replace('_', ' '))));
+    const pestListText = uniquePests.join(', ');
+
+    const chatTitle = isHealthy ? 'Pest Scan: Clear' : `Pest Scan: ${uniquePests[0]}`;
+    const chatColor = isHealthy ? '#10B981' : '#E11D48';
+
+    try {
+      db.runSync(
+        'INSERT INTO plants (id, name, color, created_at) VALUES (?, ?, ?, ?)',
+        [newChatId, chatTitle, chatColor, Date.now()]
+      );
+    } catch (err) {
+      console.error("Failed to create new chat session in DB:", err);
+      Alert.alert("Database Error", "Could not create a new chat session.");
+      return;
+    }
+
+    const conditionText = isHealthy 
+      ? "no visible pests" 
+      : `signs of the following pests: ${pestListText}`;
+
+    const promptText = encodeURIComponent(
+      `My AI pest radar just scanned my cinnamon plant and detected ${conditionText}. What specific operational steps, organic treatments, or preventative care should I take now?`
+    );
+
+    router.push(`/chat/${newChatId}?autoPrompt=${promptText}`);
   };
 
   const isLocked = isAnalyzing || !isModelReady || !!modelError;
@@ -225,9 +264,9 @@ export default function PestScreen() {
               <TouchableOpacity
                 onPress={resetScanner}
                 style={safeShadow}
-                className="absolute top-4 right-4 bg-white/90 p-2.5 rounded-full"
+                className="absolute top-5 right-5 w-9 h-9 bg-white/95 rounded-full items-center justify-center"
               >
-                <Feather name="x" size={20} color="#1F3021" />
+                <Feather name="x" size={16} color="#1F3021" strokeWidth={2.5} />
               </TouchableOpacity>
             )}
 
@@ -310,13 +349,23 @@ export default function PestScreen() {
       {detections !== null && (
         <View className="mb-8">
           <TouchableOpacity
+            onPress={handleDiscussWithAI}
+            activeOpacity={0.8}
+            style={safeShadow}
+            className="bg-[#2D4530] border border-[#3E5C41] py-4 rounded-2xl flex-row justify-center items-center mb-3"
+          >
+            <MaterialCommunityIcons name="robot-outline" size={20} color="white" />
+            <Text className="text-white font-bold ml-2 text-base">Discuss with CinnLLM</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
             onPress={resetScanner}
             disabled={isLocked}
             activeOpacity={0.7}
             className="bg-white border border-[#E8E6DD] py-4 rounded-2xl flex-row justify-center items-center shadow-sm"
           >
             <Feather name="refresh-cw" size={18} color="#768C73" />
-            <Text className="text-[#4F6851] font-bold ml-2">Scan Another Area</Text>
+            <Text className="text-[#4F6851] font-bold ml-2 text-base">Scan Another Area</Text>
           </TouchableOpacity>
         </View>
       )}

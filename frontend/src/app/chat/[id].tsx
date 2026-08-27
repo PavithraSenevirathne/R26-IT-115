@@ -58,7 +58,9 @@ export default function ChatScreen() {
   useEffect(() => {
     if (autoPrompt && !hasProcessedAutoPrompt && messages.length > 0) {
       setHasProcessedAutoPrompt(true);
-      handleSend(decodeURIComponent(autoPrompt));
+    
+      const promptString = Array.isArray(autoPrompt) ? autoPrompt[0] : autoPrompt;
+      handleSend(promptString);
     }
   }, [autoPrompt, messages.length]);
 
