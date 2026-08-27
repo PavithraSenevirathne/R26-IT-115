@@ -41,7 +41,7 @@ const markdownStyles = {
 };
 
 export default function ChatScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const { id, autoPrompt } = useLocalSearchParams<{ id: string; autoPrompt: string }>();
   const insets = useSafeAreaInsets();
   const db = useSQLiteContext();
   const scrollViewRef = useRef<ScrollView>(null);
@@ -52,6 +52,15 @@ export default function ChatScreen() {
   const [plantMetadata, setPlantMetadata] = useState({ name: 'Loading...', color: '#4A6B4D' });
   
   const [androidKeyboardOffset, setAndroidKeyboardOffset] = useState(0);
+
+  const [hasProcessedAutoPrompt, setHasProcessedAutoPrompt] = useState(false);
+
+  useEffect(() => {
+    if (autoPrompt && !hasProcessedAutoPrompt && messages.length > 0) {
+      setHasProcessedAutoPrompt(true);
+      handleSend(decodeURIComponent(autoPrompt));
+    }
+  }, [autoPrompt, messages.length]);
 
   useEffect(() => {
     if (!id) return;

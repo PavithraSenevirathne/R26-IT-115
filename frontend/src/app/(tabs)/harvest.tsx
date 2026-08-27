@@ -5,6 +5,8 @@ import * as ImageManipulator from 'expo-image-manipulator';
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import Animated, { FadeInDown, FadeIn, Layout } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSQLiteContext } from 'expo-sqlite';
+import { router } from 'expo-router';
 import { imageToTensor } from '../../utils/tensorHelper';
 import { initializeHarvestEnsemble, runHarvestInference } from '../../services/harvestEnsemble';
 
@@ -31,7 +33,9 @@ export default function HarvestScreen() {
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState<HarvestAnalysisResult | null>(null);
+  
   const insets = useSafeAreaInsets();
+  const db = useSQLiteContext();
 
   useEffect(() => {
     initializeHarvestEnsemble()
@@ -114,8 +118,8 @@ export default function HarvestScreen() {
   const getRecommendation = (predictedClass: ReadinessClass) => {
     switch (predictedClass) {
       case 'Immature': return "Bark is too thin. Wait longer before peeling.";
-      case 'Optimal': return "Prime readiness! Harvest now for maximum yield.";
-      case 'Over-mature': return "Past optimal window. Bark may be tough to peel.";
+      case 'Optimal': return "Prime readiness! Harvest now for a good gain.";
+      case 'Over-mature': return "Past optimal time-frame. Bark may be tough to peel.";
     }
   };
 
@@ -129,6 +133,29 @@ export default function HarvestScreen() {
     if (isAnalyzing) return;
     setImageUri(null);
     setResult(null);
+  };
+
+  const handleDiscussWithAI = () => {
+    if (!result) return;
+
+    const latestPlant = db.getFirstSync<{ id: string }>(
+      'SELECT id FROM plants ORDER BY created_at DESC LIMIT 1'
+    );
+
+    if (!latestPlant) {
+      Alert.alert(
+        "No Plots Configured", 
+        "Please create a Plot Profile in the CinnLLM Advisor tab first so the AI has context for this conversation."
+      );
+      return;
+    }
+
+    const promptText = encodeURIComponent(
+      `My cinnamon bark scan indicates a maturity status of "${result.predicted_class}" (Readiness score: ${result.readiness_score.toFixed(2)} / 2.00). 
+      What exact operational steps should I take next regarding stem harvesting, peeling technique and timing?`
+    );
+
+    router.push(`/chat/${latestPlant.id}?autoPrompt=${promptText}`);
   };
 
   const isLocked = isAnalyzing || !isModelReady || !!modelError;
@@ -301,14 +328,25 @@ export default function HarvestScreen() {
           </View>
           
           <TouchableOpacity
+            onPress={handleDiscussWithAI}
+            activeOpacity={0.8}
+            style={safeShadow}
+            className="bg-[#2D4530] border border-[#3E5C41] py-4 rounded-2xl flex-row justify-center items-center mb-3"
+          >
+            <MaterialCommunityIcons name="robot-outline" size={20} color="white" />
+            <Text className="text-white font-bold ml-2 text-base">Discuss with CinnLLM</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
             onPress={resetScanner}
             activeOpacity={0.7}
             style={safeShadow}
             className="bg-white border border-[#E8E6DD] py-4 rounded-2xl flex-row justify-center items-center mb-6"
           >
             <Feather name="refresh-cw" size={18} color="#768C73" />
-            <Text className="text-[#4F6851] font-bold ml-2">Scan Another Stem</Text>
+            <Text className="text-[#4F6851] font-bold ml-2 text-base">Scan Another Stem</Text>
           </TouchableOpacity>
+
         </Animated.View>
       )}
     </ScrollView>
