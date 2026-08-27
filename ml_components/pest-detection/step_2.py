@@ -16,18 +16,22 @@ image = (
         "torchvision",
         "opencv-python-headless",
         "pyyaml",
-        "onnxscript",
-        "onnxslim==0.1.34",
-        "onnxruntime==1.19.0",
-        "tensorflow-cpu==2.17.0",
-        "protobuf==4.25.3",
     )
+    .pip_install(
+        "onnx",
+        "onnxscript",
+        "onnxslim",
+        "onnxruntime",
+        "tensorflow-cpu",
+        "protobuf",
+    )
+    .pip_install("ml-dtypes>=0.4.0")
 )
 
 # Define the remote training function with GPU
 @app.function(
     image=image,
-    gpu="A10G",
+    gpu="A100",
     timeout=86400,
     volumes={"/data": volume}
 )
@@ -55,7 +59,7 @@ def finetune_and_export():
     print(f"YAML generation at {data_yaml_path}")
 
     # Define the path to the baseline model weights
-    pretrained_weights = "/data/runs/ip102_pretrain_v1/weights/best.pt"
+    pretrained_weights = "/data/runs/ip102_pretrain_v1_small/weights/best.pt"
 
     # Ensure the baseline weights exist before starting the training process
     if not Path(pretrained_weights).exists():
@@ -93,7 +97,7 @@ def finetune_and_export():
         device=0,
         workers=4,
         project="/data/runs",
-        name="finetune_v1",
+        name="finetune_v2_small",
         exist_ok=True,        
         save=True,
         plots=True,
@@ -108,7 +112,7 @@ def finetune_and_export():
     print("=" * 50)
 
     # Define the path to the newly trained model weights
-    best_model_path = "/data/runs/finetune_v1/weights/best.pt"
+    best_model_path = "/data/runs/finetune_v2_small/weights/best.pt"
 
     # Verify the trained model weights were successfully saved
     if not Path(best_model_path).exists():
@@ -189,7 +193,7 @@ def export_only():
     from ultralytics import YOLO
 
     # Define paths for the model weights and configuration
-    best_model_path = "/data/runs/finetune_v1/weights/best.pt"
+    best_model_path = "/data/runs/finetune_v2_small/weights/best.pt"
     data_yaml_path  = "/data/cinnamon_pests_yolo/cinnamon_pests.yaml"
 
     # Load the fine-tuned model
@@ -211,24 +215,47 @@ def export_only():
     print("Export complete. Files saved to volume.")
 
 # Define the local execution flow
+# @app.local_entrypoint()
+# def main():
+#     # Code to upload dataset to the volume
+#     # print("Uploading dataset to Modal volume")
+#     # subprocess.run([
+#     #     sys.executable, "-m", "modal", "volume", "put", "--force", "cinnamon-pest-vol",
+#     #     r"D:/CINNAMON/Pest/Pest-Detection/cinnamon_pests_yolo",
+#     #     "/cinnamon_pests_yolo"
+#     # ], check=True)
+
+#     # Trigger the remote fine-tuning and export function
+#     # print("Starting fine-tune")
+#     # finetune_and_export.remote()
+
+#     # Download the completed run files back to the local machine
+#     print("Downloading results")
+#     subprocess.run([
+#         sys.executable, "-m", "modal", "volume", "get", "cinnamon-pest-vol",
+#         "/runs",
+#         r"C:/kavinav/R26-IT-115/ml_components/pest-detection/runs_finetuned"
+#     ], check=True)
+
 @app.local_entrypoint()
 def main():
-    # Code to upload dataset to the volume
-    print("Uploading dataset to Modal volume")
-    subprocess.run([
-        sys.executable, "-m", "modal", "volume", "put", "--force", "cinnamon-pest-vol",
-        r"D:/CINNAMON/Pest/Pest-Detection/cinnamon_pests_yolo",
-        "/cinnamon_pests_yolo"
-    ], check=True)
+    import sys
+    import os
 
-    # Trigger the remote fine-tuning and export function
-    print("Starting fine-tune")
-    finetune_and_export.remote()
+    # 1. Trigger the export function in the cloud FIRST
+    print("Starting remote export to generate ONNX...")
+    export_only.remote()
 
-    # Download the completed run files back to the local machine
-    print("Downloading results")
+    # 2. Define your local destination
+    local_dest = r"C:/kavinav/R26-IT-115/ml_components/pest-detection/runs_finetuned"
+    os.makedirs(local_dest, exist_ok=True)
+
+    # 3. Download the newly created ONNX file
+    print("Downloading ONNX model only...")
     subprocess.run([
         sys.executable, "-m", "modal", "volume", "get", "cinnamon-pest-vol",
-        "/runs",
-        r"D:/CINNAMON/Pest/Pest-Detection/runs_finetuned"
+        "/runs/finetune_v2_small/weights/best.onnx", 
+        local_dest
     ], check=True)
+    
+    print(f"Successfully downloaded best.onnx to {local_dest}")

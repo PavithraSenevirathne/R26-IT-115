@@ -42,8 +42,8 @@ def confirm_dataset():
 # Define the remote training function with GPU 
 @app.function(
     image=image,
-    gpu="A10G",
-    timeout=60 * 60 * 6,
+    gpu="H100",
+    timeout=60 * 60 * 8,
     volumes={VOL_PATH: volume},
 )
 def train():
@@ -68,15 +68,15 @@ def train():
         yaml.dump(data_yaml, f, sort_keys=False)
 
     # Initialize the YOLOv11 Nano model with COCO pre-trained weights
-    model = YOLO("yolo11n.pt")
+    model = YOLO("yolo11s.pt")
 
     # Start the training process with specified hyperparameters and augmentations
     model.train(
         data=yaml_path,
         epochs=100,
-        patience=20,
+        patience=25,
         imgsz=640,
-        batch=32,
+        batch=16,
         lr0=0.01,
         lrf=0.01,
         optimizer="auto",
@@ -86,26 +86,27 @@ def train():
         # Augmentation
         mosaic=1.0,
         mixup=0.15,
-        copy_paste=0.1,
+        copy_paste=0.3,
+        erasing=0.3,
         degrees=15.0,
         translate=0.1,
         scale=0.5,
         shear=2.0,
         flipud=0.5,
         fliplr=0.5,
-        hsv_h=0.015,
-        hsv_s=0.7,
-        hsv_v=0.4,
+        hsv_h=0.03,
+        hsv_s=0.9,
+        hsv_v=0.5,
 
         # Loss weighting 
-        cls=0.6,
-        box=7.5,
+        cls=1.0,
+        box=5.0,
         dfl=1.5,
 
         device=0,
         workers=8,
         project=f"{VOL_PATH}/runs",
-        name="ip102_pretrain_v1",
+        name="ip102_pretrain_v1_small",
         exist_ok=True,
         save=True,
         save_period=10,
@@ -128,7 +129,7 @@ def evaluate():
     from ultralytics import YOLO
 
     # Define paths for the trained weights and dataset configuration
-    weights_path = f"{VOL_PATH}/runs/ip102_pretrain_v1/weights/best.pt"
+    weights_path = f"{VOL_PATH}/runs/ip102_pretrain_v1_small/weights/best.pt"
     data_yaml = f"{VOL_PATH}/cinnamon_pests_yolo/cinnamon_pests.yaml"
 
     # Load the trained model and run validation
@@ -163,7 +164,7 @@ def export():
     from ultralytics import YOLO
 
     # Load the best trained weights
-    weights_path = f"{VOL_PATH}/runs/ip102_pretrain_v1/weights/best.pt"
+    weights_path = f"{VOL_PATH}/runs/ip102_pretrain_v1_small/weights/best.pt"
     model = YOLO(weights_path)
 
     # Export model to ONNX format
