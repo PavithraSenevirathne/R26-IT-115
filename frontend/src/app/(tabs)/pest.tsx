@@ -355,7 +355,7 @@ export default function PestScreen() {
             className="bg-[#2D4530] border border-[#3E5C41] py-4 rounded-2xl flex-row justify-center items-center mb-3"
           >
             <MaterialCommunityIcons name="robot-outline" size={20} color="white" />
-            <Text className="text-white font-bold ml-2 text-base">Discuss with AI Advisor</Text>
+            <Text className="text-white font-bold ml-2 text-base">Discuss with CinnLLM</Text>
           </TouchableOpacity>
 
           <TouchableOpacity

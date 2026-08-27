@@ -7,6 +7,7 @@ import Animated, { FadeInDown, FadeIn, Layout } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSQLiteContext } from 'expo-sqlite';
 import { router } from 'expo-router';
+import * as Crypto from 'expo-crypto'; // NEW: For generating unique chat IDs
 import { imageToTensor } from '../../utils/tensorHelper';
 import { initializeHarvestEnsemble, runHarvestInference } from '../../services/harvestEnsemble';
 
@@ -138,24 +139,29 @@ export default function HarvestScreen() {
   const handleDiscussWithAI = () => {
     if (!result) return;
 
-    const latestPlant = db.getFirstSync<{ id: string }>(
-      'SELECT id FROM plants ORDER BY created_at DESC LIMIT 1'
-    );
+    const newChatId = Crypto.randomUUID();
+    const chatTitle = `Harvest Scan: ${result.predicted_class}`;
+    
+    let chatColor = '#10B981'; 
+    if (result.predicted_class === 'Immature') chatColor = '#F59E0B';
+    else if (result.predicted_class === 'Over-mature') chatColor = '#F43F5E';
 
-    if (!latestPlant) {
-      Alert.alert(
-        "No Plots Configured", 
-        "Please create a Plot Profile in the CinnLLM Advisor tab first so the AI has context for this conversation."
+    try {
+      db.runSync(
+        'INSERT INTO plants (id, name, color, created_at) VALUES (?, ?, ?, ?)',
+        [newChatId, chatTitle, chatColor, Date.now()]
       );
+    } catch (err) {
+      console.error("Failed to create new chat session in DB:", err);
+      Alert.alert("Database Error", "Could not create a new chat session.");
       return;
     }
 
     const promptText = encodeURIComponent(
-      `My cinnamon bark scan indicates a maturity status of "${result.predicted_class}" (Readiness score: ${result.readiness_score.toFixed(2)} / 2.00). 
-      What exact operational steps should I take next regarding stem harvesting, peeling technique and timing?`
+      `My cinnamon bark scan indicates a maturity status of "${result.predicted_class}" (Readiness score: ${result.readiness_score.toFixed(2)} / 2.00). What exact operational steps should I take next regarding stem harvesting, peeling technique and timing?`
     );
 
-    router.push(`/chat/${latestPlant.id}?autoPrompt=${promptText}`);
+    router.push(`/chat/${newChatId}?autoPrompt=${promptText}`);
   };
 
   const isLocked = isAnalyzing || !isModelReady || !!modelError;
