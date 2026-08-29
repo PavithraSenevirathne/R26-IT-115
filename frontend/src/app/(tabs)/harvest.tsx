@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, View, Text, TouchableOpacity, Image, ActivityIndicator, Alert } from 'react-native';
+import { ScrollView, View, Text, TouchableOpacity, Image, ActivityIndicator, Alert, Pressable } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
-import Animated, { FadeInDown, FadeIn, Layout } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSQLiteContext } from 'expo-sqlite';
 import { router } from 'expo-router';
-import * as Crypto from 'expo-crypto'; // NEW: For generating unique chat IDs
+import * as Crypto from 'expo-crypto';
 import { imageToTensor } from '../../utils/tensorHelper';
 import { initializeHarvestEnsemble, runHarvestInference } from '../../services/harvestEnsemble';
+import { initializePlantGate, runPlantValidation } from '../../services/plantValidation';
 
 type ReadinessClass = 'Immature' | 'Optimal' | 'Over-mature';
 
@@ -45,6 +45,8 @@ export default function HarvestScreen() {
         console.error("Failed to load ensemble models:", error);
         setModelError("Could not load the AI ensemble. Please restart the app.");
       });
+      
+    initializePlantGate().catch((err) => console.log('Gate init log:', err));
   }, []);
 
   const pickImage = async (useCamera: boolean) => {
@@ -91,6 +93,22 @@ export default function HarvestScreen() {
         { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
       );
 
+      const isPlant = await runPlantValidation(manipulatedImage.uri);
+      if (!isPlant) {
+        Alert.alert(
+          "Invalid Subject Detected", 
+          "This image does not appear to be cinnamon bark. Please capture a clear, close-up photo of the stem surface.",
+          [{ 
+            text: "OK", 
+            onPress: () => setTimeout(() => { 
+              setImageUri(null); 
+              setResult(null); 
+            }, 150) 
+          }]
+        );
+        return; 
+      }
+
       const tensor = await imageToTensor(manipulatedImage.uri);
       const inferenceResult = await runHarvestInference(tensor);
       
@@ -109,8 +127,11 @@ export default function HarvestScreen() {
 
     } catch (error) {
       console.error("Harvest Inference Error:", error);
-      Alert.alert("Analysis Failed", "Could not process the image. Please try again.");
-      setResult(null);
+      Alert.alert(
+        "Analysis Failed", 
+        "Could not process the image. Please try again.",
+        [{ text: "OK", onPress: () => setTimeout(() => { setImageUri(null); setResult(null); }, 150) }]
+      );
     } finally {
       setIsAnalyzing(false);
     }
@@ -131,9 +152,11 @@ export default function HarvestScreen() {
   };
 
   const resetScanner = () => {
-    if (isAnalyzing) return;
-    setImageUri(null);
-    setResult(null);
+    if (isAnalyzing) return;    
+    setTimeout(() => {
+      setImageUri(null);
+      setResult(null);
+    }, 150);
   };
 
   const handleDiscussWithAI = () => {
@@ -189,7 +212,7 @@ export default function HarvestScreen() {
         </View>
       )}
 
-      <Animated.View entering={FadeInDown.delay(100).springify()} className="mb-6">
+      <View className="mb-6">
         {!imageUri ? (
           <View className="flex-row justify-between mb-2">
             <TouchableOpacity
@@ -235,27 +258,27 @@ export default function HarvestScreen() {
             <Image source={{ uri: imageUri }} className="w-full h-full" resizeMode="cover" />
             
             {!isAnalyzing && !result && (
-              <TouchableOpacity 
+              <Pressable 
                 onPress={resetScanner} 
                 style={safeShadow} 
-                className="absolute top-5 right-5 w-9 h-9 bg-white/95 rounded-full items-center justify-center"
+                className="absolute top-5 right-5 w-9 h-9 bg-white/95 rounded-full items-center justify-center active:bg-gray-200"
               >
                 <Feather name="x" size={16} color="#1F3021" strokeWidth={2.5} />
-              </TouchableOpacity>
+              </Pressable>
             )}
             
             {isAnalyzing && (
-              <Animated.View entering={FadeIn} className="absolute inset-0 bg-[#1F3021]/60 items-center justify-center">
+              <View className="absolute inset-0 bg-[#1F3021]/60 items-center justify-center">
                 <ActivityIndicator size="large" color="white" />
                 <Text className="mt-4 font-bold text-white text-base tracking-wide">Evaluating Bark...</Text>
-              </Animated.View>
+              </View>
             )}
           </View>
         )}
-      </Animated.View>
+      </View>
 
       {imageUri && !result && (
-        <Animated.View entering={FadeInDown.springify()}>
+        <View>
           <TouchableOpacity
             onPress={analyzeBark}
             disabled={isLocked}
@@ -274,11 +297,11 @@ export default function HarvestScreen() {
               </>
             )}
           </TouchableOpacity>
-        </Animated.View>
+        </View>
       )}
 
       {result && (
-        <Animated.View entering={FadeInDown.springify()} layout={Layout.springify()}>
+        <View>
           <View style={safeShadow} className="bg-white rounded-[32px] border border-[#E8E6DD] p-6 mb-6">
             <View className="flex-row items-center justify-between mb-4">
               <Text className="text-[#768C73] font-bold text-[10px] uppercase tracking-widest">Ensemble Output</Text>
@@ -353,7 +376,7 @@ export default function HarvestScreen() {
             <Text className="text-[#4F6851] font-bold ml-2 text-base">Scan Another Stem</Text>
           </TouchableOpacity>
 
-        </Animated.View>
+        </View>
       )}
     </ScrollView>
   );
