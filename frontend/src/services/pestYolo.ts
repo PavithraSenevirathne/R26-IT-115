@@ -4,8 +4,11 @@ import { loadModel } from './inference';
 let pestSession: InferenceSession | null = null;
 
 const PEST_CLASSES = [
-  'stem_borer', 'thrips', 'moth', 'mite', 
-  'leaf_miner', 'root_grub', 'caterpillar', 'weevil'
+  'caterpillar',
+  'stem_borer',
+  'thrips',
+  'beetle',
+  'grasshopper'
 ];
 
 export interface Detection {
@@ -39,7 +42,8 @@ export const runPestDetection = async (tensor: Tensor): Promise<Detection[]> => 
   const outputData = results[outputKey].data as Float32Array;
 
   let detections: Detection[] = [];
-  const numClasses = 8;
+  
+  const numClasses = 5; 
   const numAnchors = 8400;
 
   for (let i = 0; i < numAnchors; i++) {
@@ -54,7 +58,12 @@ export const runPestDetection = async (tensor: Tensor): Promise<Detection[]> => 
       }
     }
 
-    const threshold = (classId === 0 || classId === 6) ? 0.40 : 0.35;
+    let threshold = 0.50; // default
+    if (classId === 0) {
+        threshold = 0.40; // Caterpillar
+    } else if (classId === 1 || classId === 3 || classId === 4) {
+        threshold = 0.60; 
+    }
 
     if (maxScore >= threshold) {
       const xc = outputData[0 * numAnchors + i];
