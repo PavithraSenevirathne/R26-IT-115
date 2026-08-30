@@ -3,21 +3,27 @@ import shutil
 from pathlib import Path
 from collections import defaultdict
 
-SOURCE_ROOT = Path("Datasets")
+SOURCE_ROOT = Path("RF")
 TARGET_ROOT = Path("cinnamon_dataset") 
 IMG_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
 
 # maps each source dataset's folder/column names to the final leaf/stem class names
+# MANIFEST = [
+#     {"source_dir": "FOL_1", "format": "folder", "class_map": {"LeafBlight": ("leaf", "leaf_blight"), "LeafGall": ("leaf", "leaf_gall")}},
+#     {"source_dir": "FOL_2", "format": "folder", "class_map": {"Healthy_Cinnamon": ("leaf","healthy_leaves"), "Leaf_Gall_Forming_Disease": ("leaf", "leaf_gall"), "Leaf_Spot_Disease": ("leaf", "leaf_spot")}},
+#     {"source_dir": "FOL_3", "format": "folder", "class_map": {"Healthy": ("leaf","healthy_leaves"), "Leaf_Gall_Forming": ("leaf", "leaf_gall"), "leaf_spot_disease": ("leaf", "leaf_spot")}},
+#     {"source_dir": "FOL_4", "format": "flat_folder", "class_map": {"RoughBark": ("stem", "rough_bark"), "StripeCanker": ("stem", "stripe_canker")}},
+#     {"source_dir": "FOL_5", "format": "flat_folder", "class_map": {"HealthyStem": ("stem", "healthy_stem")}},
+#     {"source_dir": "MCL_1", "format": "multilabel_csv", "class_map": {"leaf_spot_disease": ("leaf", "leaf_spot")}},
+#     {"source_dir": "MCL_2", "format": "multilabel_csv", "class_map": {"healthy_leaves": ("leaf","healthy_leaves")}},
+#     {"source_dir": "MCL_3", "format": "multilabel_csv", "class_map": {"rough_bark": ("stem","rough_bark"), "healthy_cinnamon": ("leaf","healthy_leaves"), "leaf_spot_disease": ("leaf", "leaf_spot"), "stripe_canker": ("stem", "stripe_canker")}},
+#     {"source_dir": "MCL_4", "format": "multilabel_csv", "class_map": {"healthy_leaves": ("leaf","healthy_leaves"), "leaf_spot_disease": ("leaf", "leaf_spot")}},
+# ]
+
 MANIFEST = [
-    {"source_dir": "FOL_1", "format": "folder", "class_map": {"LeafBlight": ("leaf", "leaf_blight"), "LeafGall": ("leaf", "leaf_gall")}},
-    {"source_dir": "FOL_2", "format": "folder", "class_map": {"Healthy_Cinnamon": ("leaf","healthy_leaves"), "Leaf_Gall_Forming_Disease": ("leaf", "leaf_gall"), "Leaf_Spot_Disease": ("leaf", "leaf_spot")}},
-    {"source_dir": "FOL_3", "format": "folder", "class_map": {"Healthy": ("leaf","healthy_leaves"), "Leaf_Gall_Forming": ("leaf", "leaf_gall"), "leaf_spot_disease": ("leaf", "leaf_spot")}},
-    {"source_dir": "FOL_4", "format": "flat_folder", "class_map": {"RoughBark": ("stem", "rough_bark"), "StripeCanker": ("stem", "stripe_canker")}},
-    {"source_dir": "FOL_5", "format": "flat_folder", "class_map": {"HealthyStem": ("stem", "healthy_stem")}},
-    {"source_dir": "MCL_1", "format": "multilabel_csv", "class_map": {"leaf_spot_disease": ("leaf", "leaf_spot")}},
-    {"source_dir": "MCL_2", "format": "multilabel_csv", "class_map": {"healthy_leaves": ("leaf","healthy_leaves")}},
-    {"source_dir": "MCL_3", "format": "multilabel_csv", "class_map": {"rough_bark": ("stem","rough_bark"), "healthy_cinnamon": ("leaf","healthy_leaves"), "leaf_spot_disease": ("leaf", "leaf_spot"), "stripe_canker": ("stem", "stripe_canker")}},
-    {"source_dir": "MCL_4", "format": "multilabel_csv", "class_map": {"healthy_leaves": ("leaf","healthy_leaves"), "leaf_spot_disease": ("leaf", "leaf_spot")}},
+    # {"source_dir": "1", "format": "multilabel_csv", "class_map": {"rough_bark": ("stem", "rough_bark"), "StripeCanker": ("stem", "stripe_canker")}},
+    # {"source_dir": "2", "format": "multilabel_csv", "class_map": {"Stripe-Canker-high-stage": ("stem", "stripe_canker"), "Stripe-Canker-low-stage": ("stem", "stripe_canker"), "Stripe-Canker-medium-stage": ("stem", "stripe_canker"), "leaf-spot-high-stage": ("leaf", "leaf_spot"), "leaf-spot-low-stage": ("leaf", "leaf_spot"), "leaf-spot-medium-stage": ("leaf", "leaf_spot")}},
+    {"source_dir": "3", "format": "multilabel_csv", "class_map": {"roughbark": ("stem", "rough_bark")}},
 ]
 
 review_log = [] 
