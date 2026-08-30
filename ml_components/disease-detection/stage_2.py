@@ -24,7 +24,6 @@ def train_stage2(
     mobile_output_path = f"{VOL_PATH}/checkpoints/cinnamon_{part}_mobile.ptl"
     os.makedirs(f"{VOL_PATH}/checkpoints", exist_ok=True)
 
-    # Added class weights to handle your imbalance
     train_loader, val_loader, classes, class_weights = get_cinnamon_loaders(data_path, batch_size=batch_size)
     print(f"[stage2-{part}] {len(classes)} classes: {classes}")
     
@@ -37,7 +36,6 @@ def train_stage2(
         freeze_backbone=True,
     ).to(device)
 
-    # Apply class weights to loss
     criterion = nn.CrossEntropyLoss(weight=class_weights, label_smoothing=0.1)
     best_f1 = 0.0
 

@@ -34,7 +34,6 @@ def build_model(num_classes: int, pretrained_backbone_path: str = None, freeze_b
 
     return model
 
-
 def unfreeze_last_blocks(model, block_indices=(10, 11, 12)):
     for name, p in model.named_parameters():
         if any(f"features.{i}." in name for i in block_indices):
@@ -44,7 +43,6 @@ def unfreeze_last_blocks(model, block_indices=(10, 11, 12)):
 IMAGENET_MEAN = [0.485, 0.456, 0.406]
 IMAGENET_STD = [0.229, 0.224, 0.225]
 
-# Added RandAugment and RandomErasing for heavy augmentation
 def get_transforms(train: bool):
     if train:
         return transforms.Compose([
@@ -81,8 +79,6 @@ def get_plantvillage_loaders(batch_size=64, num_workers=4, val_split=0.2, seed=4
 
     return train_loader, val_loader, train_view.classes
 
-
-# Replaced WeightedRandomSampler with Class Weights calculation
 def get_cinnamon_loaders(root, batch_size=16, val_split=0.15, num_workers=4, seed=42):
     train_view = ImageFolder(root, transform=get_transforms(train=True))
     val_view = ImageFolder(root, transform=get_transforms(train=False))

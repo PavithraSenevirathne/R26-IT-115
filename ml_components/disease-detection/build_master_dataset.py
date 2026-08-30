@@ -41,8 +41,6 @@ def copy_with_unique_name(src_file: Path, dest_dir: Path, prefix: str):
     shutil.copy2(src_file, dest_path)
     return dest_path
 
-
-# handles datasets with train/valid/test/<class_name>/ layout
 def process_folder_source(entry):
     source_dir = SOURCE_ROOT / entry["source_dir"]
     class_map = entry["class_map"]
