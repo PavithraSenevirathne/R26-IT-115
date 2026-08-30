@@ -48,8 +48,8 @@ def finetune_and_export():
         "test":  "test/images",
         "nc":    8,
         "names": {
-            0: "stem_borer", 1: "thrips",      2: "moth",        3: "mite",
-            4: "leaf_miner", 5: "root_grub",   6: "caterpillar", 7: "weevil",
+            0: "caterpillar", 1: "stem_borer", 2: "thrips", 3: "beetle",
+            4: "grasshopper",
         },
     }
     
@@ -125,43 +125,6 @@ def finetune_and_export():
     tuned_model = YOLO(best_model_path)
     val_metrics = tuned_model.val(data=data_yaml_path, split="test", verbose=False)
 
-    # Define baseline metrics for performance comparison
-    BASELINE = {
-        0: 0.703, 1: 0.667, 2: 0.683, 3: 0.878,
-        4: 0.843, 5: 0.967, 6: 0.752, 7: 0.956,
-    }
-    CLASS_NAMES = [
-        "stem_borer", "thrips", "moth",  "mite",
-        "leaf_miner", "root_grub", "caterpillar", "weevil",
-    ]
-
-    # Extract the new Average Precision metrics per class
-    new_ap50 = {
-        int(cls_id): float(ap)
-        for cls_id, ap in zip(
-            val_metrics.box.ap_class_index,
-            val_metrics.box.ap50
-        )
-    }
-
-    # Format and print a table comparing new metrics against the baseline
-    print(f"\n  {'Class':<14}  {'Baseline':>9}  {'New AP50':>9}  {'Delta':>8}")
-    print("  " + "─" * 48)
-    for c_id, name in enumerate(CLASS_NAMES):
-        base   = BASELINE.get(c_id, 0.0)
-        new_ap = new_ap50.get(c_id, 0.0)
-        delta  = new_ap - base
-        arrow  = "▲" if delta >= 0 else "▼"
-        weak   = "  ← still weak" if new_ap < 0.70 else ""
-        print(f"  {name:<14}  {base:>9.3f}  {new_ap:>9.3f}  {arrow}{abs(delta):.3f}{weak}")
-
-    # Calculate and print the overall model improvement
-    overall_base  = 0.806
-    overall_delta = val_metrics.box.map50 - overall_base
-    arrow = "▲" if overall_delta >= 0 else "▼"
-    print("  " + "─" * 48)
-    print(f"  {'OVERALL':<14}  {overall_base:>9.3f}  {val_metrics.box.map50:>9.3f}  {arrow}{abs(overall_delta):.3f}")
-
     print("\n" + "=" * 50)
     print("EXPORTING")
     print("=" * 50)
@@ -186,7 +149,7 @@ def finetune_and_export():
 # Define a separate remote function for running only the export process
 @app.function(
     image=image,
-    volumes={"/data": volume}   # no GPU needed for export
+    volumes={"/data": volume}
 )
 def export_only():
     # Import YOLO inside the container
@@ -242,15 +205,12 @@ def main():
     import sys
     import os
 
-    # 1. Trigger the export function in the cloud FIRST
     print("Starting remote export to generate ONNX...")
     export_only.remote()
 
-    # 2. Define your local destination
     local_dest = r"C:/kavinav/R26-IT-115/ml_components/pest-detection/runs_finetuned"
     os.makedirs(local_dest, exist_ok=True)
 
-    # 3. Download the newly created ONNX file
     print("Downloading ONNX model only...")
     subprocess.run([
         sys.executable, "-m", "modal", "volume", "get", "cinnamon-pest-vol",

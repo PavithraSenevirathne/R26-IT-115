@@ -45,10 +45,10 @@ def finetune_and_export():
             "train": "train/images",
             "val":   "val/images",
             "test":  "test/images",
-            "nc":    8,
+            "nc":    5,
             "names": {
-                0: "stem_borer", 1: "thrips",      2: "moth",        3: "mite",
-                4: "leaf_miner", 5: "root_grub",   6: "caterpillar", 7: "weevil",
+                0: "caterpillar", 1: "stem_borer", 2: "thrips", 3: "beetle",
+                4: "grasshopper",
             },
         }
         with open(data_yaml_path, "w") as f:
@@ -122,47 +122,6 @@ def finetune_and_export():
     # Load the trained model and run validation on the test split
     tuned_model = YOLO(best_model_path)
     val_metrics = tuned_model.val(data=data_yaml_path, split="test", verbose=False)
-
-    # Define baseline metrics for performance comparison
-    BASELINE = {
-        0: 0.703, 1: 0.667, 2: 0.683, 3: 0.878,
-        4: 0.843, 5: 0.967, 6: 0.752, 7: 0.956,
-    }
-    CLASS_NAMES = [
-        "stem_borer", "thrips", "moth",  "mite",
-        "leaf_miner", "root_grub", "caterpillar", "weevil",
-    ]
-
-    # Extract the new Average Precision metrics per class
-    new_ap50 = {
-        int(cls_id): float(ap)
-        for cls_id, ap in zip(
-            val_metrics.box.ap_class_index,
-            val_metrics.box.ap50
-        )
-    }
-
-    # Print a formatted table comparing new metrics against the baseline
-    print(f"\n  {'Class':<14}  {'Baseline':>9}  {'New AP50':>9}  {'Delta':>8}")
-    print("  " + "─" * 48)
-    for c_id, name in enumerate(CLASS_NAMES):
-        base   = BASELINE.get(c_id, 0.0)
-        new_ap = new_ap50.get(c_id, 0.0)
-        delta  = new_ap - base
-        arrow  = "▲" if delta >= 0 else "▼"
-        weak   = "  ← still weak" if new_ap < 0.70 else ""
-        print(f"  {name:<14}  {base:>9.3f}  {new_ap:>9.3f}  {arrow}{abs(delta):.3f}{weak}")
-
-    # Calculate and print the overall model improvement
-    overall_base  = 0.806
-    overall_delta = val_metrics.box.map50 - overall_base
-    arrow = "▲" if overall_delta >= 0 else "▼"
-    print("  " + "─" * 48)
-    print(f"  {'OVERALL':<14}  {overall_base:>9.3f}  {val_metrics.box.map50:>9.3f}  {arrow}{abs(overall_delta):.3f}")
-
-    print("\n" + "=" * 50)
-    print("EXPORTING")
-    print("=" * 50)
 
     # Export the model to ONNX format
     tuned_model.export(format="onnx", imgsz=640, simplify=True)
