@@ -26,7 +26,11 @@ const decodeBase64 = (base64: string): Uint8Array => {
   return bytes;
 };
 
-export const imageToTensor = async (imageUri: string, targetSize: number = 224): Promise<Tensor> => {
+export const imageToTensor = async (
+  imageUri: string, 
+  targetSize: number = 224,
+  isYolo: boolean = false
+): Promise<Tensor> => {
   const base64 = await FileSystem.readAsStringAsync(imageUri, {
     encoding: FileSystem.EncodingType.Base64,
   });
@@ -45,9 +49,15 @@ export const imageToTensor = async (imageUri: string, targetSize: number = 224):
     const g = data[i * 4 + 1] / 255.0;
     const b = data[i * 4 + 2] / 255.0;
 
-    float32Data[i] = (r - mean[0]) / std[0];
-    float32Data[i + targetSize * targetSize] = (g - mean[1]) / std[1];
-    float32Data[i + 2 * targetSize * targetSize] = (b - mean[2]) / std[2];
+    if (isYolo) {
+      float32Data[i] = r;
+      float32Data[i + targetSize * targetSize] = g;
+      float32Data[i + 2 * targetSize * targetSize] = b;
+    } else {
+      float32Data[i] = (r - mean[0]) / std[0];
+      float32Data[i + targetSize * targetSize] = (g - mean[1]) / std[1];
+      float32Data[i + 2 * targetSize * targetSize] = (b - mean[2]) / std[2];
+    }
   }
 
   return new Tensor('float32', float32Data, [1, 3, targetSize, targetSize]);

@@ -11,14 +11,11 @@ import { imageToTensor } from '../../utils/tensorHelper';
 import { initializePestModel, runPestDetection, Detection } from '../../services/pestYolo';
 
 const CLASS_COLOURS: Record<string, string> = {
-  stem_borer: '#EF4444', 
-  thrips: '#F59E0B', 
-  moth: '#8B5CF6', 
-  mite: '#EC4899',
-  leaf_miner: '#10B981', 
-  root_grub: '#D97706', 
-  caterpillar: '#F43F5E', 
-  weevil: '#3B82F6'
+  caterpillar: '#F43F5E',
+  stem_borer: '#8B5CF6',
+  thrips: '#F59E0B',
+  beetle: '#3B82F6',
+  grasshopper: '#10B981'
 };
 
 const safeShadow = {
@@ -93,7 +90,7 @@ export default function PestScreen() {
         { compress: 0.8, format: ImageManipulator.SaveFormat.JPEG }
       );
 
-      const tensor = await imageToTensor(manipulated.uri, 640);
+      const tensor = await imageToTensor(manipulated.uri, 640, true);
       const results = await runPestDetection(tensor);
       setDetections(results);
     } catch (error) {
@@ -155,7 +152,7 @@ export default function PestScreen() {
     >
       <View className="flex-row items-center self-start bg-[#E4ECE1] px-3 py-1.5 rounded-full mb-6 border border-[#CBDBC7]">
         <MaterialCommunityIcons name="magnify-scan" size={14} color="#3E5C41" />
-        <Text className="text-[#3E5C41] text-[10px] font-bold ml-1.5 uppercase tracking-widest">YOLOv8 Vision</Text>
+        <Text className="text-[#3E5C41] text-[10px] font-bold ml-1.5 uppercase tracking-widest">YOLOv11s Vision</Text>
       </View>
 
       <Text className="text-3xl font-extrabold text-[#1F3021] mb-2 tracking-tight">Pest Radar</Text>
@@ -223,7 +220,7 @@ export default function PestScreen() {
               }`}
             >
               {isLocked && !modelError ? (
-                <Text className="text-[#768C73] font-bold text-xs mt-3">Initializing AI...</Text>
+                <Text className="text-[#768C73] font-bold text-xs mt-3">Initializing Model</Text>
               ) : (
                 <>
                   <MaterialCommunityIcons name="image-multiple-outline" size={32} color="#768C73" />
