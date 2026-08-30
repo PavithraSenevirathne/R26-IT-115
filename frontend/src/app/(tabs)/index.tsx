@@ -9,6 +9,7 @@ import { router } from 'expo-router';
 import * as Crypto from 'expo-crypto';
 import { imageToTensor } from '../../utils/tensorHelper';
 import { initializeDiseaseModels, runDiseaseInference } from '../../services/diseaseModel';
+import { initializePlantGate, runPlantValidation } from '@/services/plantValidation';
 
 type PlantPart = 'leaf' | 'stem';
 
@@ -40,6 +41,7 @@ export default function DiseaseScreen() {
 
   useEffect(() => {
     initializeDiseaseModels().catch((err) => console.log('Model init log:', err));
+    initializePlantGate().catch((err) => console.log('Gate init log:', err));
   }, []);
 
   const handlePartSelection = (part: PlantPart) => {
@@ -95,6 +97,15 @@ export default function DiseaseScreen() {
         { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
       );
 
+      const isPlant = await runPlantValidation(manipulated.uri);
+      if (!isPlant) {
+        Alert.alert(
+          "Invalid Subject Detected", 
+          "This image does not appear to be a plant. Please capture a clear photo of the leaf or stem."
+        );
+        return;
+      }
+
       const tensor = await imageToTensor(manipulated.uri, 224);
       const predictions = await runDiseaseInference(tensor, selectedPart);
 
@@ -106,7 +117,8 @@ export default function DiseaseScreen() {
       );
     } catch (error) {
       console.log('Inference Error:', error);
-      Alert.alert('Error', 'Failed to run on-device inference.');
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      Alert.alert('Pipeline Error', errorMessage);
     } finally {
       setIsAnalyzing(false);
     }
