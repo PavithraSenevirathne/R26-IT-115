@@ -188,7 +188,7 @@ export default function HarvestScreen() {
   return (
     <>
       <ScrollView 
-        className="flex-1 bg-[#F0F4F1] px-6 pt-6" 
+        className="flex-1 bg-[#ACE1AF] px-6 pt-6" 
         contentContainerStyle={{ paddingTop: insets.top + 16, paddingBottom: 40 }} 
         showsVerticalScrollIndicator={false}
       >
