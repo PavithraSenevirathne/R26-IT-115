@@ -1,0 +1,37 @@
+{
+  "model_name": "bark-gate",
+  "optimal_threshold": 0.85,
+  "recommended_mobile_threshold": 0.5,
+  "test_auroc": 1.0,
+  "test_f1": 0.994,
+  "cinnamon_recall_tpr": 0.9881,
+  "overall_rejection_tnr": 1.0,
+  "confusion_matrix": {
+    "tn": 165,
+    "fp": 0,
+    "fn": 1,
+    "tp": 83
+  },
+  "per_category_breakdown": {
+    "01_other_barks": {
+      "n": 75,
+      "rejection_rate_tnr": 1.0,
+      "mean_cinnamon_prob": 0.0072
+    },
+    "02_textures": {
+      "n": 37,
+      "rejection_rate_tnr": 1.0,
+      "mean_cinnamon_prob": 0.0012
+    },
+    "03_leaves_plants": {
+      "n": 30,
+      "rejection_rate_tnr": 1.0,
+      "mean_cinnamon_prob": 0.0019
+    },
+    "04_general_scenes": {
+      "n": 23,
+      "rejection_rate_tnr": 1.0,
+      "mean_cinnamon_prob": 0.0004
+    }
+  }
+}
