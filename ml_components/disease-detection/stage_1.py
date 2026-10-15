@@ -3,14 +3,11 @@ import torch.nn as nn
 
 from modal_app import app, image, volume, VOL_PATH
 
-
-# Downloads PlantVillage dataset from GitHub
 @app.function(image=image, gpu="A10G", volumes={VOL_PATH: volume}, timeout=7200)
 def prep_plantvillage():
     import os, zipfile, urllib.request, glob
 
     target_dir = f"{VOL_PATH}/plantvillage_raw"
-
     if os.path.exists(f"{target_dir}/raw/color"):
         print("Already downloaded, skipping.")
         return
@@ -40,8 +37,7 @@ def prep_plantvillage():
     volume.commit()
 
 
-# Trains MobileNetV3Small on PlantVillage — produces the shared backbone for both leaf and stem models
-@app.function(image=image, gpu="A100", volumes={VOL_PATH: volume}, timeout=10800)
+@app.function(image=image, gpu="A10G", volumes={VOL_PATH: volume}, timeout=10800)
 def train_stage1(epochs: int = 15, lr: float = 3e-4, batch_size: int = 64):
     from train_lib import build_model, get_plantvillage_loaders, run_epoch
     import os
@@ -58,22 +54,21 @@ def train_stage1(epochs: int = 15, lr: float = 3e-4, batch_size: int = 64):
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs)
     criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
 
-    best_acc = 0.0
+    best_f1 = 0.0
     for epoch in range(epochs):
-        train_loss, train_acc = run_epoch(model, train_loader, criterion, optimizer, device, train=True)
-        val_loss, val_acc = run_epoch(model, val_loader, criterion, optimizer, device, train=False)
+        train_loss, train_f1 = run_epoch(model, train_loader, criterion, optimizer, device, train=True)
+        val_loss, val_f1 = run_epoch(model, val_loader, criterion, optimizer, device, train=False)
         scheduler.step()
 
         print(f"[stage1] epoch {epoch:02d} "
-              f"train_loss={train_loss:.4f} train_acc={train_acc:.4f} "
-              f"val_loss={val_loss:.4f} val_acc={val_acc:.4f}")
+              f"train_loss={train_loss:.4f} train_f1={train_f1:.4f} "
+              f"val_loss={val_loss:.4f} val_f1={val_f1:.4f}")
 
-        if val_acc > best_acc:
-            best_acc = val_acc
-            # save backbone only, drop the classifier layer since stage 2 uses different class counts
+        if val_f1 > best_f1:
+            best_f1 = val_f1
             backbone_state = {k: v for k, v in model.state_dict().items() if "classifier.3" not in k}
             torch.save(backbone_state, f"{VOL_PATH}/checkpoints/plantvillage_backbone.pt")
-            print(f"[stage1] new best backbone saved (val_acc={best_acc:.4f})")
+            print(f"[stage1] new best backbone saved (val_f1={best_f1:.4f})")
 
     volume.commit()
-    return best_acc
+    return best_f1

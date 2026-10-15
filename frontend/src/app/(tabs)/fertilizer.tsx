@@ -65,7 +65,7 @@ export default function FertilizerTab() {
   };
 
   return (
-    <View className="flex-1 bg-[#F0F4F1]" style={{ paddingTop: insets.top + 16 }}>
+    <View className="flex-1 bg-[#ACE1AF]" style={{ paddingTop: insets.top + 16 }}>
       
       <View className="px-6 mb-5 flex-row justify-between items-center">
         <View>
