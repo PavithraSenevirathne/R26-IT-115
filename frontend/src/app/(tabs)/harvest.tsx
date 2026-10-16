@@ -9,7 +9,7 @@ import { router } from 'expo-router';
 import * as Crypto from 'expo-crypto';
 import { imageToTensor } from '../../utils/tensorHelper';
 import { initializeHarvestEnsemble, runHarvestInference } from '../../services/harvestEnsemble';
-import { initializePlantGate, runPlantValidation } from '../../services/plantValidation';
+import { initializeBarkGate, runBarkValidation } from '../../services/barkValidation';
 
 type ReadinessClass = 'Immature' | 'Optimal' | 'Over-mature';
 
@@ -41,14 +41,15 @@ export default function HarvestScreen() {
   const db = useSQLiteContext();
 
   useEffect(() => {
-    initializeHarvestEnsemble()
+    Promise.all([
+      initializeHarvestEnsemble(),
+      initializeBarkGate(),
+    ])
       .then(() => setIsModelReady(true))
       .catch((error) => {
-        console.error("Failed to load ensemble models:", error);
-        setModelError("Could not load the AI ensemble. Please restart the app.");
+        console.error("Failed to load harvest models:", error);
+        setModelError("Could not load the AI models. Please restart the app.");
       });
-      
-    initializePlantGate().catch((err) => console.log('Gate init log:', err));
   }, []);
 
   const pickImage = async (useCamera: boolean) => {
@@ -88,15 +89,14 @@ export default function HarvestScreen() {
     setIsAnalyzing(true);
     
     try {
-      // @ts-ignore
       const manipulatedImage = await ImageManipulator.manipulateAsync(
         imageUri,
         [{ resize: { width: 224, height: 224 } }],
         { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
       );
 
-      const isPlant = await runPlantValidation(manipulatedImage.uri);
-      if (!isPlant) {
+      const isCinnamonBark = await runBarkValidation(manipulatedImage.uri);
+      if (!isCinnamonBark) {
         setTimeout(() => { 
           setImageUri(null); 
           setResult(null); 
