@@ -8,9 +8,12 @@ import {
   KeyboardAvoidingView, 
   Platform, 
   Keyboard, 
-  Alert 
+  Alert,
+  Modal,
+  Pressable,
+  ImageBackground
 } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import Animated, { FadeInUp, FadeOutDown, Layout } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSQLiteContext } from 'expo-sqlite';
@@ -19,6 +22,8 @@ import * as Crypto from 'expo-crypto';
 import Markdown from 'react-native-markdown-display';
 
 const MODAL_API_URL = 'https://nisithawickramarachchi--cinnamon-agent-api-chat-endpoint.modal.run';
+
+const SUBTLE_PATTERN_BASE64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAACVJREFUKFNjZCASMDKgAhgZGP/zEQ3Qw5Rk4DGGRxVDBTzCgZ4AAwMDAQJb4jMAAAAASUVORK5CYII=';
 
 interface Message {
   id: string;
@@ -50,15 +55,22 @@ export default function ChatScreen() {
   const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [plantMetadata, setPlantMetadata] = useState({ name: 'Loading...', color: '#4A6B4D' });
-  
   const [androidKeyboardOffset, setAndroidKeyboardOffset] = useState(0);
-
   const [hasProcessedAutoPrompt, setHasProcessedAutoPrompt] = useState(false);
+
+  const [showDataForm, setShowDataForm] = useState(false);
+  const [cultivationData, setCultivationData] = useState({ 
+    age: '', 
+    spacing: '', 
+    season: '', 
+    rainfall: '',
+    elevation: '',
+    ph: ''
+  });
 
   useEffect(() => {
     if (autoPrompt && !hasProcessedAutoPrompt && messages.length > 0) {
       setHasProcessedAutoPrompt(true);
-    
       const promptString = Array.isArray(autoPrompt) ? autoPrompt[0] : autoPrompt;
       handleSend(promptString);
     }
@@ -167,8 +179,40 @@ export default function ChatScreen() {
     }
   };
 
+  const handleDataSubmit = () => {
+    if (!cultivationData.age && !cultivationData.spacing && !cultivationData.season && !cultivationData.rainfall && !cultivationData.elevation && !cultivationData.ph) {
+      Alert.alert("Empty Form", "Please enter at least one piece of data.");
+      return;
+    }
+
+    const prompt = `Here is the current cultivation data for this cinnamon plot:
+- Crop Age: 
+${cultivationData.age ? `${cultivationData.age} years` : 'Not provided'}
+- Plant Spacing: 
+${cultivationData.spacing || 'Not provided'}
+- Current Season: 
+${cultivationData.season || 'Not provided'}
+- Annual Rainfall: 
+${cultivationData.rainfall ? `${cultivationData.rainfall} mm` : 'Not provided'}
+- Elevation: 
+${cultivationData.elevation ? `${cultivationData.elevation} m` : 'Not provided'}
+- Soil pH: 
+${cultivationData.ph || 'Not provided'}
+
+Based on this specific environment and crop data, what fertilizer dosages, amendments, or tailored agronomic treatments do you recommend?`;
+
+    setShowDataForm(false);
+    setCultivationData({ age: '', spacing: '', season: '', rainfall: '', elevation: '', ph: '' }); 
+    handleSend(prompt);
+  };
+
   return (
-    <View className="flex-1 bg-[#F0F4F1]">
+    <ImageBackground 
+      source={{ uri: SUBTLE_PATTERN_BASE64 }}
+      resizeMode="repeat"
+      imageStyle={{ resizeMode: 'repeat', opacity: 0.3 }}
+      className="flex-1 bg-[#F5F0E6]"
+    >
       <Stack.Screen options={{ headerShown: false }} />      
       <View 
         className="flex-row items-center justify-between px-5 pb-3 border-b border-[#E8E6DD] bg-white shadow-sm z-10"
@@ -206,7 +250,7 @@ export default function ChatScreen() {
                     <View className="w-8 h-8 rounded-full items-center justify-center mr-3 mt-1 shadow-sm" style={{ backgroundColor: plantMetadata.color }}>
                       <Feather name="cpu" size={14} color="#FFFFFF" />
                     </View>
-                    <View className="flex-1 pr-3">
+                    <View className="flex-1 pr-3 bg-white/80 px-4 py-3 rounded-[20px] rounded-tl-sm border border-white/50 shadow-sm">
                       <Markdown style={markdownStyles}>{msg.text}</Markdown>
                     </View>
                   </>
@@ -223,29 +267,151 @@ export default function ChatScreen() {
               <View className="w-8 h-8 rounded-full items-center justify-center mr-3 opacity-60" style={{ backgroundColor: plantMetadata.color }}>
                 <Feather name="cpu" size={14} color="#FFFFFF" />
               </View>
-              <View className="bg-white px-4 py-2.5 rounded-[18px] rounded-tl-sm border border-[#E8E6DD] shadow-sm">
-                <Text className="text-[#8A9A86] text-xs font-semibold">CInnLLM is thinking...</Text>
+              <View className="bg-white/90 px-4 py-2.5 rounded-[18px] rounded-tl-sm border border-white/50 shadow-sm">
+                <Text className="text-[#8A9A86] text-xs font-semibold">CinnLLM is thinking...</Text>
               </View>
             </Animated.View>
           )}
         </ScrollView>
 
         <View className="bg-white px-4 pt-3 border-t border-[#E8E6DD] shadow-lg" style={{ paddingBottom: Math.max(insets.bottom, 12) }}>
-          <View className="flex-row items-end bg-[#F5F3E9] rounded-[24px] pl-4 pr-2 py-1.5 border border-[#E8E6DD]">
+          <View className="flex-row items-end bg-[#F5F3E9] rounded-[24px] pl-2 pr-2 py-1.5 border border-[#E8E6DD]">
+            
+            <TouchableOpacity 
+              onPress={() => setShowDataForm(true)} 
+              disabled={isTyping}
+              className="w-10 h-10 rounded-full items-center justify-center bg-white border border-[#E8E6DD] mr-2 mb-0.5"
+            >
+              <MaterialCommunityIcons name="leaf-circle-outline" size={20} color="#768C73" />
+            </TouchableOpacity>
+
             <TextInput 
               className="flex-1 max-h-28 text-[15px] text-[#2C402E] pt-2 pb-2 font-medium"
-              placeholder="Ask about fertilizer, pests, pruning..." 
+              placeholder="Ask about fertilizer, pests..." 
               placeholderTextColor="#8A9A86" 
               multiline 
               value={inputText} 
               onChangeText={setInputText}
             />
-            <TouchableOpacity onPress={() => handleSend(inputText)} disabled={!inputText.trim() || isTyping} className={`w-10 h-10 rounded-full items-center justify-center ml-2 transition-all ${inputText.trim() && !isTyping ? 'bg-[#2C402E]' : 'bg-[#E8E6DD]'}`}>
+            
+            <TouchableOpacity 
+              onPress={() => handleSend(inputText)} 
+              disabled={!inputText.trim() || isTyping} 
+              className={`w-10 h-10 rounded-full items-center justify-center ml-2 transition-all ${inputText.trim() && !isTyping ? 'bg-[#2C402E]' : 'bg-[#E8E6DD]'}`}
+            >
               <Feather name="arrow-up" size={18} color={inputText.trim() && !isTyping ? '#FFFFFF' : '#B0BDB0'} />
             </TouchableOpacity>
           </View>
         </View>
       </KeyboardAvoidingView>
-    </View>
+
+      <Modal visible={showDataForm} transparent animationType="slide">
+        <KeyboardAvoidingView 
+          behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
+          className="flex-1 justify-end bg-black/60"
+        >
+          <View className="bg-white rounded-t-[32px] overflow-hidden max-h-[90%] shadow-lg">
+            <View className="flex-row justify-between items-center p-6 border-b border-[#E8E6DD] bg-white">
+              <View className="flex-row items-center">
+                <View className="w-10 h-10 bg-[#F5F3E9] rounded-full items-center justify-center mr-3 border border-[#E8E6DD]">
+                  <MaterialCommunityIcons name="clipboard-text-outline" size={20} color="#3E5C41" />
+                </View>
+                <Text className="text-xl font-extrabold text-[#1F3021]">Plot Details</Text>
+              </View>
+              <Pressable onPress={() => setShowDataForm(false)} className="p-2 bg-gray-100 rounded-full">
+                <Feather name="x" size={20} color="#4F6851" />
+              </Pressable>
+            </View>
+
+            <ScrollView 
+              contentContainerStyle={{ padding: 24, paddingBottom: 40 }}
+              keyboardShouldPersistTaps="handled"
+              showsVerticalScrollIndicator={false}
+            >
+              <View className="flex-row justify-between mb-4">
+                <View className="w-[48%]">
+                  <Text className="text-xs font-bold text-[#768C73] uppercase tracking-wider mb-2">Age of Crop</Text>
+                  <TextInput 
+                    value={cultivationData.age}
+                    onChangeText={(val) => setCultivationData({...cultivationData, age: val})}
+                    keyboardType="numeric"
+                    placeholder="Years (e.g. 3)"
+                    placeholderTextColor="#000000"
+                    className="bg-[#F5F3E9] p-4 rounded-2xl border border-[#E8E6DD] text-[#1F3021] font-semibold"
+                  />
+                </View>
+                <View className="w-[48%]">
+                  <Text className="text-xs font-bold text-[#768C73] uppercase tracking-wider mb-2">Spacing</Text>
+                  <TextInput 
+                    value={cultivationData.spacing}
+                    onChangeText={(val) => setCultivationData({...cultivationData, spacing: val})}
+                    placeholder="e.g. 1.2m x 1.2m"
+                    placeholderTextColor="#000000"
+                    className="bg-[#F5F3E9] p-4 rounded-2xl border border-[#E8E6DD] text-[#1F3021] font-semibold"
+                  />
+                </View>
+              </View>
+
+              <View className="flex-row justify-between mb-4">
+                <View className="w-[48%]">
+                  <Text className="text-xs font-bold text-[#768C73] uppercase tracking-wider mb-2">Season</Text>
+                  <TextInput 
+                    value={cultivationData.season}
+                    onChangeText={(val) => setCultivationData({...cultivationData, season: val})}
+                    placeholder="Yala or Maha"
+                    placeholderTextColor="#000000"
+                    className="bg-[#F5F3E9] p-4 rounded-2xl border border-[#E8E6DD] text-[#1F3021] font-semibold"
+                  />
+                </View>
+                <View className="w-[48%]">
+                  <Text className="text-xs font-bold text-[#768C73] uppercase tracking-wider mb-2">Rainfall</Text>
+                  <TextInput 
+                    value={cultivationData.rainfall}
+                    onChangeText={(val) => setCultivationData({...cultivationData, rainfall: val})}
+                    keyboardType="numeric"
+                    placeholder="mm/year"
+                    placeholderTextColor="#000000"
+                    className="bg-[#F5F3E9] p-4 rounded-2xl border border-[#E8E6DD] text-[#1F3021] font-semibold"
+                  />
+                </View>
+              </View>
+
+              <View className="flex-row justify-between mb-8">
+                <View className="w-[48%]">
+                  <Text className="text-xs font-bold text-[#768C73] uppercase tracking-wider mb-2">Elevation</Text>
+                  <TextInput 
+                    value={cultivationData.elevation}
+                    onChangeText={(val) => setCultivationData({...cultivationData, elevation: val})}
+                    keyboardType="numeric"
+                    placeholder="m (above sea)"
+                    placeholderTextColor="#000000"
+                    className="bg-[#F5F3E9] p-4 rounded-2xl border border-[#E8E6DD] text-[#1F3021] font-semibold"
+                  />
+                </View>
+                <View className="w-[48%]">
+                  <Text className="text-xs font-bold text-[#768C73] uppercase tracking-wider mb-2">Soil pH</Text>
+                  <TextInput 
+                    value={cultivationData.ph}
+                    onChangeText={(val) => setCultivationData({...cultivationData, ph: val})}
+                    keyboardType="numeric"
+                    placeholder="e.g. 5.5"
+                    placeholderTextColor="#000000"
+                    className="bg-[#F5F3E9] p-4 rounded-2xl border border-[#E8E6DD] text-[#1F3021] font-semibold"
+                  />
+                </View>
+              </View>
+
+              <TouchableOpacity 
+                onPress={handleDataSubmit}
+                activeOpacity={0.8}
+                className="bg-[#2D4530] w-full py-4 rounded-2xl items-center border border-[#3E5C41]"
+              >
+                <Text className="text-white font-bold text-base tracking-wide">Get Recommendations</Text>
+              </TouchableOpacity>
+            </ScrollView>
+          </View>
+        </KeyboardAvoidingView>
+      </Modal>
+    </ImageBackground>
   );
 }
