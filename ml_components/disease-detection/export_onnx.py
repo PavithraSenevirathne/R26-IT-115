@@ -2,7 +2,6 @@ import torch
 import os
 from modal_app import app, base_image, volume, VOL_PATH
 
-# 1. Start from base_image, install ONNX, THEN add the local files
 onnx_image = base_image.pip_install("onnx", "onnxscript").add_local_python_source(
     "modal_app", "train_lib", "export_onnx"
 )
