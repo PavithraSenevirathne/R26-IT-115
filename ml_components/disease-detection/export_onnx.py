@@ -1,8 +1,13 @@
 import torch
 import os
-from modal_app import app, image, volume, VOL_PATH
+from modal_app import app, base_image, volume, VOL_PATH
 
-@app.function(image=image, volumes={VOL_PATH: volume})
+# 1. Start from base_image, install ONNX, THEN add the local files
+onnx_image = base_image.pip_install("onnx", "onnxscript").add_local_python_source(
+    "modal_app", "train_lib", "export_onnx"
+)
+
+@app.function(image=onnx_image, volumes={VOL_PATH: volume})
 def run_export():
     from train_lib import build_model
     
@@ -25,7 +30,6 @@ def run_export():
         print(f"Exporting {part} model to ONNX...")
         
         model = build_model(num_classes=num_classes).to("cpu")
-        
         model.load_state_dict(torch.load(model_path, map_location="cpu", weights_only=True))
         model.eval()
 
