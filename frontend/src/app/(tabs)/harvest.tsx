@@ -1,5 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, View, Text, TouchableOpacity, Image, ActivityIndicator, Alert, Pressable, Modal } from 'react-native';
+import { 
+  ScrollView, 
+  View, 
+  Text, 
+  TouchableOpacity, 
+  Image, 
+  ActivityIndicator, 
+  Alert, 
+  Pressable, 
+  Modal,
+  LayoutAnimation,
+  Platform,
+  UIManager
+} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -11,6 +24,10 @@ import { imageToTensor } from '../../utils/tensorHelper';
 import { initializeHarvestEnsemble, runHarvestInference } from '../../services/harvestEnsemble';
 import { initializeBarkGate, runBarkValidation } from '../../services/barkValidation';
 
+if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+
 type ReadinessClass = 'Immature' | 'Optimal' | 'Over-mature';
 
 interface HarvestAnalysisResult {
@@ -19,12 +36,27 @@ interface HarvestAnalysisResult {
   predicted_class: ReadinessClass;
 }
 
-const safeShadow = {
+const premiumShadow = {
+  elevation: 6,
+  shadowColor: '#9A3412', 
+  shadowOffset: { width: 0, height: 6 },
+  shadowOpacity: 0.12,
+  shadowRadius: 12,
+};
+
+const softShadow = {
   elevation: 2,
-  shadowColor: '#2C402E',
+  shadowColor: '#000',
   shadowOffset: { width: 0, height: 2 },
-  shadowOpacity: 0.06,
-  shadowRadius: 6,
+  shadowOpacity: 0.05,
+  shadowRadius: 4,
+};
+
+const calmingAnimation = {
+  duration: 400,
+  create: { type: LayoutAnimation.Types.easeInEaseOut, property: LayoutAnimation.Properties.opacity },
+  update: { type: LayoutAnimation.Types.easeInEaseOut },
+  delete: { type: LayoutAnimation.Types.easeInEaseOut, property: LayoutAnimation.Properties.opacity },
 };
 
 export default function HarvestScreen() {
@@ -39,6 +71,10 @@ export default function HarvestScreen() {
 
   const insets = useSafeAreaInsets();
   const db = useSQLiteContext();
+
+  const triggerAnimation = () => {
+    LayoutAnimation.configureNext(calmingAnimation);
+  };
 
   useEffect(() => {
     Promise.all([
@@ -79,6 +115,7 @@ export default function HarvestScreen() {
     }
 
     if (!pickerResult.canceled) {
+      triggerAnimation();
       setImageUri(pickerResult.assets[0].uri);
       setResult(null);
     }
@@ -86,6 +123,7 @@ export default function HarvestScreen() {
 
   const analyzeBark = async () => {
     if (!imageUri || !isModelReady) return;
+    triggerAnimation();
     setIsAnalyzing(true);
     
     try {
@@ -98,6 +136,7 @@ export default function HarvestScreen() {
       const isCinnamonBark = await runBarkValidation(manipulatedImage.uri);
       if (!isCinnamonBark) {
         setTimeout(() => { 
+          triggerAnimation();
           setImageUri(null); 
           setResult(null); 
           setShowValidationAlert(true);
@@ -115,6 +154,7 @@ export default function HarvestScreen() {
       if (score < 0.66) mappedClass = 'Immature';
       else if (score > 1.33) mappedClass = 'Over-mature';
 
+      triggerAnimation();
       setResult({
         readiness_score: score,
         std: std,
@@ -126,7 +166,11 @@ export default function HarvestScreen() {
       Alert.alert(
         "Analysis Failed", 
         "Could not process the image. Please try again.",
-        [{ text: "OK", onPress: () => setTimeout(() => { setImageUri(null); setResult(null); }, 150) }]
+        [{ text: "OK", onPress: () => setTimeout(() => { 
+          triggerAnimation();
+          setImageUri(null); 
+          setResult(null); 
+        }, 150) }]
       );
     } finally {
       setIsAnalyzing(false);
@@ -136,19 +180,20 @@ export default function HarvestScreen() {
   const getRecommendation = (predictedClass: ReadinessClass) => {
     switch (predictedClass) {
       case 'Immature': return "Bark is too thin. Wait longer before peeling.";
-      case 'Optimal': return "Prime readiness! Harvest now for a good gain.";
-      case 'Over-mature': return "Past optimal time-frame. Bark may be tough to peel.";
+      case 'Optimal': return "Prime readiness! Harvest now for maximum yield.";
+      case 'Over-mature': return "Past optimal time-frame. Bark may be tough.";
     }
   };
 
   const getConfidenceInfo = (std: number) => {
-    if (std < 0.05) return { level: 'High', color: '#059669', bg: '#D1FAE5', icon: 'check-circle' as const };
-    if (std < 0.15) return { level: 'Medium', color: '#D97706', bg: '#FEF3C7', icon: 'minus-circle' as const };
-    return { level: 'Low', color: '#E11D48', bg: '#FFE4E6', icon: 'alert-circle' as const };
+    if (std < 0.05) return { level: 'High Consensus', textClass: 'text-emerald-800', bgClass: 'bg-emerald-100', icon: 'check-circle' as const };
+    if (std < 0.15) return { level: 'Medium Consensus', textClass: 'text-amber-800', bgClass: 'bg-amber-100', icon: 'minus-circle' as const };
+    return { level: 'Low Consensus', textClass: 'text-rose-800', bgClass: 'bg-rose-100', icon: 'alert-circle' as const };
   };
 
   const resetScanner = () => {
     if (isAnalyzing) return;    
+    triggerAnimation();
     setTimeout(() => {
       setImageUri(null);
       setResult(null);
@@ -188,45 +233,57 @@ export default function HarvestScreen() {
   return (
     <>
       <ScrollView 
-        className="flex-1 bg-[#ACE1AF] px-6 pt-6" 
-        contentContainerStyle={{ paddingTop: insets.top + 16, paddingBottom: 40 }} 
-        showsVerticalScrollIndicator={false}
+        className="flex-1 bg-[#FFFBF7] px-5 pt-6"
+        contentContainerStyle={{ paddingTop: insets.top + 10, paddingBottom: 50 }} 
+        showsVerticalScrollIndicator={true}
+        indicatorStyle="default"
       >
-        <View className="flex-row items-center self-start bg-[#E4ECE1] px-3 py-1.5 rounded-full mb-6 border border-[#CBDBC7]">
-          <MaterialCommunityIcons name="layers-triple-outline" size={14} color="#3E5C41" />
-          <Text className="text-[#3E5C41] text-[10px] font-bold ml-1.5 uppercase tracking-widest">Ensemble AI</Text>
+        <View style={premiumShadow} className="bg-green-600 rounded-2xl p-6 mb-8 overflow-hidden relative">
+          <MaterialCommunityIcons 
+            name="leaf-maple" 
+            size={140} 
+            color="#FFFFFF" 
+            style={{ position: 'absolute', right: -30, top: -20, opacity: 0.15, transform: [{ rotate: '15deg' }] }} 
+          />
+          <Text className="text-white text-3xl font-extrabold mb-1 tracking-tight">Harvest Readiness Indicator</Text>
+          <Text className="text-orange-100 text-sm font-medium leading-relaxed w-5/6">
+            Powered by 5 Ensemble models. Helpful to determine the perfect time for cinnamon harvesting by analyzing the bark's maturity.
+          </Text>
         </View>
 
-        <Text className="text-3xl font-extrabold text-[#1F3021] mb-2 tracking-tight">Harvest Readiness</Text>
-        <Text className="mb-8 text-sm text-[#768C73] leading-relaxed">
-          Determine the optimal time to peel cinnamon bark. Capture a clear, close-up photo of the stem surface.
-        </Text>
-
         {modelError && (
-          <View className="bg-[#FFF4F4] p-4 rounded-2xl border border-[#FDE8E8] mb-6 flex-row items-center">
-            <MaterialCommunityIcons name="alert-circle-outline" size={24} color="#E11D48" />
-            <Text className="text-[#881337] font-semibold ml-3 flex-1">{modelError}</Text>
+          <View className="bg-rose-50 p-4 rounded-xl border-l-4 border-rose-500 mb-6 flex-row items-center" style={softShadow}>
+            <MaterialCommunityIcons name="alert-circle" size={28} color="#E11D48" />
+            <Text className="text-rose-900 font-semibold ml-3 flex-1 text-sm">{modelError}</Text>
           </View>
         )}
 
         <View className="mb-6">
           {!imageUri ? (
-            <View className="flex-row justify-between mb-2">
+            <View className="flex-col">
+              <Text className="text-slate-800 font-extrabold text-lg mb-4 ml-1">Add Specimen</Text>
+              
               <TouchableOpacity
                 onPress={() => pickImage(true)}
                 disabled={isLocked}
-                activeOpacity={0.85}
-                style={[{ width: '48%' }, !isLocked && safeShadow]}
-                className={`h-40 rounded-3xl items-center justify-center border transition-all ${
-                  isLocked ? 'bg-[#768C73] border-[#768C73] opacity-60' : 'bg-[#2D4530] border-[#3E5C41]'
+                activeOpacity={0.8}
+                style={!isLocked && premiumShadow}
+                className={`w-full rounded-2xl flex-row items-center p-4 mb-4 transition-all ${
+                  isLocked ? 'bg-slate-200 opacity-60' : 'bg-green-600'
                 }`}
               >
                 {isLocked && !modelError ? (
-                  <ActivityIndicator color="white" />
+                  <View className="w-full items-center py-4"><ActivityIndicator color="white" /></View>
                 ) : (
                   <>
-                    <MaterialCommunityIcons name="camera-iris" size={36} color="white" />
-                    <Text className="text-white font-bold mt-3">Camera</Text>
+                    <View className="bg-white/20 p-3 rounded-xl mr-4">
+                      <MaterialCommunityIcons name="camera-iris" size={28} color="white" />
+                    </View>
+                    <View className="flex-1">
+                      <Text className="text-white font-extrabold text-lg">Open Camera</Text>
+                      <Text className="text-orange-100 text-xs font-medium mt-0.5">Capture a fresh bark photo</Text>
+                    </View>
+                    <Feather name="chevron-right" size={24} color="white" opacity={0.6} />
                   </>
                 )}
               </TouchableOpacity>
@@ -235,142 +292,154 @@ export default function HarvestScreen() {
                 onPress={() => pickImage(false)}
                 disabled={isLocked}
                 activeOpacity={0.7}
-                style={[{ width: '48%' }, !isLocked && safeShadow]}
-                className={`h-40 bg-white border rounded-3xl items-center justify-center transition-all ${
-                  isLocked ? 'border-[#E8E6DD] opacity-60' : 'border-[#E8E6DD]'
+                style={!isLocked && softShadow}
+                className={`w-full bg-white border border-slate-100 rounded-2xl flex-row items-center p-4 transition-all ${
+                  isLocked ? 'opacity-60' : ''
                 }`}
               >
                 {isLocked && !modelError ? (
-                  <Text className="text-[#768C73] font-bold text-xs mt-3">Warming Models...</Text>
+                  <View className="w-full items-center py-4"><Text className="text-slate-400 font-bold">Warming Models...</Text></View>
                 ) : (
                   <>
-                    <MaterialCommunityIcons name="image-multiple-outline" size={32} color="#768C73" />
-                    <Text className="text-[#4F6851] font-bold mt-3 text-sm">Gallery</Text>
+                    <View className="bg-green-50 p-3 rounded-xl mr-4">
+                      <MaterialCommunityIcons name="image-multiple" size={28} color="#F97316" />
+                    </View>
+                    <View className="flex-1">
+                      <Text className="text-slate-800 font-extrabold text-lg">Photo Gallery</Text>
+                      <Text className="text-slate-400 text-xs font-medium mt-0.5">Choose an existing image</Text>
+                    </View>
+                    <Feather name="chevron-right" size={24} color="#CBD5E1" />
                   </>
                 )}
               </TouchableOpacity>
             </View>
           ) : (
-            <View style={safeShadow} className="w-full aspect-[4/5] bg-[#E8E6DD] rounded-[32px] overflow-hidden border-2 border-white relative">
-              <Image source={{ uri: imageUri }} className="w-full h-full" resizeMode="cover" />
-              
-              {!isAnalyzing && !result && (
-                <Pressable 
-                  onPress={resetScanner} 
-                  style={safeShadow} 
-                  className="absolute top-5 right-5 w-9 h-9 bg-white/95 rounded-full items-center justify-center active:bg-gray-200"
-                >
-                  <Feather name="x" size={16} color="#1F3021" strokeWidth={2.5} />
-                </Pressable>
-              )}
-              
-              {isAnalyzing && (
-                <View className="absolute inset-0 bg-[#1F3021]/60 items-center justify-center">
-                  <ActivityIndicator size="large" color="white" />
-                  <Text className="mt-4 font-bold text-white text-base tracking-wide">Evaluating Bark...</Text>
+            <View>
+              <Text className="text-slate-800 font-extrabold text-lg mb-4 ml-1">Target Acquired</Text>
+              <View style={premiumShadow} className="w-full bg-white p-3 rounded-[24px] mb-6 border border-slate-100">
+                <View className="w-full aspect-[4/5] bg-slate-100 rounded-xl overflow-hidden relative">
+                  <Image source={{ uri: imageUri }} className="w-full h-full" resizeMode="cover" />
+                  
+                  {!isAnalyzing && !result && (
+                    <Pressable 
+                      onPress={resetScanner} 
+                      style={premiumShadow} 
+                      className="absolute top-4 right-4 w-10 h-10 bg-white/95 rounded-full items-center justify-center active:bg-slate-100"
+                    >
+                      <Feather name="x" size={20} color="#0F172A" strokeWidth={3} />
+                    </Pressable>
+                  )}
+                  
+                  {isAnalyzing && (
+                    <View className="absolute inset-0 bg-slate-900/60 items-center justify-center backdrop-blur-sm">
+                      <View className="bg-white/20 p-4 rounded-full mb-3">
+                        <ActivityIndicator size="large" color="#FFFFFF" />
+                      </View>
+                      <Text className="font-extrabold text-white text-lg tracking-wider">Analyzing Bark</Text>
+                    </View>
+                  )}
                 </View>
-              )}
+              </View>
             </View>
           )}
         </View>
 
         {imageUri && !result && (
-          <View>
-            <TouchableOpacity
-              onPress={analyzeBark}
-              disabled={isLocked}
-              activeOpacity={0.8}
-              style={safeShadow}
-              className={`py-4 rounded-2xl flex-row justify-center items-center border ${
-                isLocked ? 'bg-[#768C73] border-[#768C73]' : 'bg-[#3E5C41] border-[#4A6B4D]'
-              }`}
-            >
-              {isAnalyzing ? (
-                <ActivityIndicator color="white" size="small" />
-              ) : (
-                <>
-                  <MaterialCommunityIcons name="chart-bell-curve" size={22} color="white" />
-                  <Text className="text-white font-bold ml-2 text-base tracking-wide">Analyze Readiness</Text>
-                </>
-              )}
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            onPress={analyzeBark}
+            disabled={isLocked}
+            activeOpacity={0.8}
+            style={premiumShadow}
+            className={`py-4 rounded-xl flex-row justify-center items-center ${
+              isLocked ? 'bg-slate-300' : 'bg-emerald-500'
+            }`}
+          >
+            {isAnalyzing ? (
+              <ActivityIndicator color="white" size="small" />
+            ) : (
+              <>
+                <MaterialCommunityIcons name="layers-triple" size={24} color="white" />
+                <Text className="text-white font-extrabold ml-3 text-lg">Run Analysis</Text>
+              </>
+            )}
+          </TouchableOpacity>
         )}
 
         {result && (
-          <View>
-            <View style={safeShadow} className="bg-white rounded-[32px] border border-[#E8E6DD] p-6 mb-6">
-              <View className="flex-row items-center justify-between mb-4">
-                <Text className="text-[#768C73] font-bold text-[10px] uppercase tracking-widest">Ensemble Output</Text>
+          <View className="mt-2">
+            <Text className="text-slate-800 font-extrabold text-lg mb-4 ml-1">Analysis Results</Text>
+            
+            <View className="flex-row gap-3 mb-3">
+              <View style={softShadow} className="flex-1 bg-white p-5 rounded-2xl border border-slate-100">
                 <MaterialCommunityIcons 
-                  name={result.predicted_class === 'Optimal' ? "check-decagram" : "alert-circle-outline"} 
-                  size={22} 
-                  color={result.predicted_class === 'Optimal' ? "#10B981" : "#D97706"} 
+                  name={result.predicted_class === 'Optimal' ? "check-decagram" : "alert-decagram"} 
+                  size={32} 
+                  color={result.predicted_class === 'Optimal' ? "#10B981" : "#F59E0B"} 
+                  className="mb-2"
                 />
-              </View>
-
-              <Text className="text-3xl font-extrabold text-[#1F3021] mb-1">{result.predicted_class}</Text>
-              <Text className="text-sm font-semibold text-[#4F6851] mb-8">{getRecommendation(result.predicted_class)}</Text>
-
-              <View className="mb-8">
-                <View className="flex-row justify-between mb-2 px-1">
-                  <Text className="text-[10px] font-bold text-[#768C73] uppercase tracking-wider">Immature</Text>
-                  <Text className="text-[10px] font-bold text-[#768C73] uppercase tracking-wider">Optimal</Text>
-                  <Text className="text-[10px] font-bold text-[#768C73] uppercase tracking-wider">Over-mature</Text>
-                </View>
-                
-                <View className="h-3.5 w-full bg-[#F5F3E9] rounded-full flex-row overflow-hidden relative">
-                  <View className="flex-1 bg-[#FCD34D]" /> 
-                  <View className="flex-1 bg-[#34D399]" /> 
-                  <View className="flex-1 bg-[#FDBA74]" /> 
-                  
-                  <View 
-                    style={{ left: `${Math.min(Math.max((result.readiness_score / 2) * 100, 0), 100)}%` }} 
-                    className="absolute top-0 bottom-0 w-1.5 bg-[#1F3021] rounded-full -ml-[3px] border-[1px] border-white shadow-sm" 
-                  />
-                </View>
-                <Text className="text-center text-xs font-bold text-[#768C73] mt-2">Score: {result.readiness_score.toFixed(2)}</Text>
-              </View>
-
-              <View className="bg-[#F5F3E9] p-4 rounded-2xl border border-[#E8E6DD]">
-                <View className="flex-row items-center mb-2">
-                  <Text className="font-bold text-[#1F3021] mr-2 text-sm">Model Consensus</Text>
-                  {(() => {
-                    const conf = getConfidenceInfo(result.std);
-                    return (
-                      <View style={{ backgroundColor: conf.bg }} className="flex-row items-center px-2 py-1 rounded-md">
-                        <Feather name={conf.icon} size={12} color={conf.color} className="mr-1" />
-                        <Text style={{ color: conf.color }} className="text-xs font-bold">{conf.level}</Text>
-                      </View>
-                    );
-                  })()}
-                </View>
-                <Text className="text-[#4F6851] text-xs leading-relaxed">
-                  {result.std > 0.15 
-                    ? "The ensemble models disagree. Consider performing a manual bark slit test to confirm readiness."
-                    : `Deviation: ±${result.std.toFixed(3)}. Strong agreement among all AI models.`}
-                </Text>
+                <Text className="text-3xl font-extrabold text-slate-800 mb-1">{result.predicted_class}</Text>
+                <Text className="text-sm font-medium text-slate-500 leading-tight">{getRecommendation(result.predicted_class)}</Text>
               </View>
             </View>
+
+            <View style={softShadow} className="bg-white p-5 rounded-2xl border border-slate-100 mb-3">
+              <View className="flex-row justify-between items-end mb-3">
+                 <Text className="font-extrabold text-slate-800">Readiness Spectrum</Text>
+                 <Text className="font-bold text-orange-500 text-lg">{result.readiness_score.toFixed(2)}</Text>
+              </View>
+              
+              <View className="h-4 w-full bg-slate-100 rounded-full flex-row overflow-hidden relative mb-2">
+                <View className="flex-1 bg-amber-300" /> 
+                <View className="flex-1 bg-emerald-400" /> 
+                <View className="flex-1 bg-rose-400" /> 
+                
+                <View 
+                  style={{ left: `${Math.min(Math.max((result.readiness_score / 2) * 100, 0), 100)}%` }} 
+                  className="absolute top-0 bottom-0 w-2.5 bg-slate-800 rounded-full -ml-1 border-2 border-white shadow-md" 
+                />
+              </View>
+              <View className="flex-row justify-between px-1">
+                <Text className="text-[10px] font-bold text-slate-400 uppercase">Immature</Text>
+                <Text className="text-[10px] font-bold text-slate-400 uppercase">Over-mature</Text>
+              </View>
+            </View>
+
+            {(() => {
+              const conf = getConfidenceInfo(result.std);
+              return (
+                <View style={softShadow} className={`${conf.bgClass} p-4 rounded-2xl border border-white/60 mb-6 flex-row items-center`}>
+                  <View className="bg-white/50 p-2 rounded-full mr-3">
+                    <Feather name={conf.icon} size={20} color="currentColor" className={conf.textClass} />
+                  </View>
+                  <View className="flex-1">
+                    <Text className={`font-extrabold text-sm mb-0.5 ${conf.textClass}`}>{conf.level}</Text>
+                    <Text className={`${conf.textClass} text-xs font-medium leading-tight opacity-90`}>
+                      {result.std > 0.15 
+                        ? "Models disagree slightly. Perform a slit test."
+                        : `Deviation: ±${result.std.toFixed(3)}. AI agreement is solid.`}
+                    </Text>
+                  </View>
+                </View>
+              );
+            })()}
             
             <TouchableOpacity
               onPress={handleDiscussWithAI}
               activeOpacity={0.8}
-              style={safeShadow}
-              className="bg-[#2D4530] border border-[#3E5C41] py-4 rounded-2xl flex-row justify-center items-center mb-3"
+              style={premiumShadow}
+              className="bg-indigo-500 py-4 rounded-xl flex-row justify-center items-center mb-4"
             >
-              <MaterialCommunityIcons name="robot-outline" size={20} color="white" />
-              <Text className="text-white font-bold ml-2 text-base">Discuss with CinnLLM</Text>
+              <MaterialCommunityIcons name="robot-outline" size={24} color="white" />
+              <Text className="text-white font-extrabold ml-3 text-lg">Discuss Plan with AI</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={resetScanner}
               activeOpacity={0.7}
-              style={safeShadow}
-              className="bg-white border border-[#E8E6DD] py-4 rounded-2xl flex-row justify-center items-center mb-6"
+              className="bg-transparent py-4 rounded-xl flex-row justify-center items-center"
             >
-              <Feather name="refresh-cw" size={18} color="#768C73" />
-              <Text className="text-[#4F6851] font-bold ml-2 text-base">Scan Another Stem</Text>
+              <Feather name="refresh-cw" size={18} color="#64748B" />
+              <Text className="text-slate-500 font-bold ml-2 text-base">Scan Another Stem</Text>
             </TouchableOpacity>
 
           </View>
@@ -378,22 +447,22 @@ export default function HarvestScreen() {
       </ScrollView>
 
       <Modal transparent visible={showValidationAlert} animationType="fade">
-        <View className="flex-1 bg-black/60 items-center justify-center px-6">
-          <View className="bg-white rounded-[32px] p-6 w-full items-center" style={safeShadow}>
-            <View className="bg-[#FFF4F4] w-16 h-16 rounded-full items-center justify-center mb-4 border border-[#FDE8E8]">
-              <MaterialCommunityIcons name="leaf-off" size={32} color="#E11D48" />
+        <View className="flex-1 bg-slate-900/60 items-center justify-center px-6 backdrop-blur-sm">
+          <View className="bg-white rounded-3xl p-8 w-full items-center" style={premiumShadow}>
+            <View className="bg-rose-50 w-20 h-20 rounded-full items-center justify-center mb-5">
+              <MaterialCommunityIcons name="leaf-off" size={40} color="#E11D48" />
             </View>
-            <Text className="text-2xl font-extrabold text-[#1F3021] mb-2 text-center">Invalid Subject</Text>
-            <Text className="text-[#4F6851] text-center leading-relaxed mb-8">
-              This image does not appear to be cinnamon bark. Please capture a clear, close-up photo of the stem surface.
+            <Text className="text-2xl font-extrabold text-slate-800 mb-2 text-center">Invalid Image</Text>
+            <Text className="text-slate-500 text-center leading-relaxed mb-8 text-base font-medium">
+              This does not appear to be cinnamon bark. Please capture a clear, close-up photo of the stem.
             </Text>
             
             <TouchableOpacity
               onPress={() => setShowValidationAlert(false)}
               activeOpacity={0.8}
-              className="bg-[#2D4530] py-4 w-full rounded-2xl items-center border border-[#3E5C41]"
+              className="bg-slate-800 py-4 w-full rounded-xl items-center"
             >
-              <Text className="text-white font-bold text-base tracking-wide">Got it</Text>
+              <Text className="text-white font-bold text-lg">Understood</Text>
             </TouchableOpacity>
           </View>
         </View>
