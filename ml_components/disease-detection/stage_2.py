@@ -1,7 +1,39 @@
 import torch
 import torch.nn as nn
+import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
 
 from modal_app import app, image, volume, VOL_PATH
+
+def save_confusion_matrix(model, val_loader, device, classes, save_path):
+    model.eval()
+    all_preds = []
+    all_targets = []
+    
+    with torch.no_grad():
+        for x, y in val_loader:
+            x = x.to(device)
+            outputs = model(x)
+            preds = torch.argmax(outputs, dim=1)
+            
+            all_preds.extend(preds.cpu().numpy())
+            all_targets.extend(y.numpy())
+            
+    cm = confusion_matrix(all_targets, all_preds)
+    
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', 
+                xticklabels=classes, yticklabels=classes,
+                annot_kws={"size": 14})
+    
+    plt.ylabel('Actual Diagnosis', fontsize=12)
+    plt.xlabel('Model Prediction', fontsize=12)
+    plt.title('Validation Confusion Matrix', fontsize=14)
+    plt.tight_layout()
+    
+    plt.savefig(save_path, dpi=300)
+    plt.close()
 
 @app.function(image=image, gpu="A10G", volumes={VOL_PATH: volume}, timeout=7200)
 def train_stage2(
@@ -50,7 +82,6 @@ def train_stage2(
         val_loss, val_f1 = run_epoch(model, val_loader, criterion, optimizer, device, train=False)
         print(f"[stage2-{part}-head] epoch {epoch:02d} train_f1={train_f1:.4f} val_f1={val_f1:.4f}")
         
-        # Save based on F1
         if val_f1 > best_f1:
             best_f1 = val_f1
             torch.save(model.state_dict(), output_path)
@@ -75,10 +106,15 @@ def train_stage2(
             print(f"[stage2-{part}] new best saved (val_f1={best_f1:.4f})")
 
     model.load_state_dict(torch.load(output_path, map_location=device, weights_only=True))
+    
     print(f"\n[stage2-{part}] Per-class report (best checkpoint):")
     evaluate_per_class(model, val_loader, classes, device)
     
     export_for_mobile(output_path, len(classes), mobile_output_path)
+
+    cm_path = f"{VOL_PATH}/checkpoints/confusion_matrix_{part}.png"
+    print(f"Generating confusion matrix at {cm_path}...")
+    save_confusion_matrix(model, val_loader, device, classes, cm_path)
 
     volume.commit()
     return {"part": part, "best_f1": best_f1, "classes": classes}

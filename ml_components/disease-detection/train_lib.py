@@ -43,23 +43,35 @@ def unfreeze_last_blocks(model, block_indices=(10, 11, 12)):
 IMAGENET_MEAN = [0.485, 0.456, 0.406]
 IMAGENET_STD = [0.229, 0.224, 0.225]
 
-def get_transforms(train: bool):
+def get_transforms(train: bool = True):
+    IMAGENET_MEAN = [0.485, 0.456, 0.406]
+    IMAGENET_STD = [0.229, 0.224, 0.225]
+
     if train:
         return transforms.Compose([
-            transforms.RandomResizedCrop(224, scale=(0.6, 1.0)),
-            transforms.RandomHorizontalFlip(),
-            transforms.RandAugment(num_ops=2, magnitude=9), 
+            transforms.Resize(256),
+            transforms.RandomResizedCrop(224, scale=(0.85, 1.0), ratio=(0.9, 1.1)),
+            transforms.RandomHorizontalFlip(p=0.5),
+            transforms.RandomVerticalFlip(p=0.5),
+            transforms.RandomRotation(degrees=30),
+            transforms.RandAugment(num_ops=2, magnitude=7),
+            transforms.ColorJitter(brightness=0.15, contrast=0.15, saturation=0.15, hue=0.03),
             transforms.ToTensor(),
             transforms.Normalize(mean=IMAGENET_MEAN, std=IMAGENET_STD),
-            transforms.RandomErasing(p=0.2), 
+            transforms.RandomErasing(
+                p=0.2,
+                scale=(0.02, 0.10),
+                ratio=(0.3, 3.3),
+                value="random"
+            )
         ])
-    return transforms.Compose([
-        transforms.Resize(256),
-        transforms.CenterCrop(224),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=IMAGENET_MEAN, std=IMAGENET_STD),
-    ])
-
+    else:
+        return transforms.Compose([
+            transforms.Resize(256),
+            transforms.CenterCrop(224),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=IMAGENET_MEAN, std=IMAGENET_STD),
+        ])
 
 def get_plantvillage_loaders(batch_size=64, num_workers=4, val_split=0.2, seed=42):
     root = f"{VOL_PATH}/plantvillage_raw/raw/color"
