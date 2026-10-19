@@ -34,12 +34,32 @@ const CLASS_COLOURS: Record<string, string> = {
   grasshopper: '#10B981'
 };
 
-const PEST_DESCRIPTIONS: Record<string, string> = {
-  caterpillar: 'Chews through foliage rapidly, leaving large irregular holes in leaves and stunting plant growth.',
-  stem_borer: 'Burrows deep into the stem, weakening the plant structure and severely disrupting nutrient transport.',
-  thrips: 'Tiny insects that puncture plant cells and suck out contents, causing silvering, stippling, and leaf curling.',
-  beetle: 'Feeds aggressively on leaves and young bark, causing physical damage and exposing the plant to secondary fungal infections.',
-  grasshopper: 'Aggressive foliage feeders that can strip a plant of its leaves in large numbers if left unchecked.'
+const PEST_INFO: Record<string, { nameSi: string, descEn: string, descSi: string }> = {
+  'caterpillar': {
+    nameSi: 'දළඹුවා',
+    descEn: 'Chews through foliage rapidly, leaving large irregular holes in leaves and stunting plant growth.',
+    descSi: 'පත්‍ර වේගයෙන් කා දමන අතර පත්‍රවල විශාල අක්‍රමවත් සිදුරු ඇති කරයි. මෙයින් ශාකයේ වර්ධනය අඩාල වේ.'
+  },
+  'stem_borer': {
+    nameSi: 'කඳ විදින්නා',
+    descEn: 'Burrows deep into the stem, weakening the plant structure and severely disrupting nutrient transport.',
+    descSi: 'කඳ මධ්‍යයට විදගෙන යන අතර ශාකයේ ව්‍යුහය දුර්වල කර පෝෂක පරිවහනයට දැඩි ලෙස බාධා කරයි.'
+  },
+  'thrips': {
+    nameSi: 'පැල මැක්කා',
+    descEn: 'Tiny insects that puncture plant cells and suck out contents, causing silvering, stippling, and leaf curling.',
+    descSi: 'ශාක සෛල සිදුරු කර යුෂ උරා බොන ඉතා කුඩා කෘමීන් විශේෂයකි. මේ හේතුවෙන් පත්‍ර රිදී පැහැ ගැන්වීම, ලප ඇතිවීම සහ පත්‍ර හැකිලීම සිදුවේ.'
+  },
+  'beetle': {
+    nameSi: 'කුරුමිණියා',
+    descEn: 'Feeds aggressively on leaves and young bark, causing physical damage and exposing the plant to secondary fungal infections.',
+    descSi: 'පත්‍ර සහ ලපටි පොතු වේගයෙන් කා දමමින් භෞතික හානි සිදුකරයි. මේ නිසා ශාකය ද්විතියික දිලීර ආසාදනවලට නිරාවරණය වේ.'
+  },
+  'grasshopper': {
+    nameSi: 'පළඟැටියා',
+    descEn: 'Aggressive foliage feeders that can strip a plant of its leaves in large numbers if left unchecked.',
+    descSi: 'විශාල වශයෙන් බෝවී ශාක පත්‍ර සම්පූර්ණයෙන්ම කා දැමිය හැකි විනාශකාරී කෘමියෙකි.'
+  }
 };
 
 const premiumShadow = {
@@ -195,7 +215,7 @@ export default function PestScreen() {
 
   return (
     <ScrollView 
-      className="flex-1 bg-[#F8FAFC] px-5 pt-6"
+      className="flex-1 bg-emerald-100 px-5 pt-6"
       contentContainerStyle={{ paddingTop: insets.top + 10, paddingBottom: 50 }}
       showsVerticalScrollIndicator={true}
       indicatorStyle="default"
@@ -402,30 +422,49 @@ export default function PestScreen() {
               </View>
             ) : (
               <View>
-                {detections.map((det, index) => (
-                  <View 
-                    key={index} 
-                    className={`py-4 ${index !== detections.length - 1 ? 'border-b border-slate-100' : ''}`}
-                  >
-                    <View className="flex-row items-center justify-between mb-2">
-                      <View className="flex-row items-center">
-                        <View 
-                          className="w-3.5 h-3.5 rounded-full mr-3 shadow-sm" 
-                          style={{ backgroundColor: CLASS_COLOURS[det.className] || '#3E5C41' }} 
-                        />
-                        <Text className="text-slate-800 font-extrabold capitalize text-lg">
-                          {det.className.replace('_', ' ')}
-                        </Text>
+                {detections.map((det, index) => {
+                  const pestInfo = PEST_INFO[det.className.toLowerCase()];
+                  
+                  return (
+                    <View 
+                      key={index} 
+                      className={`py-4 ${index !== detections.length - 1 ? 'border-b border-slate-100' : ''}`}
+                    >
+                      <View className="flex-row items-center justify-between mb-2">
+                        <View className="flex-row items-center">
+                          <View 
+                            className="w-3.5 h-3.5 rounded-full mr-3 shadow-sm" 
+                            style={{ backgroundColor: CLASS_COLOURS[det.className] || '#3E5C41' }} 
+                          />
+                          <View>
+                            <Text className="text-slate-800 font-extrabold capitalize text-lg">
+                              {det.className.replace('_', ' ')}
+                            </Text>
+                            {pestInfo && (
+                              <Text className="text-slate-500 font-bold text-xs mt-0.5">
+                                {pestInfo.nameSi}
+                              </Text>
+                            )}
+                          </View>
+                        </View>
+                        <View className="bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200">
+                          <Text className="text-slate-600 font-bold text-xs">{Math.round(det.score * 100)}% Match</Text>
+                        </View>
                       </View>
-                      <View className="bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200">
-                        <Text className="text-slate-600 font-bold text-xs">{Math.round(det.score * 100)}% Match</Text>
+                      
+                      <View className="mt-2">
+                        <Text className="text-slate-600 text-sm leading-relaxed font-medium mb-2">
+                          {pestInfo ? pestInfo.descEn : 'Pest detected in the mapped area.'}
+                        </Text>
+                        {pestInfo && (
+                          <Text className="text-slate-500 text-sm leading-relaxed">
+                            {pestInfo.descSi}
+                          </Text>
+                        )}
                       </View>
                     </View>
-                    <Text className="text-slate-500 text-sm leading-relaxed font-medium">
-                      {PEST_DESCRIPTIONS[det.className.toLowerCase()] || 'Pest detected in the mapped area.'}
-                    </Text>
-                  </View>
-                ))}
+                  );
+                })}
               </View>
             )}
           </View>

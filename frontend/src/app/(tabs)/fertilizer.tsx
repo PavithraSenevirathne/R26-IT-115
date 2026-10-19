@@ -71,7 +71,7 @@ export default function FertilizerTab() {
   };
 
   return (
-    <View className="flex-1 bg-[#F8FAFC]" style={{ paddingTop: insets.top + 16 }}>
+    <View className="flex-1 bg-emerald-100" style={{ paddingTop: insets.top + 16 }}>
       
       <ScrollView 
         className="flex-1 px-5" 

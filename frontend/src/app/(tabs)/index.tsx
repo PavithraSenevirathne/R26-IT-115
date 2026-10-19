@@ -369,7 +369,7 @@ export default function DiseaseScreen() {
   return (
     <>
       <ScrollView
-        className="flex-1 bg-[#F8FAFC] px-5 pt-6"
+        className="flex-1 bg-emerald-100 px-5 pt-6"
         contentContainerStyle={{ paddingTop: insets.top + 10, paddingBottom: 50 }}
         showsVerticalScrollIndicator={true}
         indicatorStyle="default"
