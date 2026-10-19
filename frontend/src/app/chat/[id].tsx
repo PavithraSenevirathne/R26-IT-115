@@ -314,8 +314,8 @@ Based on this specific environment and crop data, what fertilizer dosages, amend
     <ImageBackground 
       source={{ uri: SUBTLE_PATTERN_BASE64 }}
       resizeMode="repeat"
-      imageStyle={{ resizeMode: 'repeat', opacity: 0.2 }}
-      className="flex-1 bg-[#d9f8d7]"
+      imageStyle={{ resizeMode: 'repeat', opacity: 0.3 }}
+      className="flex-1 bg-[#F5F1E7]" 
     >
       <Stack.Screen options={{ headerShown: false }} />      
       
@@ -367,6 +367,7 @@ Based on this specific environment and crop data, what fertilizer dosages, amend
             </Animated.View>
           ))}
 
+          {/* Typing Indicator */}
           {isTyping && (
             <Animated.View entering={FadeInUp.duration(300)} exiting={FadeOutDown.duration(300)} className="flex-row items-start mb-6">
               <AnimatedBotAvatar color={plantMetadata.color} isTyping={true} />
