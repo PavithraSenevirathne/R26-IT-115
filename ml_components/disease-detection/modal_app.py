@@ -16,6 +16,8 @@ base_image = (
         "numpy",
         "tqdm",
         "wandb",
+        "matplotlib",
+        "seaborn"
     )
 )
 
