@@ -11,7 +11,8 @@ import {
   Alert,
   Modal,
   Pressable,
-  ImageBackground
+  ImageBackground,
+  Image
 } from 'react-native';
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import Animated, { FadeInUp, FadeOutDown, Layout } from 'react-native-reanimated';
@@ -20,6 +21,8 @@ import { useSQLiteContext } from 'expo-sqlite';
 import { router, useLocalSearchParams, Stack } from 'expo-router';
 import * as Crypto from 'expo-crypto';
 import Markdown from 'react-native-markdown-display';
+import * as ImagePicker from 'expo-image-picker';
+import * as ImageManipulator from 'expo-image-manipulator';
 
 const MODAL_API_URL = 'https://nisithawickramarachchi--cinnamon-agent-api-chat-endpoint.modal.run';
 
@@ -57,6 +60,10 @@ export default function ChatScreen() {
   const [plantMetadata, setPlantMetadata] = useState({ name: 'Loading...', color: '#4A6B4D' });
   const [androidKeyboardOffset, setAndroidKeyboardOffset] = useState(0);
   const [hasProcessedAutoPrompt, setHasProcessedAutoPrompt] = useState(false);
+
+  // New Image States
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [base64Image, setBase64Image] = useState<string | null>(null);
 
   const [showDataForm, setShowDataForm] = useState(false);
   const [cultivationData, setCultivationData] = useState({ 
@@ -135,11 +142,41 @@ export default function ChatScreen() {
     );
   };
 
+  // Image Picking and Compression Logic
+  const handleAttachImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Permission required', 'We need camera roll permissions to upload reports.');
+      return;
+    }
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      const uri = result.assets[0].uri;
+      setSelectedImage(uri);
+
+      const manipulated = await ImageManipulator.manipulateAsync(
+        uri,
+        [{ resize: { width: 1024 } }], 
+        { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG, base64: true }
+      );
+      
+      setBase64Image(manipulated.base64 || null);
+    }
+  };
+
   const handleSend = async (text: string) => {
-    if (!text.trim() || !id) return;
+    // Check if there is text OR an image attached
+    if ((!text.trim() && !base64Image) || !id) return;
 
     const userMessageId = Crypto.randomUUID();
-    const cleanText = text.trim();
+    // If user attaches an image but types nothing, provide a default message
+    const cleanText = text.trim() || "Please analyze this report and update my agronomy profile.";
     
     setMessages(prev => [...prev, { id: userMessageId, sender: 'user', text: cleanText }]);
     setInputText('');
@@ -150,11 +187,16 @@ export default function ChatScreen() {
 
     try {
       const formattedHistory = messages.filter(m => m.id !== '1').map(m => ({ role: m.sender === 'ai' ? 'assistant' : 'user', content: m.text }));
+      console.log("Sending payload. Image base64 length:", base64Image ? base64Image.length : "NO IMAGE");
 
       const response = await fetch(MODAL_API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: cleanText, chat_history: formattedHistory }) 
+        body: JSON.stringify({ 
+          message: cleanText, 
+          chat_history: formattedHistory,
+          image_base64: base64Image 
+        }) 
       });
 
       const responseText = await response.text();
@@ -175,6 +217,8 @@ export default function ChatScreen() {
       setMessages(prev => [...prev, { id: errorId, sender: 'ai', text: errorMsg }]);
     } finally {
       setIsTyping(false);
+      setSelectedImage(null);
+      setBase64Image(null);
       setTimeout(() => scrollViewRef.current?.scrollToEnd({ animated: true }), 100);
     }
   };
@@ -205,6 +249,8 @@ Based on this specific environment and crop data, what fertilizer dosages, amend
     setCultivationData({ age: '', spacing: '', season: '', rainfall: '', elevation: '', ph: '' }); 
     handleSend(prompt);
   };
+
+  const isSendActive = (inputText.trim().length > 0 || selectedImage !== null) && !isTyping;
 
   return (
     <ImageBackground 
@@ -275,6 +321,23 @@ Based on this specific environment and crop data, what fertilizer dosages, amend
         </ScrollView>
 
         <View className="bg-white px-4 pt-3 border-t border-[#E8E6DD] shadow-lg" style={{ paddingBottom: Math.max(insets.bottom, 12) }}>
+          
+          {selectedImage && (
+            <View className="flex-row items-center mb-3 bg-[#F5F3E9] p-2 rounded-2xl border border-[#E8E6DD] self-start">
+              <Image source={{ uri: selectedImage }} className="w-12 h-12 rounded-xl bg-gray-200 mr-3" />
+              <View className="flex-1 mr-4">
+                <Text className="text-xs font-bold text-[#2C402E]">Report attached</Text>
+                <Text className="text-[10px] text-[#768C73]">Ready to send</Text>
+              </View>
+              <TouchableOpacity 
+                onPress={() => { setSelectedImage(null); setBase64Image(null); }}
+                className="w-8 h-8 rounded-full bg-white items-center justify-center border border-[#E8E6DD]"
+              >
+                <Feather name="x" size={14} color="#E11D48" />
+              </TouchableOpacity>
+            </View>
+          )}
+
           <View className="flex-row items-end bg-[#F5F3E9] rounded-[24px] pl-2 pr-2 py-1.5 border border-[#E8E6DD]">
             
             <TouchableOpacity 
@@ -285,9 +348,17 @@ Based on this specific environment and crop data, what fertilizer dosages, amend
               <MaterialCommunityIcons name="leaf-circle-outline" size={20} color="#768C73" />
             </TouchableOpacity>
 
+            <TouchableOpacity 
+              onPress={handleAttachImage} 
+              disabled={isTyping}
+              className="w-10 h-10 rounded-full items-center justify-center bg-white border border-[#E8E6DD] mr-2 mb-0.5"
+            >
+              <Feather name="camera" size={18} color="#768C73" />
+            </TouchableOpacity>
+
             <TextInput 
               className="flex-1 max-h-28 text-[15px] text-[#2C402E] pt-2 pb-2 font-medium"
-              placeholder="Ask about fertilizer, pests..." 
+              placeholder="Ask or attach report..." 
               placeholderTextColor="#8A9A86" 
               multiline 
               value={inputText} 
@@ -296,10 +367,10 @@ Based on this specific environment and crop data, what fertilizer dosages, amend
             
             <TouchableOpacity 
               onPress={() => handleSend(inputText)} 
-              disabled={!inputText.trim() || isTyping} 
-              className={`w-10 h-10 rounded-full items-center justify-center ml-2 transition-all ${inputText.trim() && !isTyping ? 'bg-[#2C402E]' : 'bg-[#E8E6DD]'}`}
+              disabled={!isSendActive} 
+              className={`w-10 h-10 rounded-full items-center justify-center ml-2 transition-all ${isSendActive ? 'bg-[#2C402E]' : 'bg-[#E8E6DD]'}`}
             >
-              <Feather name="arrow-up" size={18} color={inputText.trim() && !isTyping ? '#FFFFFF' : '#B0BDB0'} />
+              <Feather name="arrow-up" size={18} color={isSendActive ? '#FFFFFF' : '#B0BDB0'} />
             </TouchableOpacity>
           </View>
         </View>
